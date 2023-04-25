@@ -12,7 +12,7 @@ public class Ingredients extends Objek implements Edible
 
     public Integer getKekenyangan()
     {
-        return getKekenyangan();
+        return hungerQuantity;
     }
 
 }
