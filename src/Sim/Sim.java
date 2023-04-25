@@ -1,7 +1,13 @@
- package src.Sim;
+package src.Sim;
 import src.Inventory.*;
 import src.Job.*;
+import src.Objek.Furniture.Furniture;
+
+import java.awt.Point;
+
 import src.*;
+import src.Room.*;
+import src.Home.*;
 
 public class Sim {
     private String name;
@@ -12,6 +18,8 @@ public class Sim {
     private String status;
     private Integer satiety;
     private Inventory inventory;
+    private Room currentRoom; //belum ada set get nya
+    private Home home; //belum ada set get nya
 
     public Sim(String name,Job job,Integer satiety, Integer money, Integer mood, Integer health, String status)
     {
@@ -143,6 +151,17 @@ public class Sim {
     public void deleteFromInventory(Object o)
     {
         inventory.removeItem(o);
+    }
+    
+    public void installFurniture(Furniture f, Point location)
+    {
+        //check inventory
+        if (inventory.checkItem(f)) {
+            currentRoom.addFurniture(f, location);
+            // ngurangin dulu di inventory
+            return;
+        }
+        return;        
     }
 
 

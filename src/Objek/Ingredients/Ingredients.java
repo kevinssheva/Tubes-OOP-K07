@@ -3,7 +3,7 @@ import src.Objek.*;
 
 public class Ingredients extends Objek implements Edible
 {
-    Integer hungerQuantity;
+    private Integer hungerQuantity;
     public Ingredients(String name, Integer hungerQuantity, Integer price)
     {
         super(name,price);

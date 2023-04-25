@@ -5,8 +5,8 @@ import src.Objek.*;
 
 public class Dish extends Objek implements Edible
 {
-    List<Ingredients> listIngredients;
-    Integer hungerValue;
+    private List<Ingredients> listIngredients;
+    private Integer hungerValue;
     public Dish(String name,List<Ingredients> listIngredients,Integer hungerValue)
     {
         super(name,null);
