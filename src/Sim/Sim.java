@@ -114,7 +114,6 @@ public class Sim {
                     {
                         while((System.currentTimeMillis() - Main.startMillis) <= time)
                         {
-
                         }
 
                         setStatus("Idle");
@@ -162,6 +161,37 @@ public class Sim {
             return;
         }
         return;        
+    }
+
+    public void work(Integer time)
+    {
+        if(time%120000 == 0)
+        {
+            setStatus("Working as a " + job.getName());
+            Thread thread = new Thread()
+            {
+                public void run()
+                {
+                    try
+                    {
+                        while((System.currentTimeMillis() - Main.startMillis) <= time)
+                        {
+                            if((System.currentTimeMillis()-Main.startMillis)%240000 == 0)
+                            {
+                                money = getMoney() + job.getDailyPay();
+                            }
+                        }
+
+                        setStatus("Idle");
+                    }catch (Exception e)
+                    {
+
+                    }
+                }
+            };
+
+            thread.start();
+        }
     }
 
 
