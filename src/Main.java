@@ -26,6 +26,6 @@ public class Main {
 
     public static void main(String args[]) {
         runTheTime();
-
+        System.out.println("Testing");
     }
 }
