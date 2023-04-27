@@ -5,6 +5,7 @@ import src.Inventory.*;
 import src.Job.*;
 import src.Objek.Furniture.Furniture;
 import src.Room.*;
+import src.Main;
 import src.Home.*;
 
 public class Sim {
@@ -135,25 +136,22 @@ public class Sim {
     public void kerja(Integer time){
         if(time%120 == 0)
         {
-            long timeMillis = time * 1000;
             setStatus(String.format("Working as %s...", job.getName()));
-            Thread thread = new Thread()
+            Thread workThread = new Thread()
             {
                 public void run()
                 {
                     try
                     {
-                        long startTime = System.currentTimeMillis();
-                        long updateTime = 30000;
-                        while((System.currentTimeMillis() - startTime) <= timeMillis){
-                            updateTime -= (System.currentTimeMillis() - startTime);
+                        long startTime = Main.timeNow;
+                        long updateTime = 30;
+                        while((Main.timeNow - startTime) <= time){
+                            updateTime -= (Main.timeNow - startTime);
                             if(updateTime <= 0){
                                 setMood(getMood()-10);
                                 setSatiety(getSatiety()-10);
                             }    
                         }
-                        setMood(getMood()-10);
-                        setSatiety(getSatiety()-10);
                         setMoney(getMoney()+(job.getDailyPay()*(time/120)));
                         setStatus("Idle");
 
@@ -164,49 +162,36 @@ public class Sim {
                 }
             };
 
-            thread.start();
-            System.out.println(status);
+            workThread.start();
         }
     }
 
-    public void berkunjung(Integer time, Home otherHome){
-        if(time%30 == 0)
+    public void berkunjung(Home otherHome){
+        Thread visitThread = new Thread()
         {
-            long timeMillis = time * 1000;
-            setStatus("Visiting another house...");
-            Thread thread = new Thread()
+            public void run()
             {
-                public void run()
+                try
                 {
-                    try
-                    {
-                        long startTime = System.currentTimeMillis();
-                        // delay(home.distance(otherHome));                            //buat lama jalannya sim
-                        // setStatus("In another house...");
-                        long updateTime = 30000;
-                        while((System.currentTimeMillis() - startTime) <= timeMillis){ //nanti tambah nungguin aksi sim di rumah lain
-                            updateTime -= (System.currentTimeMillis() - startTime);
-                            if(updateTime <= 0){
-                                setMood(getMood()+10);
-                                setSatiety(getSatiety()-10);
-                            }    
-                        }
-                        setMood(getMood()+10);
-                        setSatiety(getSatiety()-10);
-                        // setStatus("Going back home...");
-                        // delay(home.distance(otherHome));                            //buat lama jalannya sim
-                        setStatus("Idle");
-
-                    }catch (Exception e)
-                    {
-
+                    setStatus("Visiting another house...");
+                    long startTime = Main.timeNow;
+                    long updateTime = 30;
+                    double time = getHome().getLocation().distance(otherHome.getLocation());
+                    while((Main.timeNow - startTime) <= time){
+                        updateTime -= (Main.timeNow - startTime);
+                        if(updateTime <= 0){
+                            setMood(getMood()+10);
+                            setSatiety(getSatiety()-10);
+                        }    
                     }
-                }
-            };
+                    setStatus("Idle");
+                }catch (Exception e)
+                {
 
-            thread.start();
-            System.out.println(status);
-        }
+                }
+            }
+        };
+        visitThread.start();
     }
 
     public boolean stillAlive() {
