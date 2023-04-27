@@ -8,6 +8,7 @@ import src.Objek.Furniture.Furniture;
 import src.Sim.Sim;
 
 public class Room {
+    private String roomName;
     private Dimension dimensi;
     private Room north;
     private Room south;
@@ -17,8 +18,28 @@ public class Room {
     private Map<Furniture, List<Point>> furnitureList;
     private Map<Sim, Point> simMap;
 
-    public Room() {
-        //tambahin disini
+    public Room(String roomName){
+        this.roomName = roomName;
+        this.dimensi.height = 6;
+        this.dimensi.width = 6;
+        this.north = null;
+        this.south = null;
+        this.west = null;
+        this.east = null;
+    }
+
+    public Room(String roomName, Room north, Room south, Room east, Room west) {
+        this.roomName = roomName;
+        this.dimensi.height = 6;
+        this.dimensi.width = 6;
+        this.north = north;
+        this.south = south;
+        this.east = east;
+        this.west = west;
+    }
+
+    public String getRoomName(){
+        return roomName;
     }
 
     public Dimension getDimensi() {
@@ -51,6 +72,10 @@ public class Room {
 
     public Map<Sim, Point> getSimMap() {
         return simMap;
+    }
+
+    public void setRoomName(String roomName){
+        this.roomName = roomName;
     }
 
     public void setNorth(Room north) {
