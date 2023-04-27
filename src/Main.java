@@ -6,14 +6,22 @@ public class Main {
     public static long timeNow = 0; // time is in second
 
     public static void runTheTime() {
-        while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-
+        Thread temp = new Thread() {
+            public void run() {
+                while (true) {
+                    if (Manager.isThereAnyWorkingSim()) {
+                        timeNow++;
+                        System.out.println(timeNow);
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-            timeNow = timeNow + 1;
-        }
+        };
+        temp.start();
     }
 
     public static void main(String args[]) {
