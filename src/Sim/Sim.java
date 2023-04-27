@@ -85,7 +85,7 @@ public class Sim {
     }
 
     public void setHealth(Integer health) {
-        this.health = Math.max(100, health);
+        this.health = Math.min(100, health);
     }
 
     public void setJob(Job job) {
@@ -93,11 +93,11 @@ public class Sim {
     }
 
     public void setMoney(Integer money) {
-        this.money = Math.max(100, money);
+        this.money = Math.min(100, money);
     }
 
     public void setMood(Integer mood) {
-        this.mood = Math.max(100, mood);
+        this.mood = Math.min(100, mood);
     }
 
     public void setName(String name) {
