@@ -125,5 +125,9 @@ public class Manager {
 
         return count > 0;
     }
+    
+    public static void moveRoom(Room r) {
+        currentSim.setRoom(r);
+    }
 
 }

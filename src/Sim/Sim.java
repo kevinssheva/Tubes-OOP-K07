@@ -19,8 +19,8 @@ public class Sim {
     private String status;
     private Integer satiety;
     private Inventory inventory;
-    private Room currentRoom; // belum ada set get nya
-    private Home home; // belum ada set get nya
+    private Room currentRoom;
+    private Home home;
 
     public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status) {
         this.name = name;
@@ -75,9 +75,17 @@ public class Sim {
     public String getStatus() {
         return status;
     }
+    
+    public Room getRoom() {
+        return currentRoom;
+    }
+    
+    public Room getHome() {
+        return home;
+    }
 
     public void setHealth(Integer health) {
-        this.health = Math.max(100, health);
+        this.health = Math.min(100, health);
     }
 
     public void setJob(Job job) {
@@ -85,11 +93,11 @@ public class Sim {
     }
 
     public void setMoney(Integer money) {
-        this.money = Math.max(100, money);
+        this.money = Math.min(100, money);
     }
 
     public void setMood(Integer mood) {
-        this.mood = Math.max(100, mood);
+        this.mood = Math.min(100, mood);
     }
 
     public void setName(String name) {
@@ -98,6 +106,14 @@ public class Sim {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public void setRoom(Room r) {
+        this.currentRoom = r;
+    }
+    
+    public void setHome(Home h) {
+        this.home = h;
     }
 
     public void exercise(Integer time) {
@@ -209,6 +225,10 @@ public class Sim {
     public boolean checkInventory(Object o) {
         return inventory.checkItem(o);
     }
+    
+    public void showInventory() {
+        inventory.showInventory();
+    }
 
     public void addToInventory(Object o) {
         inventory.addItem(o);
@@ -219,13 +239,10 @@ public class Sim {
     }
 
     public void installFurniture(Furniture f, Point location) {
-        // check inventory
         if (inventory.checkItem(f)) {
             currentRoom.addFurniture(f, location);
-            // ngurangin dulu di inventory
-            return;
+            inventory.removeItem(f);
         }
-        return;
     }
 
     public static void main(String[] args) {

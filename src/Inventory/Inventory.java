@@ -31,7 +31,16 @@ public class Inventory {
     }
 
     public void removeItem(Object o) {
-        item.remove(o);
+        int i;
+        
+        try {
+            i = item.get(o);
+        } catch (NullPointerException e) {
+            i=0;
+        }
+        
+        if (i<=1) item.remove(o);
+        else item.replace(o, i-1);
     }
 
 }
