@@ -1,4 +1,5 @@
 package src.Sim;
+
 import src.Inventory.*;
 import src.Job.*;
 import src.Objek.Furniture.Furniture;
@@ -18,11 +19,10 @@ public class Sim {
     private String status;
     private Integer satiety;
     private Inventory inventory;
-    private Room currentRoom; //belum ada set get nya
-    private Home home; //belum ada set get nya
+    private Room currentRoom; // belum ada set get nya
+    private Home home; // belum ada set get nya
 
-    public Sim(String name,Job job,Integer satiety, Integer money, Integer mood, Integer health, String status)
-    {
+    public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status) {
         this.name = name;
         this.job = job;
         this.money = money;
@@ -33,8 +33,7 @@ public class Sim {
         this.inventory = new Inventory();
     }
 
-    public Sim(String name,Job job,Integer money,String status)
-    {
+    public Sim(String name, Job job, Integer money, String status) {
         this.name = name;
         this.job = job;
         this.money = 80;
@@ -78,7 +77,7 @@ public class Sim {
     }
 
     public void setHealth(Integer health) {
-        this.health = Math.max(100,health);
+        this.health = Math.max(100, health);
     }
 
     public void setJob(Job job) {
@@ -86,11 +85,11 @@ public class Sim {
     }
 
     public void setMoney(Integer money) {
-        this.money = Math.max(100,money);
+        this.money = Math.max(100, money);
     }
 
     public void setMood(Integer mood) {
-        this.mood = Math.max(100,mood);
+        this.mood = Math.max(100, mood);
     }
 
     public void setName(String name) {
@@ -101,26 +100,19 @@ public class Sim {
         this.status = status;
     }
 
-    public void exercise(Integer time)
-    {
-        if(time%20000 == 0)
-        {
+    public void exercise(Integer time) {
+        if (time % 20000 == 0) {
             setStatus("Exercising...");
-            Thread thread = new Thread()
-            {
-                public void run()
-                {
-                    try
-                    {
-                        while((System.currentTimeMillis() - Main.startMillis) <= time)
-                        {
+            Thread thread = new Thread() {
+                public void run() {
+                    try {
+                        while ((System.currentTimeMillis() - Main.startMillis) <= time) {
 
                         }
 
                         setStatus("Idle");
 
-                    }catch (Exception e)
-                    {
+                    } catch (Exception e) {
 
                     }
                 }
@@ -210,40 +202,33 @@ public class Sim {
         }
     }
 
-    public boolean stillAlive()
-    {
+    public boolean stillAlive() {
         return mood > 0 && health > 0 && satiety > 0;
     }
 
-    public boolean checkInventory(Object o)
-    {
-        return  inventory.checkItem(o);
+    public boolean checkInventory(Object o) {
+        return inventory.checkItem(o);
     }
 
-    public void addToInventory(Object o)
-    {
+    public void addToInventory(Object o) {
         inventory.addItem(o);
     }
 
-    public void deleteFromInventory(Object o)
-    {
+    public void deleteFromInventory(Object o) {
         inventory.removeItem(o);
     }
-    
-    public void installFurniture(Furniture f, Point location)
-    {
-        //check inventory
+
+    public void installFurniture(Furniture f, Point location) {
+        // check inventory
         if (inventory.checkItem(f)) {
             currentRoom.addFurniture(f, location);
             // ngurangin dulu di inventory
             return;
         }
-        return;        
+        return;
     }
 
-
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
 
     }
 
