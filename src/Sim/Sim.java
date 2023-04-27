@@ -225,6 +225,10 @@ public class Sim {
     public boolean checkInventory(Object o) {
         return inventory.checkItem(o);
     }
+    
+    public void showInventory() {
+        inventory.showInventory();
+    }
 
     public void addToInventory(Object o) {
         inventory.addItem(o);
@@ -235,13 +239,10 @@ public class Sim {
     }
 
     public void installFurniture(Furniture f, Point location) {
-        // check inventory
         if (inventory.checkItem(f)) {
             currentRoom.addFurniture(f, location);
-            // ngurangin dulu di inventory
-            return;
+            inventory.removeItem(f);
         }
-        return;
     }
 
     public static void main(String[] args) {
