@@ -1,12 +1,9 @@
 package src.Sim;
 
+import java.awt.Point;
 import src.Inventory.*;
 import src.Job.*;
 import src.Objek.Furniture.Furniture;
-
-import java.awt.Point;
-
-import src.*;
 import src.Room.*;
 import src.Home.*;
 
@@ -80,7 +77,7 @@ public class Sim {
         return currentRoom;
     }
     
-    public Room getHome() {
+    public Home getHome() {
         return home;
     }
 
@@ -117,28 +114,22 @@ public class Sim {
     }
 
     public void exercise(Integer time) {
-        if (time % 20000 == 0) {
-            setStatus("Exercising...");
-            Thread thread = new Thread() {
-                public void run() {
-                    try {
-                        while ((System.currentTimeMillis() - Main.startMillis) <= time) {
-
-                        }
-
-                        setStatus("Idle");
-
-                    } catch (Exception e) {
-
-                    }
+        if (time % 20000 != 0) return;
+        setStatus("Exercise");
+        Thread exerciseThread = new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(time * 1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            };
-
-            thread.start();
-            System.out.println(status);
-            System.out.println(status);
-        }
-
+                setHealth(health + 10);
+                setSatiety(satiety + 10);
+                System.out.println("Exercise done");
+                setStatus("Idle");
+            }
+        };
+        exerciseThread.start();
     }
 
     public void kerja(Integer time){

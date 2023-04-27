@@ -9,7 +9,7 @@ public class Dish extends Objek implements Edible {
     private Integer hungerValue;
 
     public Dish(String name, List<Ingredients> listIngredients, Integer hungerValue) {
-        super(name, null);
+        super(name);
         this.listIngredients = listIngredients;
         this.hungerValue = hungerValue;
     }

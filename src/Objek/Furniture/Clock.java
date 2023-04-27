@@ -1,20 +1,18 @@
 package src.Objek.Furniture;
 
+import java.awt.Dimension;
+
 import src.Main;
 
 public class Clock extends Furniture {
     public Clock() {
-        super("Jam", "Melihat Waktu", 10);
+        super("Jam", "Melihat Waktu", 10, new Dimension(1, 1));
     }
 
     public void aksi() {
-        Long secondrn = System.currentTimeMillis() - Main.startMillis;
-        Long Hour = secondrn / 3600;
-        secondrn = secondrn % 3600;
-        Long minute = secondrn / 60;
-        secondrn = secondrn % 60;
-        Long second = secondrn;
-        System.out.println("The time right now is " + (Hour < 10 ? "0" : "") + Hour + ":" + (minute < 10 ? "0" : "")
-                + minute + ":" + (second < 10 ? "0" : "") + second);
+        long time = Main.timeNow;
+        long minutes = time / 60;
+        long seconds = time % 60;
+        System.out.println("Time now: " + minutes + ":" + seconds);
     }
 }

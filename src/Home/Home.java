@@ -21,8 +21,8 @@ public class Home {
         return location;
     }
 
-    public void addRuangan(Room room, String direction) {
-        Room newRoom = new Room();
+    public void addRuangan(Room room, String direction, String name) {
+        Room newRoom = new Room(name);
         if (direction == "north") {
             if (room.getNorth() != null) {
                 System.out.println("Ruangan sudah ada");

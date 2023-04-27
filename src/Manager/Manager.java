@@ -1,15 +1,16 @@
 package src.Manager;
 
-import src.Sim.*;
 import java.util.*;
-import src.Objek.*;
+import src.Sim.*;
 import src.Main;
 import src.Objek.Furniture.*;
+import src.Objek.Furniture.Bed.Bed;
+import src.Objek.Furniture.Bed.*;
+import src.Objek.Furniture.Stove.*;
 import src.Objek.Ingredients.Ingredients;
-import src.*;
+import src.Room.Room;
 
 public class Manager {
-
     private static Sim currentSim;
     private static List<Sim> simList = new ArrayList<Sim>();
 
@@ -26,27 +27,27 @@ public class Manager {
         Object putIntoInventory = new Object();
         switch (thing) {
             case "Single Bed":
-                Bed singleBed = new Bed("Single Bed", "Sleep", 50);
+                SingleBed singleBed = new SingleBed();
                 putIntoInventory = singleBed;
                 break;
             case "Queen Size Bed":
-                Bed queenSizeBed = new Bed("Queen Size Bed", "Sleep", 100);
-                putIntoInventory = queenSizeBed;
+                QueenBed queenBed = new QueenBed();
+                putIntoInventory = queenBed;
                 break;
             case "King Size Bed":
-                Bed kingSize = new Bed("King Size", "Sleep", 150);
-                putIntoInventory = kingSize;
+                Bed kingBed = new KingBed();
+                putIntoInventory = kingBed;
                 break;
             case "Toilet":
                 Toilet toilet = new Toilet();
                 putIntoInventory = toilet;
                 break;
             case "Electric Stove":
-                Stove eStove = new Stove("Electic Stove", 200);
+                ElectricStove eStove = new ElectricStove();
                 putIntoInventory = eStove;
                 break;
             case "Gas Stove":
-                Stove gStove = new Stove("Gas Stove", 100);
+                GasStove gStove = new GasStove();
                 putIntoInventory = gStove;
                 break;
             case "Table and Chair":
@@ -104,15 +105,14 @@ public class Manager {
     }
 
     public static boolean isThereAnyWorkingSim() {
-        int count = 0;
+        boolean isThereAnyWorkingSim = false;
         for (Sim sim : simList) {
-            if (sim.getClass().equals("Idle"))
-                ;
-            else {
-                count = count + 1;
+            if (!sim.getStatus().equals("Idle")) {
+                isThereAnyWorkingSim = true;
+                break;
             }
         }
-        return count > 0;
+        return isThereAnyWorkingSim;
     }
 
     public static boolean canGameContinue() {
@@ -125,7 +125,7 @@ public class Manager {
 
         return count > 0;
     }
-    
+
     public static void moveRoom(Room r) {
         currentSim.setRoom(r);
     }

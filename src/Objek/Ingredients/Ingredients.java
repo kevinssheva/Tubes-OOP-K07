@@ -1,18 +1,23 @@
 package src.Objek.Ingredients;
+
 import src.Objek.*;
 
-public class Ingredients extends Objek implements Edible
-{
+public class Ingredients extends Objek implements Edible, Buyable {
     private Integer hungerQuantity;
-    public Ingredients(String name, Integer hungerQuantity, Integer price)
-    {
-        super(name,price);
+    private Integer price;
+
+    public Ingredients(String name, Integer hungerQuantity, Integer price) {
+        super(name);
         this.hungerQuantity = hungerQuantity;
+        this.price = price;
     }
 
-    public Integer getKekenyangan()
-    {
+    public Integer getKekenyangan() {
         return hungerQuantity;
+    }
+
+    public Integer getPrice() {
+        return price;
     }
 
 }

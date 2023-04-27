@@ -1,26 +1,28 @@
 package src.Objek.Furniture;
 
+import java.awt.Dimension;
 import src.Sim.*;
-import src.Main;
 
 public class Toilet extends Furniture {
     public Toilet() {
-        super("Toilet", "Buang Air", 50);
+        super("Toilet", "Buang Air", 50, new Dimension(0, 0));
     }
 
-    public void Aksi(Sim a) {
-        Thread temp = new Thread() {
+    public void aksi(Sim a) {
+        a.setStatus("Buang Air");
+        Thread sleepThread = new Thread() {
             public void run() {
-                a.setStatus("Buang Air");
-                while ((System.currentTimeMillis() - Main.startMillis) / 1000 <= 10) {
-
+                try {
+                    Thread.sleep(10000);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 a.setSatiety(a.getSatiety() - 20);
                 a.setMood(a.getMood() + 10);
+                System.out.println("Defecate done");
+                a.setStatus("Idle");
             }
         };
-
-        temp.start();
+        sleepThread.start();
     }
-
 }
