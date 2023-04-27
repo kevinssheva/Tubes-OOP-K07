@@ -4,14 +4,12 @@ public class Job {
     private String name;
     private Integer dailyPay;
 
-    public Job(String name, Integer dailyPay)
-    {
+    public Job(String name, Integer dailyPay) {
         this.name = name;
         this.dailyPay = dailyPay;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
