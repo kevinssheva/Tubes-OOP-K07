@@ -19,8 +19,8 @@ public class Sim {
     private String status;
     private Integer satiety;
     private Inventory inventory;
-    private Room currentRoom; // belum ada set get nya
-    private Home home; // belum ada set get nya
+    private Room currentRoom;
+    private Home home;
 
     public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status) {
         this.name = name;
@@ -75,6 +75,14 @@ public class Sim {
     public String getStatus() {
         return status;
     }
+    
+    public Room getRoom() {
+        return currentRoom;
+    }
+    
+    public Room getHome() {
+        return home;
+    }
 
     public void setHealth(Integer health) {
         this.health = Math.max(100, health);
@@ -98,6 +106,14 @@ public class Sim {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public void setRoom(Room r) {
+        this.currentRoom = r;
+    }
+    
+    public void setHome(Home h) {
+        this.home = h;
     }
 
     public void exercise(Integer time) {
