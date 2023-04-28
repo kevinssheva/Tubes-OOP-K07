@@ -10,7 +10,7 @@ sourceSets {
 
 jar{
     manifest{
-        attributes 'Main-Class' : 'src.Main' // you can change this if you want to run other file instead
+        attributes 'Main-Class' : 'src.Home.Home' // you can change this if you want to run other file instead
         /*
         for example , you want to run Bed.java
         attributes 'Main-Class' : 'src.Objek.Furniture.java'
