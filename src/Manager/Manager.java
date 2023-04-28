@@ -130,4 +130,9 @@ public class Manager {
         currentSim.setRoom(r);
     }
 
+    public static void testing()
+    {
+        System.out.println("Testing from the manager's static method");
+    }
+
 }
