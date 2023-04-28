@@ -5,6 +5,11 @@ import java.awt.Point;
 import java.util.*;
 
 import src.Objek.Furniture.Furniture;
+import src.Objek.Furniture.Bed.SingleBed;
+import src.Objek.Furniture.Toilet;
+import src.Objek.Furniture.Stove.GasStove;
+import src.Objek.Furniture.MejaKursi;
+import src.Objek.Furniture.Clock;
 import src.Sim.Sim;
 
 public class Room {
@@ -18,6 +23,21 @@ public class Room {
     private Map<Furniture, List<Point>> furnitureList;
     private Map<Sim, Point> simMap;
 
+    //default room
+    public Room(){
+        SingleBed kasurSingle = new SingleBed();
+        Toilet toilet = new Toilet();
+        GasStove komporGas = new GasStove();
+        Clock jam = new Clock();
+        MejaKursi mejaKursiMakan = new MejaKursi();
+
+        addFurniture(kasurSingle, new Point(0,0));
+        addFurniture(toilet, new Point(5,0));
+        addFurniture(komporGas, new Point(5,3));
+        addFurniture(jam, new Point(0,5));
+        addFurniture(mejaKursiMakan, new Point(1,3));
+    }
+
     public Room(String roomName){
         this.roomName = roomName;
         this.dimensi.height = 6;
@@ -26,6 +46,7 @@ public class Room {
         this.south = null;
         this.west = null;
         this.east = null;
+        Map<Furniture, List<Point>> furnitureList = new HashMap<Furniture, List<Point>>();
     }
 
     public Room(String roomName, Room north, Room south, Room east, Room west) {
@@ -36,6 +57,18 @@ public class Room {
         this.south = south;
         this.east = east;
         this.west = west;
+        Map<Furniture, List<Point>> furnitureList = new HashMap<Furniture, List<Point>>();
+    }
+
+    public Room(String roomName, Room north, Room south, Room east, Room west, Map<Furniture, List<Point>> furnitureList) {
+        this.roomName = roomName;
+        this.dimensi.height = 6;
+        this.dimensi.width = 6;
+        this.north = north;
+        this.south = south;
+        this.east = east;
+        this.west = west;
+        this.furnitureList = furnitureList;
     }
 
     public String getRoomName(){
@@ -96,6 +129,10 @@ public class Room {
 
     public void setRoomMap(Furniture[][] roomMap) {
         this.roomMap = roomMap;
+    }
+
+    public void setFurnitureList(Map<Furniture, List<Point>> furnitureList){
+        this.furnitureList = furnitureList;
     }
 
     public void addFurniture(Furniture furniture, Point location) {
