@@ -133,32 +133,27 @@ public class Sim {
         exerciseThread.start();
     }
 
-    public void sleep(Integer time){
+    public void sleep(Integer time, Sim a){
         int timeMillis = time * 1000;
         setStatus(String.format("Sleeping..."));
         Thread thread = new Thread(new Runnable(){
             @Override
             public void run(){
                 try{
-                    if (time < 180){
-                        throw new Exception("You need more than 3 minutes to sleep!");
-                    }
-                    else{
-                        int siklus = time / 240;
-                        long startTime = System.currentTimeMillis();
-                        long updateTime = 240000;
-                        while ((System.currentTimeMillis() - startTime) <= timeMillis){
-                            updateTime -= (System.currentTimeMillis() - startTime);
-                            while (siklus > 0){
-                                setMood(getMood()+30);
-                                setHealth(getHealth()+20);
-                                siklus -=1;
-                            }
+                    int siklus = time / 240;
+                    long startTime = System.currentTimeMillis();
+                    long updateTime = 240000;
+                    while ((System.currentTimeMillis() - startTime) <= timeMillis){
+                        updateTime -= (System.currentTimeMillis() - startTime);
+                        while (siklus > 0){
+                            a.setMood(getMood()+30);
+                            a.setHealth(getHealth()+20);
+                            siklus -=1;
                         }
                     }
                 }
                 catch (Exception e){
-                    e.getMessage();
+                    
                 }
             }
         });
