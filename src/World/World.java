@@ -72,8 +72,8 @@ public class World {
 
     public void showWorld()
     {
-        Manager.clickEnter();
-        System.out.println("World Map\n\n");
+        
+        System.out.println("World Map");
         for(int j = 0;j < 64;j++){
             for(int i= 0;i <66;i++){
                 System.out.print("-");

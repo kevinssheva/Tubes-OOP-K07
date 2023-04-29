@@ -211,6 +211,7 @@ public class Manager {
         System.out.println("- Change Sim");
         System.out.println("- List Object");
         System.out.println("- Go To Object");
+        System.out.println("- Exit");
         // don't forget to add action that sim can only do with interaction with object
         
     }
@@ -224,6 +225,7 @@ public class Manager {
     public static Sim getCurrentSim(){
         return currentSim;
     }
+
 
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");  // this is for clearscreen
@@ -342,6 +344,10 @@ public class Manager {
                 viewSimInfo();
                 break;
             case "View Current Location":
+                world.showWorld();
+                System.out.println("\n");
+                currentSim.getRoom().printRoom();
+                clickEnter();
                 break;
             case "View Inventory":
                 viewInventory();
@@ -363,6 +369,7 @@ public class Manager {
             case "Exit":
                 exitTheGame();
                 break;
+            // add more action
                 
         }
     }

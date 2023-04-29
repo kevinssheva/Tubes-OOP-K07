@@ -35,10 +35,7 @@ public class Main {
         }
         // generate the first sim. Otherwise, the game won't start
         Manager.generateSim();
-        World world = new World();
-        world.addHome(new Home(Manager.getCurrentSim().getName()));
-        Manager.showWorld(world);
-        
+        // world will automatically generated in the manager
         while(Manager.canGameContinue())
         {
             Manager.listCanDo();
