@@ -38,8 +38,13 @@ public class Main {
         // world will automatically generated in the manager
         while(Manager.canGameContinue())
         {
-            Manager.listCanDo();
-            Manager.doQuery();
+            if(Manager.isCurrentSimWorking()){
+                // can't do anything since the sim is still working
+            }else{
+                Manager.listCanDo();
+                Manager.doQuery();
+            }
+
         }
     }
 }

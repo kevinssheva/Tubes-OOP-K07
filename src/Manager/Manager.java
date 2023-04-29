@@ -166,12 +166,12 @@ public class Manager {
 
     public static void exitTheGame()
     {
+        System.out.println("Thank you for playing this game!");
         System.exit(0);
     }
 
     public static boolean getGameStarted()
     {
-        System.out.println("Hello, welcome to your very first game !\nBefore we start the game, we have to figure out your sim's characteritic first\nPlease your sim's attribute first");
         return gameStarted;
     }
 
@@ -340,6 +340,8 @@ public class Manager {
             case "Help":
                 help();
                 break;
+            case "Work":
+                currentSim.g
             case "View Sim Info":
                 viewSimInfo();
                 break;
@@ -369,8 +371,14 @@ public class Manager {
             case "Exit":
                 exitTheGame();
                 break;
+            
             // add more action
                 
         }
+    }
+
+    public static boolean isCurrentSimWorking()
+    {
+        return currentSim.getStatus().equals("Idle") == false;
     }
 }
