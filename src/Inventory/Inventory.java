@@ -28,7 +28,7 @@ public class Inventory<T extends Objek> {
     public void addItem(T t) {
         // add item to the inventory, if item already exist then increase the quantity
         for (T objek : item.keySet()) {
-            if (objek.getClass().equals(t.getClass())) {
+            if (objek.getName().equals(t.getName())) {
                 item.put(objek, item.get(objek) + 1);
                 return;
             }
