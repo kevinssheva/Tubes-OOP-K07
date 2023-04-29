@@ -16,7 +16,7 @@ import src.Job.*;
 import src.World.*;
 
 public class Manager {
-    private static Sim currentSim;
+    private static Sim currentSim = null;
     private static List<Sim> simList = new ArrayList<Sim>();
     private static boolean gameStarted = false;
     private static World world = new World();
@@ -136,7 +136,6 @@ public class Manager {
     public static void help() {
         clearScreen();
         System.out.println("Here is the list of help");
-        System.out.println("Click enter to proceed");
         clickEnter();
     }
 
@@ -159,14 +158,19 @@ public class Manager {
                 help();
                 break;
             case 3:
-                System.exit(0);
+                exitTheGame();
                 break;
         }
     }
+    
+    public static void exitTheGame()
+    {
+        System.out.println("Thank you for playing this game!");
+        System.exit(0);
+    }
 
-    public static boolean getGameStarted() {
-        System.out.println(
-                "Hello, welcome to your very first game !\nBefore we start the game, we have to figure out your sim's characteritic first\nPlease your sim's attribute first");
+    public static boolean getGameStarted()
+    {
         return gameStarted;
     }
 
@@ -183,7 +187,6 @@ public class Manager {
     public static void showWorld(World world) {
         // call the method from world
         world.showWorld();
-        System.out.println("Click enter to proceed");
         clickEnter();
     }
 
@@ -191,16 +194,19 @@ public class Manager {
         System.out.print("\033[H\033[2J"); // this is for clearscreen
         System.out.flush();
         System.out.println("Here is the list of thing that you can do");
-        System.out.println("1 View Sim Info");
-        System.out.println("2 View Current Location");
-        System.out.println("3 View Inventory");
-        System.out.println("4 Upgrade House");
-        System.out.println("5 Move Room");
-        System.out.println("6 Edit Room");
-        System.out.println("7 Add Sim");
-        System.out.println("8 Change Sim");
-        System.out.println("9 List Object");
-        System.out.println("10 Go To Object");
+        System.out.println("- Help");
+        System.out.println("- Work");
+        System.out.println("- View Sim Info");
+        System.out.println("- View Current Location");
+        System.out.println("- View Inventory");
+        System.out.println("- Upgrade House");
+        System.out.println("- Move Room");
+        System.out.println("- Edit Room");
+        System.out.println("- Add Sim");
+        System.out.println("- Change Sim");
+        System.out.println("- List Object");
+        System.out.println("- Go To Object");
+        System.out.println("- Exit");
         // don't forget to add action that sim can only do with interaction with object
 
     }
@@ -210,6 +216,11 @@ public class Manager {
     public static World getWorld() {
         return world;
     }
+
+    public static Sim getCurrentSim(){
+        return currentSim;
+    }
+
 
     public static void clearScreen() {
         System.out.print("\033[H\033[2J"); // this is for clearscreen
@@ -235,6 +246,7 @@ public class Manager {
         System.out.println("Kekenyangan : " + currentSim.getSatiety());
         System.out.println("Mood : " + currentSim.getMood());
         System.out.println("Uang : " + currentSim.getMoney());
+        clickEnter();
     }
 
     public static void viewCurrentLocation() {
@@ -250,6 +262,8 @@ public class Manager {
         // View Inventory
         System.out.println("Here is your inventory");
         currentSim.getInventory().showInventory();
+        clickEnter();
+        
     }
 
     public static void moveRoom() {
@@ -360,10 +374,11 @@ public class Manager {
         Sim sim = new Sim(name, job, 80, 80, 80, 100, "Idle", home);
         System.out.println("Your sim's job is " + sim.getJob().getName());
         System.out.println("Your sim has been generated! ");
-        System.out.println("Click enter to proceed");
         clickEnter();
         simList.add(sim);
-        currentSim = sim;
+        if(currentSim == null){
+            currentSim = sim;
+        }
     }
 
     public static void changeSim() {
@@ -377,6 +392,8 @@ public class Manager {
         int chooseSim = in.nextInt();
         currentSim = simList.get(chooseSim - 1);
         System.out.println("You have changed your sim to " + currentSim.getName());
+        clickEnter();
+        
     }
 
     public static void listObject() {
@@ -399,5 +416,67 @@ public class Manager {
         }
         currentSim.getRoom().adjustSimMap(currentSim, point);
         System.out.println("You are now in front of " + objectName);
+    }
+
+    public static void doQuery(){
+        Scanner in = new Scanner(System.in);
+        String query = in.nextLine();
+        switch(query){
+            case "Help":
+                help();
+                break;
+            case "Work":
+                clearScreen();
+                System.out.println("Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\n If you don't want to work,please type -1");
+                int time = in.nextInt();
+                while(time%120 != 0 && time != -1){
+                    System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
+                }
+
+                if(time != -1){
+                    currentSim.kerja(time);
+                    System.out.println(currentSim.getStatus());
+                }
+                
+                clickEnter();
+                break;
+            case "View Sim Info":
+                viewSimInfo();
+                break;
+            case "View Current Location":
+                world.showWorld();
+                System.out.println("\n");
+                currentSim.getRoom().printRoom();
+                clickEnter();
+                break;
+            case "View Inventory":
+                viewInventory();
+                break;
+            case "Upgrade House":
+                break;
+            case "Edit Room":
+                break; 
+            case "Add Sim":
+                generateSim();
+                break;
+            case "Change Sim":
+                changeSim();
+                break;
+            case "List Object":
+                break;
+            case "Go To Object":
+                break;
+            case "Exit":
+                exitTheGame();
+                break;
+            
+            // add more action
+                
+        }
+    }
+
+    public static boolean isCurrentSimWorking()
+    {
+        return currentSim.getStatus().equals("Idle") == false;
     }
 }

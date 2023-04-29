@@ -161,6 +161,7 @@ public class Room {
     }
     
     public void printRoom() {
+        System.out.println("Room map");
         for (int i = 0; i < dimensi.width; i++) {
             for (int j = 0; j < dimensi.height; j++) {
                 if (roomMap[i][j] != null) {
