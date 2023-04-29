@@ -1,6 +1,7 @@
 package src;
 
 import src.Manager.*;
+import src.World.*;
 
 public class Main {
     public static long timeNow = 0; // time is in second
@@ -25,8 +26,15 @@ public class Main {
     }
 
     public static void main(String args[]) {
-        //runTheTime();
-        //System.out.println("Testing");
-        Manager.testing();
+        runTheTime();
+        while(Manager.getGameStarted() == false)
+        {
+            Manager.gameMenu();
+        }
+        // generate the first sim. Otherwise, the game won't start
+        Manager.generateSim();
+        World world = new World();
+        Manager.showWorld(world);
+       
     }
 }

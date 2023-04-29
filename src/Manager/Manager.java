@@ -9,10 +9,13 @@ import src.Objek.Furniture.Bed.*;
 import src.Objek.Furniture.Stove.*;
 import src.Objek.Ingredients.Ingredients;
 import src.Room.Room;
+import src.Job.*;
+import src.World.*;
 
 public class Manager {
     private static Sim currentSim;
     private static List<Sim> simList = new ArrayList<Sim>();
+    private static boolean gameStarted = false;
 
     public static void addSim(Sim sim) {
         simList.add(sim);
@@ -133,6 +136,114 @@ public class Manager {
     public static void testing()
     {
         System.out.println("Testing from the manager's static method");
+    }
+
+    public static void help()
+    {
+        System.out.println("Here is the list of help");
+        System.out.println("Click enter to proceed");
+        clickEnter();
+    }
+
+    public static void gameMenu()
+    {
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush();  
+        Scanner in = new Scanner(System.in);
+        System.out.println("Here is the menu");
+        System.out.println("1. Start Game");
+        System.out.println("2. Help");
+        System.out.println("3. Exit");
+        int cmd = in.nextInt();
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush();
+        switch(cmd){
+            case 1:
+                gameStarted = true;
+                break;
+            case 2:
+                help();
+                break;
+            case 3:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public static boolean getGameStarted()
+    {
+        System.out.println("Hello, welcome to your very first game !\nBefore we start the game, we have to figure out your sim's characteritic first\nPlease your sim's attribute first");
+        return gameStarted;
+    }
+
+    public static void generateSim()
+    {
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush();  
+        Scanner in = new Scanner(System.in);
+        String name;
+        Job job = null;
+        System.out.println("What name would you like to give for your sim?");
+        name = in.nextLine();
+        System.out.println("Here's the list of job that we have");
+        System.out.println("1.Clown \n2.Chef\n3.Police\n4.Programmer\n5.Doctor\nChoose your sim's job");
+        int chooseJob = in.nextInt();
+        while(chooseJob < 0 || chooseJob > 5)
+        {
+            System.out.println("Your input is incorrect. Please choose other number");
+            chooseJob = in.nextInt();
+        }
+        switch(chooseJob){
+            case 1:
+                job = new Job("Badut Sulap");
+                break;
+            case 2:
+                job = new Job("Koki");
+                break;
+            case 3:
+                job = new Job("Polisi");
+                break;
+            case 4:
+                job = new Job("Programmer");
+                break;
+            case 5:
+                job = new Job("Dokter");
+                break;
+        }
+        Sim sim = new Sim(name,job,80,80,80,100,"Idle");
+        System.out.println("Your sim has been generated! ");
+        clickEnter();
+        simList.add(sim);
+    }
+
+    public static void clickEnter()
+    {
+        try{
+            System.in.read();
+        }catch(Exception E)
+        {
+
+        }
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush();  
+    }
+
+    public static void showWorld(World world)
+    {
+        for(int j = 0;j < 64;j++)
+        {
+            for(int i = 0;i < 64;i++)
+            {
+                if(Home[j][i] == null)
+                {
+                    System.out.print(" ");
+                }else
+                {
+                    System.out.print("H");
+                }
+            }
+            System.out.println("");
+        }
     }
 
 }
