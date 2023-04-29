@@ -224,11 +224,13 @@ public class Sim {
         long timeInSeconds = Main.timeNow;
         int secondsPerRealDay = 86400;
         int secondsPerSimplicityDay = 720;
-        int simplicitySeconds = (int)((timeInSeconds * secondsPerSimplicityDay)/secondsPerRealDay);
-        int simMins = simplicitySeconds / 60;
-        int simSecs = simplicitySeconds % 60;
-        
-        System.out.println(simMins + " : " + simSecs);
+        int simDay = (int)timeInSeconds/720;
+        timeInSeconds = timeInSeconds % 720;
+        int simHour = (int)timeInSeconds/30;
+        timeInSeconds = timeInSeconds %30;
+        int simMins = (int)timeInSeconds * 2;
+        System.out.println("Day " + simDay);
+        System.out.println(simHour + " " + simMins);
     }
     
 
