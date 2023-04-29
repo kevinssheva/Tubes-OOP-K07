@@ -2,11 +2,28 @@ package src.Inventory;
 
 import java.util.*;
 
+import src.Objek.Furniture.Clock;
+import src.Objek.Furniture.MejaKursi;
+import src.Objek.Furniture.Toilet;
+import src.Objek.Furniture.Bed.SingleBed;
+import src.Objek.Furniture.Stove.GasStove;
+
 public class Inventory {
     private Map<Object, Integer> item;
 
     public Inventory() {
         item = new HashMap<Object, Integer>();
+        
+        SingleBed kasurSingle = new SingleBed();
+        Toilet toilet = new Toilet();
+        GasStove komporGas = new GasStove();
+        Clock jam = new Clock();
+        MejaKursi mejaKursiMakan = new MejaKursi();
+        addItem(kasurSingle);
+        addItem(toilet);
+        addItem(komporGas);
+        addItem(jam);
+        addItem(mejaKursiMakan);
     }
 
     public void addItem(Object object) {

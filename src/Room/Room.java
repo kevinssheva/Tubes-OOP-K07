@@ -33,21 +33,9 @@ public class Room {
         roomMap = new Furniture[dimensi.width][dimensi.height];
         furnitureList = new HashMap<Furniture, List<Point>>();
         simMap = new HashMap<Sim, Point>();
-
-        SingleBed kasurSingle = new SingleBed();
-        Toilet toilet = new Toilet();
-        GasStove komporGas = new GasStove();
-        Clock jam = new Clock();
-        MejaKursi mejaKursiMakan = new MejaKursi();
-
-        addFurniture(kasurSingle, new Point(0, 0));
-        addFurniture(toilet, new Point(5, 0));
-        addFurniture(komporGas, new Point(4, 5));
-        addFurniture(jam, new Point(0, 5));
-        addFurniture(mejaKursiMakan, new Point(3, 2));
     }
 
-    public String getRoomName() {
+    public String getName() {
         return roomName;
     }
 
@@ -160,9 +148,23 @@ public class Room {
         }
     }
 
+    public void showFurniture() {
+        if (furnitureList.isEmpty()) {
+            System.out.println("You don't have any furniture yet");
+            return;
+        }
+        System.out.println("Furniture List: ");
+        for (Map.Entry<Furniture, List<Point>> entry : furnitureList.entrySet()) {
+            System.out.println(entry.getKey().getName() + " : ");
+            for (Point point : entry.getValue()) {
+                System.out.println("(" + point.getX() + ", " + point.getY() + ")");
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Room room = new Room("Kamar 1");
-        System.out.println("Room Name: " + room.getRoomName());
+        System.out.println("Room Name: " + room.getName());
         // print furniture list
         System.out.println("Furniture List: ");
         for (Map.Entry<Furniture, List<Point>> entry : room.getFurnitureList().entrySet()) {

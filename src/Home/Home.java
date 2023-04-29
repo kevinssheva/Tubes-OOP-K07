@@ -5,14 +5,26 @@ import java.awt.Point;
 import src.Room.*;
 
 public class Home {
+    private String name;
     private List<Room> listRuangan;
     private Point location;
 
-    public Home(Point location) {
+    public Home(String name) {
+        this.name = name;
+        this.listRuangan = new ArrayList<Room>();
+        Room room = new Room("Main Room");
+        listRuangan.add(room);
+    }
+
+    public Home(String name, Point location) {
         this.location = location;
         this.listRuangan = new ArrayList<Room>();
         Room room = new Room("Main Room");
         listRuangan.add(room);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public List<Room> getListRuangan() {
@@ -21,6 +33,10 @@ public class Home {
 
     public Point getLocation() {
         return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
     }
 
     public void addRuangan(Room room, String direction, String name) {

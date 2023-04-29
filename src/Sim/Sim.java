@@ -18,9 +18,10 @@ public class Sim {
     private Integer satiety;
     private Inventory inventory;
     private Room currentRoom;
-    private Home home;
+    private Home currentHome; // misal kalo berkunjung currentHome nya yang ganti bukan home nya
+    private Home home; // punya rumah sendiri
 
-    public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status) {
+    public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status, Home home) {
         this.name = name;
         this.job = job;
         this.money = money;
@@ -29,6 +30,9 @@ public class Sim {
         this.status = status;
         this.satiety = satiety;
         this.inventory = new Inventory();
+        this.home = home;
+        currentRoom = home.getListRuangan().get(0);
+        this.currentHome = home;
     }
 
     public Sim(String name, Job job, Integer money, String status) {
@@ -80,6 +84,10 @@ public class Sim {
     
     public Home getHome() {
         return home;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public void setHealth(Integer health) {

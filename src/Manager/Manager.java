@@ -3,6 +3,7 @@ package src.Manager;
 import java.util.*;
 import src.Sim.*;
 import src.Main;
+import src.Home.Home;
 import src.Objek.Furniture.*;
 import src.Objek.Furniture.Bed.Bed;
 import src.Objek.Furniture.Bed.*;
@@ -16,14 +17,7 @@ public class Manager {
     private static Sim currentSim;
     private static List<Sim> simList = new ArrayList<Sim>();
     private static boolean gameStarted = false;
-
-    public static void addSim(Sim sim) {
-        simList.add(sim);
-    }
-
-    public static void changeSim(Sim sim) {
-        currentSim = sim;
-    }
+    private static World world = new World();
 
     public static void buyThings(String thing) {
         List<Object> putArray = new ArrayList<Object>();
@@ -140,6 +134,7 @@ public class Manager {
 
     public static void help()
     {
+        clearScreen();
         System.out.println("Here is the list of help");
         System.out.println("Click enter to proceed");
         clickEnter();
@@ -176,43 +171,6 @@ public class Manager {
         return gameStarted;
     }
 
-    public static void generateSim()
-    {
-        System.out.print("\033[H\033[2J");  // this is for clearscreen
-        System.out.flush();  
-        Scanner in = new Scanner(System.in);
-        String name;
-        Job job = null;
-        System.out.println("What name would you like to give for your sim?");
-        name = in.nextLine();
-        System.out.println("Here's the list of job that we have. But, your sim's job will be choosen randomly");
-        System.out.println("1.Clown \n2.Chef\n3.Police\n4.Programmer\n5.Doctor");
-        Random rand = new Random();
-        int chooseJob = rand.nextInt(5)+1;
-        switch(chooseJob){
-            case 1:
-                job = new Job("Badut Sulap");
-                break;
-            case 2:
-                job = new Job("Koki");
-                break;
-            case 3:
-                job = new Job("Polisi");
-                break;
-            case 4:
-                job = new Job("Programmer");
-                break;
-            case 5:
-                job = new Job("Dokter");
-                break;
-        }
-        Sim sim = new Sim(name,job,80,80,80,100,"Idle");
-        System.out.println("Your sim's job is " + sim.getJob().getName());
-        System.out.println("Your sim has been generated! ");
-        System.out.println("Click enter to proceed");
-        clickEnter();
-        simList.add(sim);
-    }
 
     public static void clickEnter()
     {
@@ -252,4 +210,109 @@ public class Manager {
         
     }
 
+    // MULAI SINI
+
+    public static World getWorld() {
+        return world;
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush(); 
+    }
+
+    public static void timer(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            System.out.println("Error");
+        }
+    }
+
+    // METHOD METHOD COMMAND
+    public static void viewSimInfo() {
+        clearScreen();
+        // View Sim Info for Current Sim
+        System.out.println("Here is the information of your sim");
+        System.out.println("Name : " + currentSim.getName());
+        System.out.println("Job : " + currentSim.getJob().getName());
+        System.out.println("Kesehatan : " + currentSim.getHealth());
+        System.out.println("Kekenyangan : " + currentSim.getSatiety());
+        System.out.println("Mood : " + currentSim.getMood());
+        System.out.println("Uang : " + currentSim.getMoney());
+    }
+
+    public static void viewCurrentLocation() {
+        clearScreen();
+        // View Current Location
+        System.out.println("Your current location is " + currentSim.getRoom().getName());
+        System.out.println("House : " + currentSim.getHome().getName());
+        currentSim.getRoom().printRoom();
+    }
+
+    public static void viewInventory() {
+        clearScreen();
+        // View Inventory
+        System.out.println("Here is your inventory");
+        currentSim.getInventory().showInventory();
+    }
+
+    public static void generateSim()
+    {
+        clearScreen();
+        Scanner in = new Scanner(System.in);
+        String name;
+        Job job = null;
+        System.out.println("What name would you like to give for your sim?");
+        name = in.nextLine();
+        System.out.println("Here's the list of job that we have. But, your sim's job will be choosen randomly");
+        System.out.println("1.Clown \n2.Chef\n3.Police\n4.Programmer\n5.Doctor");
+        Random rand = new Random();
+        int chooseJob = rand.nextInt(5)+1;
+        switch(chooseJob){
+            case 1:
+                job = new Job("Badut Sulap");
+                break;
+            case 2:
+                job = new Job("Koki");
+                break;
+            case 3:
+                job = new Job("Polisi");
+                break;
+            case 4:
+                job = new Job("Programmer");
+                break;
+            case 5:
+                job = new Job("Dokter");
+                break;
+        }
+        Home home = new Home(name + "'s Home");
+        world.addHome(home);
+        Sim sim = new Sim(name,job,80,80,80,100,"Idle", home);
+        System.out.println("Your sim's job is " + sim.getJob().getName());
+        System.out.println("Your sim has been generated! ");
+        System.out.println("Click enter to proceed");
+        clickEnter();
+        simList.add(sim);
+        currentSim = sim;
+    }
+
+    public static void changeSim() {
+        clearScreen();
+        System.out.println("Here is the list of sim that you have");
+        for (int i = 0; i < simList.size(); i++) {
+            System.out.println(i + 1 + ". " + simList.get(i).getName());
+        }
+        System.out.println("Which sim do you want to choose?");
+        Scanner in = new Scanner(System.in);
+        int chooseSim = in.nextInt();
+        currentSim = simList.get(chooseSim - 1);
+        System.out.println("You have changed your sim to " + currentSim.getName());
+    }
+
+    public static void listObject() {
+        clearScreen();
+        currentSim.getRoom().printRoom();
+        currentSim.getRoom().showFurniture();    
+    }
 }

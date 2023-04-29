@@ -18,30 +18,44 @@ public class World {
         return listRumah;
     }
 
-    public void addHome() {
-        // Menemukan titik yang masih kosong pada petaWorld
+    public void addHome(Home home) {
         for (int i = 0; i < 64; i++) {
             for (int j = 0; j < 64; j++) {
                 if (petaWorld[i][j] == null) {
                     Point temp = new Point(i, j);
-                    Home rumahBaru = new Home(temp);
-                    this.listRumah.add(rumahBaru);
-                    petaWorld[i][j] = rumahBaru;
-                    return;
+                    home.setLocation(temp);
+                    this.listRumah.add(home);
+                    petaWorld[i][j] = home;
                 }
             }
         }
-    }
+    } 
 
-    public void addHome(Point location) {
-        if (checkCoordinate(location)) {
-            Home rumahBaru = new Home(location);
-            this.listRumah.add(rumahBaru);
-            petaWorld[(int) location.getX()][(int) location.getY()] = rumahBaru;
-        } else {
-            System.out.println("Koordinat sudah terisi");
-        }
-    }
+    // public Home addHome(String name) {
+    //     // Menemukan titik yang masih kosong pada petaWorld
+    //     for (int i = 0; i < 64; i++) {
+    //         for (int j = 0; j < 64; j++) {
+    //             if (petaWorld[i][j] == null) {
+    //                 Point temp = new Point(i, j);
+    //                 Home rumahBaru = new Home(name, temp);
+    //                 this.listRumah.add(rumahBaru);
+    //                 petaWorld[i][j] = rumahBaru;
+    //                 return rumahBaru;
+    //             }
+    //         }
+    //     }
+    //     return null;
+    // }
+
+    // public void addHome(String name, Point location) {
+    //     if (checkCoordinate(location)) {
+    //         Home rumahBaru = new Home(name, location);
+    //         this.listRumah.add(rumahBaru);
+    //         petaWorld[(int) location.getX()][(int) location.getY()] = rumahBaru;
+    //     } else {
+    //         System.out.println("Koordinat sudah terisi");
+    //     }
+    // }
 
     public Boolean checkCoordinate(Point location) {
         if(location.getX() < 0 || location.getY() < 0 || location.getX() > 64 || location.getY() > 64){
