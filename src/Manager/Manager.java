@@ -202,6 +202,7 @@ public class Manager {
         System.out.flush();  
         System.out.println("Here is the list of thing that you can do");
         System.out.println("- Help");
+        System.out.println("- Work");
         System.out.println("- View Sim Info");
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
@@ -341,7 +342,19 @@ public class Manager {
                 help();
                 break;
             case "Work":
-                currentSim.g
+                clearScreen();
+                System.out.println("Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\n If you don't want to work,please type -1");
+                int time = in.nextInt();
+                while(time%120 != 0 && time != -1){
+                    System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
+                }
+
+                if(time != -1){
+                    currentSim.kerja(time);
+                }
+                
+                clickEnter();
+                break;
             case "View Sim Info":
                 viewSimInfo();
                 break;
