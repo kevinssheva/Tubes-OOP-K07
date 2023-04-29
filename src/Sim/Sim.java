@@ -220,6 +220,18 @@ public class Sim {
         visitThread.start();
     }
 
+    public void checkTime(){
+        long timeInSeconds = Main.timeNow;
+        int secondsPerRealDay = 86400;
+        int secondsPerSimplicityDay = 720;
+        int simplicitySeconds = (int)((timeInSeconds * secondsPerSimplicityDay)/secondsPerRealDay);
+        int simMins = simplicitySeconds / 60;
+        int simSecs = simplicitySeconds % 60;
+        
+        System.out.println(simMins + " : " + simSecs);
+    }
+    
+
     public boolean stillAlive() {
         return mood > 0 && health > 0 && satiety > 0;
     }
