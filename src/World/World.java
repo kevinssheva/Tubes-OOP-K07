@@ -3,6 +3,7 @@ package src.World;
 import java.awt.Point;
 import java.util.*;
 import src.Home.*;
+import src.Manager.*;
 
 public class World {
     private Home[][] petaWorld;
@@ -52,5 +53,28 @@ public class World {
             }
         }
         return true;
+    }
+
+    public void showWorld()
+    {
+        Manager.clickEnter();
+        System.out.println("World Map\n\n");
+        for(int j = 0;j < 64;j++){
+            for(int i= 0;i <66;i++){
+                System.out.print("-");
+            }
+            System.out.println("");
+            System.out.print("|");
+            for(int i = 0;i < 64;i++){
+                System.out.print(petaWorld[j][i] != null ? "H" : " ");
+            }
+            System.out.println("|");
+        }
+
+        for(int i= 0;i <66;i++){
+            System.out.print("-");
+        }
+        
+        System.out.println("");
     }
 }

@@ -9,10 +9,13 @@ import src.Objek.Furniture.Bed.*;
 import src.Objek.Furniture.Stove.*;
 import src.Objek.Ingredients.Ingredients;
 import src.Room.Room;
+import src.Job.*;
+import src.World.*;
 
 public class Manager {
     private static Sim currentSim;
     private static List<Sim> simList = new ArrayList<Sim>();
+    private static boolean gameStarted = false;
 
     public static void addSim(Sim sim) {
         simList.add(sim);
@@ -128,6 +131,125 @@ public class Manager {
 
     public static void moveRoom(Room r) {
         currentSim.setRoom(r);
+    }
+
+    public static void testing()
+    {
+        System.out.println("Testing from the manager's static method");
+    }
+
+    public static void help()
+    {
+        System.out.println("Here is the list of help");
+        System.out.println("Click enter to proceed");
+        clickEnter();
+    }
+
+    public static void gameMenu()
+    {
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush();  
+        Scanner in = new Scanner(System.in);
+        System.out.println("Here is the menu");
+        System.out.println("1. Start Game");
+        System.out.println("2. Help");
+        System.out.println("3. Exit");
+        int cmd = in.nextInt();
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush();
+        switch(cmd){
+            case 1:
+                gameStarted = true;
+                break;
+            case 2:
+                help();
+                break;
+            case 3:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public static boolean getGameStarted()
+    {
+        System.out.println("Hello, welcome to your very first game !\nBefore we start the game, we have to figure out your sim's characteritic first\nPlease your sim's attribute first");
+        return gameStarted;
+    }
+
+    public static void generateSim()
+    {
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush();  
+        Scanner in = new Scanner(System.in);
+        String name;
+        Job job = null;
+        System.out.println("What name would you like to give for your sim?");
+        name = in.nextLine();
+        System.out.println("Here's the list of job that we have. But, your sim's job will be choosen randomly");
+        System.out.println("1.Clown \n2.Chef\n3.Police\n4.Programmer\n5.Doctor");
+        Random rand = new Random();
+        int chooseJob = rand.nextInt(5)+1;
+        switch(chooseJob){
+            case 1:
+                job = new Job("Badut Sulap");
+                break;
+            case 2:
+                job = new Job("Koki");
+                break;
+            case 3:
+                job = new Job("Polisi");
+                break;
+            case 4:
+                job = new Job("Programmer");
+                break;
+            case 5:
+                job = new Job("Dokter");
+                break;
+        }
+        Sim sim = new Sim(name,job,80,80,80,100,"Idle");
+        System.out.println("Your sim's job is " + sim.getJob().getName());
+        System.out.println("Your sim has been generated! ");
+        System.out.println("Click enter to proceed");
+        clickEnter();
+        simList.add(sim);
+    }
+
+    public static void clickEnter()
+    {
+        try{
+            System.in.read();
+        }catch(Exception E)
+        {
+
+        }
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush();  
+    }
+
+    public static void showWorld(World world)
+    {
+        // call the method from world
+        world.showWorld();
+        System.out.println("Click enter to proceed");
+        clickEnter();
+    }
+
+    public static void listCanDo()
+    {
+        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.flush();  
+        System.out.println("Here is the list of thing that you can do");
+        System.out.println("- View Sim Info");
+        System.out.println("- View Current Location");
+        System.out.println("- View Inventory");
+        System.out.println("- Upgrade House");
+        System.out.println("- Edit Room");
+        System.out.println("- Add Sim");
+        System.out.println("- Change Sim");
+        System.out.println("- List Object");
+        System.out.println("- Go To Object");
+        // don't forget to add action that sim can only do with interaction with object
+        
     }
 
 }
