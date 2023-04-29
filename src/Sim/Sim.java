@@ -134,17 +134,16 @@ public class Sim {
     }
 
     public void sleep(Integer time, Sim a){
-        int timeMillis = time * 1000;
         setStatus(String.format("Sleeping..."));
-        Thread thread = new Thread(new Runnable(){
+        Thread sleepThread = new Thread(new Runnable(){
             @Override
             public void run(){
                 try{
                     int siklus = time / 240;
-                    long startTime = System.currentTimeMillis();
-                    long updateTime = 240000;
-                    while ((System.currentTimeMillis() - startTime) <= timeMillis){
-                        updateTime -= (System.currentTimeMillis() - startTime);
+                    long startTime = Main.timeNow;
+                    long updateTime = 240;
+                    while ((Main.timeNow - startTime) <= time){
+                        updateTime -= (Main.timeNow - startTime);
                         while (siklus > 0){
                             a.setMood(getMood()+30);
                             a.setHealth(getHealth()+20);
@@ -157,8 +156,7 @@ public class Sim {
                 }
             }
         });
-        thread.start();
-        System.out.println(status);
+        sleepThread.start();
     }
 
     public void kerja(Integer time){
