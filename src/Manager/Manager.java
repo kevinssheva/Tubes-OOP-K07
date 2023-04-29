@@ -351,6 +351,7 @@ public class Manager {
 
                 if(time != -1){
                     currentSim.kerja(time);
+                    System.out.println(currentSim.getStatus());
                 }
                 
                 clickEnter();
