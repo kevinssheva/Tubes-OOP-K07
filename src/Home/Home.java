@@ -11,6 +11,8 @@ public class Home {
     public Home(Point location) {
         this.location = location;
         this.listRuangan = new ArrayList<Room>();
+        Room room = new Room("Main Room");
+        listRuangan.add(room);
     }
 
     public List<Room> getListRuangan() {

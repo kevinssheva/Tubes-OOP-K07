@@ -23,62 +23,38 @@ public class Room {
     private Map<Furniture, List<Point>> furnitureList;
     private Map<Sim, Point> simMap;
 
-    //default room
-    public Room(){
+    public Room(String name) {
+        roomName = name;
+        north = null;
+        south = null;
+        west = null;
+        east = null;
+        dimensi = new Dimension(6, 6);
+        roomMap = new Furniture[dimensi.width][dimensi.height];
+        furnitureList = new HashMap<Furniture, List<Point>>();
+        simMap = new HashMap<Sim, Point>();
+
         SingleBed kasurSingle = new SingleBed();
         Toilet toilet = new Toilet();
         GasStove komporGas = new GasStove();
         Clock jam = new Clock();
         MejaKursi mejaKursiMakan = new MejaKursi();
 
-        addFurniture(kasurSingle, new Point(0,0));
-        addFurniture(toilet, new Point(5,0));
-        addFurniture(komporGas, new Point(5,3));
-        addFurniture(jam, new Point(0,5));
-        addFurniture(mejaKursiMakan, new Point(1,3));
+        addFurniture(kasurSingle, new Point(0, 0));
+        addFurniture(toilet, new Point(5, 0));
+        addFurniture(komporGas, new Point(4, 5));
+        addFurniture(jam, new Point(0, 5));
+        addFurniture(mejaKursiMakan, new Point(3, 2));
     }
 
-    public Room(String roomName){
-        this.roomName = roomName;
-        this.dimensi.height = 6;
-        this.dimensi.width = 6;
-        this.north = null;
-        this.south = null;
-        this.west = null;
-        this.east = null;
-        Map<Furniture, List<Point>> furnitureList = new HashMap<Furniture, List<Point>>();
-    }
-
-    public Room(String roomName, Room north, Room south, Room east, Room west) {
-        this.roomName = roomName;
-        this.dimensi.height = 6;
-        this.dimensi.width = 6;
-        this.north = north;
-        this.south = south;
-        this.east = east;
-        this.west = west;
-        Map<Furniture, List<Point>> furnitureList = new HashMap<Furniture, List<Point>>();
-    }
-
-    public Room(String roomName, Room north, Room south, Room east, Room west, Map<Furniture, List<Point>> furnitureList) {
-        this.roomName = roomName;
-        this.dimensi.height = 6;
-        this.dimensi.width = 6;
-        this.north = north;
-        this.south = south;
-        this.east = east;
-        this.west = west;
-        this.furnitureList = furnitureList;
-    }
-
-    public String getRoomName(){
+    public String getRoomName() {
         return roomName;
     }
 
     public Dimension getDimensi() {
         return dimensi;
     }
-    
+
     public Room getNorth() {
         return north;
     }
@@ -107,7 +83,7 @@ public class Room {
         return simMap;
     }
 
-    public void setRoomName(String roomName){
+    public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
 
@@ -131,34 +107,70 @@ public class Room {
         this.roomMap = roomMap;
     }
 
-    public void setFurnitureList(Map<Furniture, List<Point>> furnitureList){
+    public void setFurnitureList(Map<Furniture, List<Point>> furnitureList) {
         this.furnitureList = furnitureList;
     }
 
     public void addFurniture(Furniture furniture, Point location) {
-        Furniture map = roomMap[location.x][location.y];
-        if (map == null) {
-            Dimension dimensi = furniture.getDimensi();
+        Furniture checkMap = roomMap[location.y][location.x];
+        if (checkMap == null) {
+            Dimension furnitureDimension = furniture.getDimensi();
             Boolean isAvailable = true;
-            for (int i = 0; i < dimensi.width; i++) {
-                for (int j = 0; j < dimensi.height; j++) {
-                    if (roomMap[location.x + i][location.y + j] != null) {
+            for (int i = 0; i < furnitureDimension.height; i++) {
+                for (int j = 0; j < furnitureDimension.width; j++) {
+                    try {
+                        if (roomMap[location.y + i][location.x + j] != null) {
+                            isAvailable = false;
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("Furniture melebihi batas ruangan");
                         isAvailable = false;
                     }
                 }
             }
 
             if (isAvailable) {
-                for (int i = 0; i < dimensi.width; i++) {
-                    for (int j = 0; j < dimensi.height; j++) {
-                        roomMap[location.x + i][location.y + j] = furniture;
+                for (int i = 0; i < furnitureDimension.height; i++) {
+                    for (int j = 0; j < furnitureDimension.width; j++) {
+                        roomMap[location.y + i][location.x + j] = furniture;
                     }
                 }
-                List<Point> list = new ArrayList<Point>();
-                list.add(location);
-                furnitureList.put(furniture, list);
+                // Add point to furnitureList
+                List<Point> points = furnitureList.get(furniture);
+                if (points == null) {
+                    points = new ArrayList<Point>();
+                }
+                points.add(location);
+                furnitureList.put(furniture, points);
             }
         }
         return;
+    }
+
+    public void printRoom() {
+        for (int i = 0; i < dimensi.width; i++) {
+            for (int j = 0; j < dimensi.height; j++) {
+                if (roomMap[i][j] != null) {
+                    System.out.print(" " + roomMap[i][j].getName().charAt(0) + " ");
+                } else {
+                    System.out.print(" - ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Room room = new Room("Kamar 1");
+        System.out.println("Room Name: " + room.getRoomName());
+        // print furniture list
+        System.out.println("Furniture List: ");
+        for (Map.Entry<Furniture, List<Point>> entry : room.getFurnitureList().entrySet()) {
+            System.out.println(entry.getKey().getName() + " : ");
+            for (Point point : entry.getValue()) {
+                System.out.println("(" + point.getX() + ", " + point.getY() + ")");
+            }
+        }
+        room.printRoom();
     }
 }
