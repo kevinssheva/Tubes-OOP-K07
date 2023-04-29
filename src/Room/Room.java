@@ -5,11 +5,6 @@ import java.awt.Point;
 import java.util.*;
 
 import src.Objek.Furniture.Furniture;
-import src.Objek.Furniture.Bed.SingleBed;
-import src.Objek.Furniture.Toilet;
-import src.Objek.Furniture.Stove.GasStove;
-import src.Objek.Furniture.MejaKursi;
-import src.Objek.Furniture.Clock;
 import src.Sim.Sim;
 
 public class Room {
@@ -130,9 +125,11 @@ public class Room {
                 }
                 points.add(location);
                 furnitureList.put(furniture, points);
+                System.out.println("Furniture berhasil ditempatkan");
             }
+        } else {
+            throw new IllegalArgumentException("Furniture tidak dapat ditempatkan");
         }
-        return;
     }
 
     public void printRoom() {

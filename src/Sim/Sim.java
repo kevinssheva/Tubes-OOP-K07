@@ -3,6 +3,7 @@ package src.Sim;
 import java.awt.Point;
 import src.Inventory.*;
 import src.Job.*;
+import src.Objek.Objek;
 import src.Objek.Furniture.Furniture;
 import src.Room.*;
 import src.Main;
@@ -16,7 +17,7 @@ public class Sim {
     private Integer health;
     private String status;
     private Integer satiety;
-    private Inventory inventory;
+    private Inventory<Objek> inventory;
     private Room currentRoom;
     private Home currentHome; // misal kalo berkunjung currentHome nya yang ganti bukan home nya
     private Home home; // punya rumah sendiri
@@ -29,7 +30,7 @@ public class Sim {
         this.health = health;
         this.status = status;
         this.satiety = satiety;
-        this.inventory = new Inventory();
+        this.inventory = new Inventory<>();
         this.home = home;
         currentRoom = home.getListRuangan().get(0);
         this.currentHome = home;
@@ -43,7 +44,7 @@ public class Sim {
         this.health = 80;
         this.status = status;
         this.satiety = 80;
-        this.inventory = new Inventory();
+        this.inventory = new Inventory<>();
     }
 
     public Integer getSatiety() {
@@ -86,7 +87,7 @@ public class Sim {
         return home;
     }
 
-    public Inventory getInventory() {
+    public Inventory<Objek> getInventory() {
         return inventory;
     }
 
@@ -234,7 +235,7 @@ public class Sim {
         return mood > 0 && health > 0 && satiety > 0;
     }
 
-    public boolean checkInventory(Object o) {
+    public boolean checkInventory(Objek o) {
         return inventory.checkItem(o);
     }
     
@@ -242,11 +243,11 @@ public class Sim {
         inventory.showInventory();
     }
 
-    public void addToInventory(Object o) {
+    public void addToInventory(Objek o) {
         inventory.addItem(o);
     }
 
-    public void deleteFromInventory(Object o) {
+    public void deleteFromInventory(Objek o) {
         inventory.removeItem(o);
     }
 
