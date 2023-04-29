@@ -1,9 +1,11 @@
 package src.Manager;
 
+import java.awt.Point;
 import java.util.*;
 import src.Sim.*;
 import src.Main;
 import src.Home.Home;
+import src.Objek.Objek;
 import src.Objek.Furniture.*;
 import src.Objek.Furniture.Bed.Bed;
 import src.Objek.Furniture.Bed.*;
@@ -20,8 +22,8 @@ public class Manager {
     private static World world = new World();
 
     public static void buyThings(String thing) {
-        List<Object> putArray = new ArrayList<Object>();
-        Object putIntoInventory = new Object();
+        List<Objek> putArray = new ArrayList<Objek>();
+        Objek putIntoInventory = null;
         switch (thing) {
             case "Single Bed":
                 SingleBed singleBed = new SingleBed();
@@ -127,31 +129,28 @@ public class Manager {
         currentSim.setRoom(r);
     }
 
-    public static void testing()
-    {
+    public static void testing() {
         System.out.println("Testing from the manager's static method");
     }
 
-    public static void help()
-    {
+    public static void help() {
         clearScreen();
         System.out.println("Here is the list of help");
         clickEnter();
     }
 
-    public static void gameMenu()
-    {
-        System.out.print("\033[H\033[2J");  // this is for clearscreen
-        System.out.flush();  
+    public static void gameMenu() {
+        System.out.print("\033[H\033[2J"); // this is for clearscreen
+        System.out.flush();
         Scanner in = new Scanner(System.in);
         System.out.println("Here is the menu");
         System.out.println("1. Start Game");
         System.out.println("2. Help");
         System.out.println("3. Exit");
         int cmd = in.nextInt();
-        System.out.print("\033[H\033[2J");  // this is for clearscreen
+        System.out.print("\033[H\033[2J"); // this is for clearscreen
         System.out.flush();
-        switch(cmd){
+        switch (cmd) {
             case 1:
                 gameStarted = true;
                 break;
@@ -163,7 +162,7 @@ public class Manager {
                 break;
         }
     }
-
+    
     public static void exitTheGame()
     {
         System.out.println("Thank you for playing this game!");
@@ -175,31 +174,25 @@ public class Manager {
         return gameStarted;
     }
 
-
-    public static void clickEnter()
-    {
-        System.out.println("Click enter to proceed");
-        try{
+    public static void clickEnter() {
+        try {
             System.in.read();
-        }catch(Exception E)
-        {
+        } catch (Exception E) {
 
         }
-        System.out.print("\033[H\033[2J");  // this is for clearscreen
-        System.out.flush();  
+        System.out.print("\033[H\033[2J"); // this is for clearscreen
+        System.out.flush();
     }
 
-    public static void showWorld(World world)
-    {
+    public static void showWorld(World world) {
         // call the method from world
         world.showWorld();
         clickEnter();
     }
 
-    public static void listCanDo()
-    {
-        System.out.print("\033[H\033[2J");  // this is for clearscreen
-        System.out.flush();  
+    public static void listCanDo() {
+        System.out.print("\033[H\033[2J"); // this is for clearscreen
+        System.out.flush();
         System.out.println("Here is the list of thing that you can do");
         System.out.println("- Help");
         System.out.println("- Work");
@@ -207,6 +200,7 @@ public class Manager {
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
         System.out.println("- Upgrade House");
+        System.out.println("- Move Room");
         System.out.println("- Edit Room");
         System.out.println("- Add Sim");
         System.out.println("- Change Sim");
@@ -214,7 +208,7 @@ public class Manager {
         System.out.println("- Go To Object");
         System.out.println("- Exit");
         // don't forget to add action that sim can only do with interaction with object
-        
+
     }
 
     // MULAI SINI
@@ -229,8 +223,8 @@ public class Manager {
 
 
     public static void clearScreen() {
-        System.out.print("\033[H\033[2J");  // this is for clearscreen
-        System.out.flush(); 
+        System.out.print("\033[H\033[2J"); // this is for clearscreen
+        System.out.flush();
     }
 
     public static void timer(int seconds) {
@@ -272,8 +266,82 @@ public class Manager {
         
     }
 
-    public static void generateSim()
-    {
+    public static void moveRoom() {
+        clearScreen();
+        // Move Room
+        Scanner in = new Scanner(System.in);
+        System.out.println("Where do you want to go? (North / South / East / West)");
+        String direction = in.nextLine();
+        try {
+            switch (direction) {
+                case "North":
+                    currentSim.setRoom(currentSim.getRoom().getNorth());
+                    break;
+                case "South":
+                    currentSim.setRoom(currentSim.getRoom().getSouth());
+                    break;
+                case "East":
+                    currentSim.setRoom(currentSim.getRoom().getEast());
+                    break;
+                case "West":
+                    currentSim.setRoom(currentSim.getRoom().getWest());
+                    break;
+                default:
+                    System.out.println("Invalid Direction");
+                    break;
+            }
+            System.out.println("You are now in " + currentSim.getRoom().getName());
+            currentSim.getRoom().printRoom();
+        } catch (NullPointerException e) {
+            System.out.println("There is no room in that direction");
+        }
+    }
+
+    public static void editRoom() {
+        clearScreen();
+        // Edit Room
+        System.out.println("Here is your furniture");
+        currentSim.getInventory().showFurnitureOnly();
+        System.out.println("Which furniture do you want to put in your room?");
+
+        Scanner in = new Scanner(System.in);
+
+        Furniture furniture = null;
+        String furnitureName = "";
+        int x = 0, y = 0;
+
+        try {
+            System.out.print("Type the name of the furniture : ");
+            furnitureName = in.nextLine();
+
+            Objek item = currentSim.getInventory().getItemByName(furnitureName);
+            furniture = (Furniture) item;
+
+            System.out.println("Where do you want to put the " + furniture.getName() + " ?");
+            System.out.print("X : ");
+            x = in.nextInt();
+            System.out.print("Y : ");
+            y = in.nextInt();
+        } catch (NullPointerException e) {
+            System.out.println("The furniture with the name '" + furnitureName + "' does not exist in the inventory.");
+            return;
+        } catch (ClassCastException e) {
+            System.out.println("The item with the name '" + furnitureName + "' is not a furniture.");
+            return;
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input for coordinates. Please enter integer values for X and Y.");
+            return;
+        }
+        try {
+            currentSim.getRoom().addFurniture(furniture, new Point(x, y));
+        } catch (IllegalArgumentException e) {
+            System.out.println("The coordinates are out of bounds.");
+            return;
+        }
+        currentSim.getInventory().removeItem(furniture);
+    }
+
+    public static void generateSim() {
         clearScreen();
         Scanner in = new Scanner(System.in);
         String name;
@@ -283,8 +351,8 @@ public class Manager {
         System.out.println("Here's the list of job that we have. But, your sim's job will be choosen randomly");
         System.out.println("1.Clown \n2.Chef\n3.Police\n4.Programmer\n5.Doctor");
         Random rand = new Random();
-        int chooseJob = rand.nextInt(5)+1;
-        switch(chooseJob){
+        int chooseJob = rand.nextInt(5) + 1;
+        switch (chooseJob) {
             case 1:
                 job = new Job("Badut Sulap");
                 break;
@@ -303,7 +371,7 @@ public class Manager {
         }
         Home home = new Home(name + "'s Home");
         world.addHome(home);
-        Sim sim = new Sim(name,job,80,80,80,100,"Idle", home);
+        Sim sim = new Sim(name, job, 80, 80, 80, 100, "Idle", home);
         System.out.println("Your sim's job is " + sim.getJob().getName());
         System.out.println("Your sim has been generated! ");
         clickEnter();
@@ -331,7 +399,23 @@ public class Manager {
     public static void listObject() {
         clearScreen();
         currentSim.getRoom().printRoom();
-        currentSim.getRoom().showFurniture();    
+        currentSim.getRoom().showFurniture();
+    }
+
+    public static void goToObject() {
+        clearScreen();
+        Scanner in = new Scanner(System.in);
+        System.out.println("Here is the list of object that you have");
+        currentSim.getRoom().showFurniture();
+        System.out.println("Which object do you want to go?");
+        String objectName = in.nextLine();
+        Point point = currentSim.getRoom().getFurnitureLocation(objectName);
+        if (point == null) {
+            System.out.println("The object with the name '" + objectName + "' does not exist in the room.");
+            return;
+        }
+        currentSim.getRoom().adjustSimMap(currentSim, point);
+        System.out.println("You are now in front of " + objectName);
     }
 
     public static void doQuery(){

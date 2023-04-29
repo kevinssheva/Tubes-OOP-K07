@@ -3,6 +3,7 @@ package src.Objek.Furniture;
 import java.awt.Dimension;
 
 import src.Objek.Edible;
+import src.Objek.Objek;
 import src.Sim.*;
 
 public class MejaKursi extends Furniture{
@@ -11,18 +12,18 @@ public class MejaKursi extends Furniture{
     }
 
     public void aksi(Sim a, Edible food) throws Exception {
-        if(!a.checkInventory(food)){
+        if(!a.checkInventory((Objek) food)){
             throw new Exception("Food not in inventory!");
         }
         a.setStatus(String.format("Memakan %s", food.getClass().getSimpleName()));
-        a.deleteFromInventory(food);
+        a.deleteFromInventory((Objek) food);
 
         Thread eatThread = new Thread() {
             public void run() {
                 try {
                     Thread.sleep(30000);
                 } catch (Exception e) {
-                    a.addToInventory(food);
+                    a.addToInventory((Objek) food);
                     e.printStackTrace();
                 }
                 a.setSatiety(food.getKekenyangan() + a.getSatiety());
