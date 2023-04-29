@@ -26,6 +26,7 @@ public class World {
                     home.setLocation(temp);
                     this.listRumah.add(home);
                     petaWorld[i][j] = home;
+                    return;
                 }
             }
         }

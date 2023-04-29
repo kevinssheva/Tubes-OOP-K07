@@ -43,7 +43,7 @@ public class Inventory {
 
     public void showInventory() {
         for (Object key : item.keySet()) {
-            System.out.println(key.getClass() + " : " + item.get(key));
+            System.out.println(key.getClass().getSimpleName() + " : " + item.get(key));
         }
     }
 

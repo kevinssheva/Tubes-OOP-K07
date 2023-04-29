@@ -14,7 +14,7 @@ import src.Job.*;
 import src.World.*;
 
 public class Manager {
-    private static Sim currentSim;
+    private static Sim currentSim = null;
     private static List<Sim> simList = new ArrayList<Sim>();
     private static boolean gameStarted = false;
     private static World world = new World();
@@ -136,7 +136,6 @@ public class Manager {
     {
         clearScreen();
         System.out.println("Here is the list of help");
-        System.out.println("Click enter to proceed");
         clickEnter();
     }
 
@@ -160,9 +159,14 @@ public class Manager {
                 help();
                 break;
             case 3:
-                System.exit(0);
+                exitTheGame();
                 break;
         }
+    }
+
+    public static void exitTheGame()
+    {
+        System.exit(0);
     }
 
     public static boolean getGameStarted()
@@ -174,6 +178,7 @@ public class Manager {
 
     public static void clickEnter()
     {
+        System.out.println("Click enter to proceed");
         try{
             System.in.read();
         }catch(Exception E)
@@ -188,7 +193,6 @@ public class Manager {
     {
         // call the method from world
         world.showWorld();
-        System.out.println("Click enter to proceed");
         clickEnter();
     }
 
@@ -197,6 +201,7 @@ public class Manager {
         System.out.print("\033[H\033[2J");  // this is for clearscreen
         System.out.flush();  
         System.out.println("Here is the list of thing that you can do");
+        System.out.println("- Help");
         System.out.println("- View Sim Info");
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
@@ -214,6 +219,10 @@ public class Manager {
 
     public static World getWorld() {
         return world;
+    }
+
+    public static Sim getCurrentSim(){
+        return currentSim;
     }
 
     public static void clearScreen() {
@@ -240,6 +249,7 @@ public class Manager {
         System.out.println("Kekenyangan : " + currentSim.getSatiety());
         System.out.println("Mood : " + currentSim.getMood());
         System.out.println("Uang : " + currentSim.getMoney());
+        clickEnter();
     }
 
     public static void viewCurrentLocation() {
@@ -255,6 +265,8 @@ public class Manager {
         // View Inventory
         System.out.println("Here is your inventory");
         currentSim.getInventory().showInventory();
+        clickEnter();
+        
     }
 
     public static void generateSim()
@@ -291,10 +303,11 @@ public class Manager {
         Sim sim = new Sim(name,job,80,80,80,100,"Idle", home);
         System.out.println("Your sim's job is " + sim.getJob().getName());
         System.out.println("Your sim has been generated! ");
-        System.out.println("Click enter to proceed");
         clickEnter();
         simList.add(sim);
-        currentSim = sim;
+        if(currentSim == null){
+            currentSim = sim;
+        }
     }
 
     public static void changeSim() {
@@ -308,11 +321,49 @@ public class Manager {
         int chooseSim = in.nextInt();
         currentSim = simList.get(chooseSim - 1);
         System.out.println("You have changed your sim to " + currentSim.getName());
+        clickEnter();
+        
     }
 
     public static void listObject() {
         clearScreen();
         currentSim.getRoom().printRoom();
         currentSim.getRoom().showFurniture();    
+    }
+
+    public static void doQuery(){
+        Scanner in = new Scanner(System.in);
+        String query = in.nextLine();
+        switch(query){
+            case "Help":
+                help();
+                break;
+            case "View Sim Info":
+                viewSimInfo();
+                break;
+            case "View Current Location":
+                break;
+            case "View Inventory":
+                viewInventory();
+                break;
+            case "Upgrade House":
+                break;
+            case "Edit Room":
+                break; 
+            case "Add Sim":
+                generateSim();
+                break;
+            case "Change Sim":
+                changeSim();
+                break;
+            case "List Object":
+                break;
+            case "Go To Object":
+                break;
+            case "Exit":
+                exitTheGame();
+                break;
+                
+        }
     }
 }
