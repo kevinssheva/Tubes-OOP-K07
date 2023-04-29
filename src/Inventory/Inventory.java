@@ -18,6 +18,7 @@ public class Inventory<T extends Objek> {
 
         // add default item
         addItem((T) new Toilet());
+        addItem((T) new Toilet());
         addItem((T) new GasStove());
         addItem((T) new SingleBed());
         addItem((T) new MejaKursi());

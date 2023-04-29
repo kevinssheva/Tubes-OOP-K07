@@ -90,6 +90,10 @@ public class Room {
         this.roomMap = roomMap;
     }
 
+    public void adjustSimMap(Sim sim, Point newLocation) {
+        simMap.put(sim, newLocation);
+    }
+
     public void setFurnitureList(Map<Furniture, List<Point>> furnitureList) {
         this.furnitureList = furnitureList;
     }
@@ -132,6 +136,30 @@ public class Room {
         }
     }
 
+    public Point getFurnitureLocation(String name) {
+        for (Map.Entry<Furniture, List<Point>> entry : furnitureList.entrySet()) {
+            if (entry.getKey().getName().equals(name)) {
+                if (entry.getValue().size() > 1) {
+                    System.out.println("Pilih lokasi furniture yang ingin dituju : ");
+                    for (int i = 0; i < entry.getValue().size(); i++) {
+                        System.out.println(i + 1 + ". (" + entry.getValue().get(i).x + ", "
+                                + entry.getValue().get(i).y + ")" );
+                    }
+                    Scanner scanRoom = new Scanner(System.in);
+                    int input = scanRoom.nextInt();
+                    while (input < 1 || input > entry.getValue().size()) {
+                        System.out.println("Input salah, masukkan ulang: ");
+                        input = scanRoom.nextInt();
+                    }
+                    return entry.getValue().get(input - 1);
+                } else {
+                    return entry.getValue().get(0);
+                }
+            }
+        }
+        return null;
+    }
+    
     public void printRoom() {
         for (int i = 0; i < dimensi.width; i++) {
             for (int j = 0; j < dimensi.height; j++) {
@@ -143,6 +171,27 @@ public class Room {
             }
             System.out.println();
         }
+
+        //print simMap and roomMap in 2d array
+        System.out.println("Sim Map: ");
+        for (int i = 0; i < dimensi.width; i++) {
+            for (int j = 0; j < dimensi.height; j++) {
+                if (simMap.containsValue(new Point(i, j))) {
+                    for (Map.Entry<Sim, Point> entry : simMap.entrySet()) {
+                        if (entry.getValue().equals(new Point(i, j))) {
+                            System.out.print(" " + entry.getKey().getName().charAt(0) + " ");
+                        }
+                    }
+                } else if (roomMap[i][j] != null) {
+                    System.out.print(" " + roomMap[i][j].getName().charAt(0) + " ");
+                } else {
+                    System.out.print(" - ");
+                }
+            }
+            System.out.println();
+        }
+        
+
     }
 
     public void showFurniture() {

@@ -191,15 +191,16 @@ public class Manager {
         System.out.print("\033[H\033[2J"); // this is for clearscreen
         System.out.flush();
         System.out.println("Here is the list of thing that you can do");
-        System.out.println("- View Sim Info");
-        System.out.println("- View Current Location");
-        System.out.println("- View Inventory");
-        System.out.println("- Upgrade House");
-        System.out.println("- Edit Room");
-        System.out.println("- Add Sim");
-        System.out.println("- Change Sim");
-        System.out.println("- List Object");
-        System.out.println("- Go To Object");
+        System.out.println("1 View Sim Info");
+        System.out.println("2 View Current Location");
+        System.out.println("3 View Inventory");
+        System.out.println("4 Upgrade House");
+        System.out.println("5 Move Room");
+        System.out.println("6 Edit Room");
+        System.out.println("7 Add Sim");
+        System.out.println("8 Change Sim");
+        System.out.println("9 List Object");
+        System.out.println("10 Go To Object");
         // don't forget to add action that sim can only do with interaction with object
 
     }
@@ -249,6 +250,37 @@ public class Manager {
         // View Inventory
         System.out.println("Here is your inventory");
         currentSim.getInventory().showInventory();
+    }
+
+    public static void moveRoom() {
+        clearScreen();
+        // Move Room
+        Scanner in = new Scanner(System.in);
+        System.out.println("Where do you want to go? (North / South / East / West)");
+        String direction = in.nextLine();
+        try {
+            switch (direction) {
+                case "North":
+                    currentSim.setRoom(currentSim.getRoom().getNorth());
+                    break;
+                case "South":
+                    currentSim.setRoom(currentSim.getRoom().getSouth());
+                    break;
+                case "East":
+                    currentSim.setRoom(currentSim.getRoom().getEast());
+                    break;
+                case "West":
+                    currentSim.setRoom(currentSim.getRoom().getWest());
+                    break;
+                default:
+                    System.out.println("Invalid Direction");
+                    break;
+            }
+            System.out.println("You are now in " + currentSim.getRoom().getName());
+            currentSim.getRoom().printRoom();
+        } catch (NullPointerException e) {
+            System.out.println("There is no room in that direction");
+        }
     }
 
     public static void editRoom() {
@@ -351,5 +383,21 @@ public class Manager {
         clearScreen();
         currentSim.getRoom().printRoom();
         currentSim.getRoom().showFurniture();
+    }
+
+    public static void goToObject() {
+        clearScreen();
+        Scanner in = new Scanner(System.in);
+        System.out.println("Here is the list of object that you have");
+        currentSim.getRoom().showFurniture();
+        System.out.println("Which object do you want to go?");
+        String objectName = in.nextLine();
+        Point point = currentSim.getRoom().getFurnitureLocation(objectName);
+        if (point == null) {
+            System.out.println("The object with the name '" + objectName + "' does not exist in the room.");
+            return;
+        }
+        currentSim.getRoom().adjustSimMap(currentSim, point);
+        System.out.println("You are now in front of " + objectName);
     }
 }

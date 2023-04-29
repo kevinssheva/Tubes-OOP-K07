@@ -33,6 +33,7 @@ public class Sim {
         this.inventory = new Inventory<>();
         this.home = home;
         currentRoom = home.getListRuangan().get(0);
+        currentRoom.adjustSimMap(this, new Point(0, 0));
         this.currentHome = home;
     }
 
