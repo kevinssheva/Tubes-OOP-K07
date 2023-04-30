@@ -8,6 +8,7 @@ import src.Objek.Furniture.Furniture;
 import src.Room.*;
 import src.Main;
 import src.Home.*;
+import src.Manager.*;
 
 public class Sim {
     private String name;
@@ -126,24 +127,33 @@ public class Sim {
     }
 
     public void exercise(Integer time) {
-        if (time % 20000 != 0)
+        if (time % 20 != 0)
             return;
         setStatus("Exercise");
         
         Thread exerciseThread = new Thread() {
             public void run() {
-                try {
-                    Thread.sleep(time * 1000);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                long finalTime = Main.timeNow + time;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
                 }
-                setHealth(health + 10);
-                setSatiety(satiety + 10);
-                System.out.println("Exercise done");
-                setStatus("Idle");
             }
         };
         exerciseThread.start();
+
+        try{
+            exerciseThread.join();
+            setHealth(health + 10);
+            setSatiety(satiety + 10);
+            System.out.println("Exercise done");
+            setStatus("Idle");
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     public void sleep(Integer time, Sim a) {
@@ -176,10 +186,13 @@ public class Sim {
             setStatus(String.format("Working as %s...", job.getName()));
             Thread workThread = new Thread() {
                 public void run() {
-                    try {
-                        Thread.sleep(time * 1000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    long finalTime = Main.timeNow + time;
+                    while (Main.timeNow < finalTime) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            System.out.println("Error");
+                        }
                     }
                     // System.out.println(getMoney());
                     // System.out.println(job.getDailyPay() * (time / 20));
@@ -199,7 +212,6 @@ public class Sim {
             }
         }
     }
-
     public void berkunjung(Home otherHome) {
         Thread visitThread = new Thread() {
             public void run() {

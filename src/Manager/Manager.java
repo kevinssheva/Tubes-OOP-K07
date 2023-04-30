@@ -200,6 +200,9 @@ public class Manager {
         System.out.println("Here is the list of thing that you can do");
         System.out.println("- Help");
         System.out.println("- Work");
+        System.out.println("- Exercise");
+        // sleep
+        
         System.out.println("- View Sim Info");
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
@@ -430,16 +433,29 @@ public class Manager {
                 break;
             case "Work":
                 clearScreen();
-                System.out.println(
-                        "Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
+                System.out.println("Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
                 int time = in.nextInt();
                 while (time % 20 != 0 && time != -1) {
                     System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
+                    time = in.nextInt();
                 }
 
                 if (time != -1) {
                     currentSim.kerja(time);
-                    System.out.println(currentSim.getStatus());
+                }
+
+                clickEnter();
+                break;
+            case "Exercise":
+                clearScreen();
+                System.out.println("Please input how many seconds do you want to exercise.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
+                int timeExercise = in.nextInt();
+                while(timeExercise % 20 != 0 && timeExercise != -1){
+                    System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
+                    timeExercise = in.nextInt();
+                }
+                if(timeExercise != -1){
+                    currentSim.exercise(timeExercise);
                 }
 
                 clickEnter();
