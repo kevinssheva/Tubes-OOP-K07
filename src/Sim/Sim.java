@@ -8,6 +8,7 @@ import src.Objek.Furniture.Furniture;
 import src.Room.*;
 import src.Main;
 import src.Home.*;
+import src.Manager.*;
 
 public class Sim {
     private String name;
@@ -102,7 +103,7 @@ public class Sim {
     }
 
     public void setMoney(Integer money) {
-        this.money = Math.min(100, money);
+        this.money = money;
     }
 
     public void setMood(Integer mood) {
@@ -126,60 +127,76 @@ public class Sim {
     }
 
     public void exercise(Integer time) {
-        if (time % 20000 != 0)
+        if (time % 20 != 0)
             return;
         setStatus("Exercise");
         
         Thread exerciseThread = new Thread() {
             public void run() {
-                try {
-                    Thread.sleep(time * 1000);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                long finalTime = Main.timeNow + time;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
                 }
-                setHealth(health + 10);
-                setSatiety(satiety + 10);
-                System.out.println("Exercise done");
-                setStatus("Idle");
             }
         };
         exerciseThread.start();
+
+        try{
+            exerciseThread.join();
+            setHealth(health + 10);
+            setSatiety(satiety + 10);
+            System.out.println("Exercise done");
+            setStatus("Idle");
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
-    public void sleep(Integer time, Sim a) {
-        setStatus(String.format("Sleeping..."));
-        Thread sleepThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    int siklus = time / 240;
-                    long startTime = Main.timeNow;
-                    long updateTime = 240;
-                    while ((Main.timeNow - startTime) <= time) {
-                        updateTime -= (Main.timeNow - startTime);
-                        while (siklus > 0) {
-                            a.setMood(getMood() + 30);
-                            a.setHealth(getHealth() + 20);
-                            siklus -= 1;
+    public void sleep(Integer time){
+        if(time % 240 == 0){
+            setStatus("Sleeping...");
+            Thread sleepThread = new Thread(){
+                public void run() {
+                    long finalTime = Main.timeNow + time;
+                    while (Main.timeNow < finalTime) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            System.out.println("Error");
                         }
                     }
-                } catch (Exception e) {
-
                 }
+            };
+            sleepThread.start();
+            try{
+                sleepThread.join();
+                setMood(getMood()+ (time/240)*30);
+                setHealth(getHealth() + (time/240)*20);
+                System.out.println("Sleeping done");
+                setStatus("Idle");
+            }catch(InterruptedException e){
+                e.printStackTrace();
             }
-        });
-        sleepThread.start();
+        }
     }
+
 
     public void kerja(Integer time) {
         if (time % 20 == 0) {
             setStatus(String.format("Working as %s...", job.getName()));
             Thread workThread = new Thread() {
                 public void run() {
-                    try {
-                        Thread.sleep(time * 1000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    long finalTime = Main.timeNow + time;
+                    while (Main.timeNow < finalTime) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            System.out.println("Error");
+                        }
                     }
                     // System.out.println(getMoney());
                     // System.out.println(job.getDailyPay() * (time / 20));
@@ -199,7 +216,6 @@ public class Sim {
             }
         }
     }
-
     public void berkunjung(Home otherHome) {
         Thread visitThread = new Thread() {
             public void run() {
@@ -224,18 +240,6 @@ public class Sim {
         visitThread.start();
     }
 
-    public void checkTime() {
-        long timeInSeconds = Main.timeNow;
-        int secondsPerRealDay = 86400;
-        int secondsPerSimplicityDay = 720;
-        int simDay = (int) timeInSeconds / 720;
-        timeInSeconds = timeInSeconds % 720;
-        int simHour = (int) timeInSeconds / 30;
-        timeInSeconds = timeInSeconds % 30;
-        int simMins = (int) timeInSeconds * 2;
-        System.out.println("Day " + simDay);
-        System.out.println(simHour + " " + simMins);
-    }
 
     public boolean stillAlive() {
         return mood > 0 && health > 0 && satiety > 0;

@@ -10,9 +10,8 @@ public abstract class Bed extends Furniture {
         super(name, "Tidur", price, dimensi);
     }
 
-    public void aksi(Sim a, Integer time) {
-        if (time % 240 != 0) return;
-        a.setStatus("Tidur");
+    public void aksi(Sim a, Integer time) { // i think this is useless :D
+        a.setStatus("Tidur"); 
         Thread sleepThread = new Thread() {
             public void run() {
                 try {

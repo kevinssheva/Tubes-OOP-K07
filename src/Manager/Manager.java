@@ -22,6 +22,8 @@ public class Manager {
     private static List<Sim> simList = new ArrayList<Sim>();
     private static boolean gameStarted = false;
     private static World world = new World();
+    private static String[] arrayBuyable = {"Single Bed","Queen Size Bed","King Size Bed","Toilet","Electric Stove","Gas Stove","Table and Chair","Clock","Rice","Potato","Chicken","Beef","Carrot","Spinach","Peanut","Milk"};
+    private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
     public static void buyThings(String thing) {
         List<Objek> putArray = new ArrayList<Objek>();
@@ -52,7 +54,9 @@ public class Manager {
                 putIntoInventory = gStove;
                 break;
             case "Table and Chair":
-                // hasnt implemented yet
+                MejaKursi mejaKursi= new MejaKursi();
+                putIntoInventory = mejaKursi;
+                break;
             case "Clock":
                 Clock clock = new Clock();
                 putIntoInventory = clock;
@@ -91,18 +95,59 @@ public class Manager {
                 break;
         }
 
-        long upperbound = Main.timeNow + 10; // don't forget to change this
-        Sim receiver = currentSim; // in case the currentsim changed;
         putArray.add(putIntoInventory);
-        Thread temp = new Thread() {
-            public void run() {
-                while (Main.timeNow < upperbound) {
-
+        Thread putInventoryThread = new Thread(){
+            public void run(){
+                Random rand = new Random();
+                long finalTime = Main.timeNow + rand.nextLong(45)+1;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
                 }
-                receiver.addToInventory(putArray.get(0));
+                currentSim.addToInventory(putArray.get(0));
+                System.out.println(putArray.get(0).getName() + " are already arrived at your inventory");
             }
         };
-        temp.start();
+
+        putInventoryThread.start();
+
+    }
+
+    public static void queryBuyThings(){
+        System.out.println("Here is the list of things that you can buy\n");
+        System.out.println("- Single Bed\nPrice : 50\nDimension : 4 x 1\n");
+        System.out.println("- Queen Size Bed\nPrice : 100\nDimension : 4 x 2\n");
+        System.out.println("- King Size Bed\nPrice : 150\nDimension : 5 x 2\n");
+        System.out.println("- Toilet\nPrice : 50\nDimension : 1 x 1\n");
+        System.out.println("- Gas Stove\nPrice : 100\nDimension : 2 x 1\n");
+        System.out.println("- Electrical Stove\nPrice : 200\nDimension : 1 x 1\n");
+        System.out.println("- Table and Chair\nPrice : 50\nDimension : 3 x 3\n");
+        System.out.println("- Jam\nPrice : 10\nDimension : 1 x 1\n");
+    
+        System.out.println("- Rice\nPrice : 5\nSatiety : 5\n");
+        System.out.println("- Potato\nPrice : 3\nSatiety : 4\n");
+        System.out.println("- Chicken\nPrice : 10\nSatiety : 8\n");
+        System.out.println("- Beef\nPrice : 12\nSatiety : 15\n");
+        System.out.println("- Carrot\nPrice : 3\nSatiety : 2\n");
+        System.out.println("- Spinach\nPrice : 3\nSatiety : 2\n");
+        System.out.println("- Peanut\nPrice : 2\nSatiety : 2\n");
+        System.out.println("- Milk\nPrice : 2\nSatiety : 1\n");
+        Scanner in = new Scanner(System.in);
+        System.out.println("Please type things that you want or type Quit if you want to cancel this");
+        String thingsName = in.nextLine();
+        while(buyableList.contains(thingsName) == false && thingsName.equals("Quit") == false){
+            System.out.println("There is no such thing. please type it another thing or type Quit if you want to cancel this");
+            thingsName = in.nextLine();
+        }
+
+        if(thingsName.equals("Quit")){
+            return;
+        }else{
+            buyThings(thingsName);
+        }
     }
 
     public static boolean isThereAnyWorkingSim() {
@@ -178,6 +223,7 @@ public class Manager {
         // System.out.println("Press Enter to return to the main menu...");
         // Scanner scanner = new Scanner(System.in);
         // scanner.nextLine();
+        System.out.println("Click enter to proceed");
         try {
             System.in.read();
         } catch (Exception E) {
@@ -199,6 +245,20 @@ public class Manager {
         System.out.println("Here is the list of thing that you can do");
         System.out.println("- Help");
         System.out.println("- Work");
+        System.out.println("- Exercise");
+        // sleep
+        if(currentSim.getRoom().checkBed(currentSim)){
+            System.out.println("- Sleep");
+        }
+        // eat
+        if(currentSim.getRoom().checkMejaKursi(currentSim)){
+            System.out.println("- Eat");
+        }
+        // cook
+        if(currentSim.getRoom().checkStove(currentSim)){
+            System.out.println("- Cook");
+        }
+        System.out.println("- Buy Things");
         System.out.println("- View Sim Info");
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
@@ -209,6 +269,7 @@ public class Manager {
         System.out.println("- Change Sim");
         System.out.println("- List Object");
         System.out.println("- Go To Object");
+        System.out.println("- Visit Other's Houses");
         System.out.println("- Exit");
         // don't forget to add action that sim can only do with interaction with object
 
@@ -429,19 +490,53 @@ public class Manager {
                 break;
             case "Work":
                 clearScreen();
-                System.out.println(
-                        "Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\n If you don't want to work,please type -1");
+                System.out.println("Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
                 int time = in.nextInt();
                 while (time % 20 != 0 && time != -1) {
                     System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
+                    time = in.nextInt();
                 }
 
                 if (time != -1) {
                     currentSim.kerja(time);
-                    System.out.println(currentSim.getStatus());
                 }
 
                 clickEnter();
+                break;
+            case "Exercise":
+                clearScreen();
+                System.out.println("Please input how many seconds do you want to exercise.\nMake sure the input is in multiples of 20.\nIf you don't want to work,please type -1");
+                int timeExercise = in.nextInt();
+                while(timeExercise % 20 != 0 && timeExercise != -1){
+                    System.out.println("Please input the multiples of 20 or -1 if you don't want to work");
+                    timeExercise = in.nextInt();
+                }
+                if(timeExercise != -1){
+                    currentSim.exercise(timeExercise);
+                }
+
+                clickEnter();
+                break;
+            case "Sleep":
+                clearScreen();
+                if(currentSim.getRoom().checkBed(currentSim)){
+                    System.out.println("Please input how many seconds do you want to sleep.\nMake sure the input is in multiples of 240.\nIf you don't want to work,please type -1");
+                    int timeSleep = in.nextInt();
+                    while(timeSleep % 20 != 0 && timeSleep != -1){
+                        System.out.println("Please input the multiples of 240 or -1 if you don't want to work");
+                        timeSleep = in.nextInt();
+                    }
+                    if(timeSleep != -1){
+                        currentSim.sleep(timeSleep);
+                    }                                        
+                }else{
+                    System.out.println("I know that you actually couldn't work because your sim are not sitting on top of a Bed.\nPlease do not do this again!");
+                }
+                clickEnter();
+                break;
+            case "Buy Things":
+                clearScreen();
+                queryBuyThings();
                 break;
             case "View Sim Info":
                 viewSimInfo();
@@ -458,6 +553,7 @@ public class Manager {
             case "Upgrade House":
                 break;
             case "Edit Room":
+                editRoom();
                 break;
             case "Add Sim":
                 generateSim();
