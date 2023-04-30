@@ -9,6 +9,8 @@ import src.Objek.Furniture.MejaKursi;
 import src.Objek.Furniture.Toilet;
 import src.Objek.Furniture.Bed.SingleBed;
 import src.Objek.Furniture.Stove.GasStove;
+import src.Objek.Dish.*;
+import src.Objek.Ingredients.*;
 
 public class Inventory<T extends Objek> {
     private Map<T, Integer> item;
@@ -49,6 +51,14 @@ public class Inventory<T extends Objek> {
     public void showFurnitureOnly() {
         for (T key : item.keySet()) {
             if (key instanceof Furniture) {
+                System.out.println(key.getName() + " : " + item.get(key));
+            }
+        }
+    }
+
+    public void showEdibleOnly() {
+        for (T key : item.keySet()) {
+            if (key instanceof Ingredients || key instanceof Dish) {
                 System.out.println(key.getName() + " : " + item.get(key));
             }
         }
