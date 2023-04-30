@@ -8,7 +8,7 @@ import src.Sim.*;
 
 public class MejaKursi extends Furniture{
     public MejaKursi(){
-        super("Meja dan Kursi", "Makan", 50, new Dimension(3, 3));
+        super("Table and Chair", "Makan", 50, new Dimension(3, 3));
     }
 
     public void aksi(Sim a, Edible food) throws Exception {

@@ -181,9 +181,152 @@ public class Manager {
     }
 
     public static void help() {
-        clearScreen();
-        System.out.println("Here is the list of help");
-        clickEnter();
+        while(true){
+            clearScreen();
+            System.out.println("Welcome to Sim-Plicity! A world where sims live.");
+            System.out.println("Sims can work, cook, eat, sleep, buy things, upgrade their house and more!");
+            System.out.println("Control your sims' actions and guide them through their everyday lives.");
+            System.out.println("And don't forget to make sure your sims are happy and healthy!\n");
+    
+            System.out.println("Here is the list of all ingame commands:");
+            System.out.println("- Help");
+            System.out.println("- Work");
+            System.out.println("- Exercise");
+            System.out.println("- Sleep");
+            System.out.println("- Eat");
+            System.out.println("- Cook");
+            System.out.println("- Buy Things");
+            System.out.println("- View Sim Info");
+            System.out.println("- View Current Location");
+            System.out.println("- View Inventory");
+            System.out.println("- Upgrade House");
+            System.out.println("- Move Room");
+            System.out.println("- Edit Room");
+            System.out.println("- Add Sim");
+            System.out.println("- Change Sim");
+            System.out.println("- List Object");
+            System.out.println("- Go To Object");
+            System.out.println("- Visit Other's Houses");
+            System.out.println("- Exit");
+            System.out.println("\nType in the command for details or type 'Back' to go back\n");
+    
+            Scanner in = new Scanner(System.in);
+            String query = in.nextLine();
+            switch (query) {
+                case "Help":
+                    clearScreen();
+                    System.out.println("Shows up this help menu.\nThis menu can be accessed in the main menu as well as ingame.");
+                    clickEnter();
+                    break;
+                case "Work":
+                    clearScreen();
+                    System.out.println("Puts your sim to work for the amount of time given");
+                    System.out.println("Effects:\n-10 satiety / 30 seconds\n-10 mood / 30 seconds\n+X money / 4 minutes (depending on the job that the sim has)\n");
+                    System.out.println("Sims can choose to work for 2 minutes(120s) or 4 minutes(240s) in one session.");
+                    System.out.println("A sim can only work for up to 4 minutes(240s) a day.");
+                    System.out.println("\nThis action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Exercise":
+                    clearScreen();
+                    System.out.println("Make your sim do exercise for the amount of time given");
+                    System.out.println("Effects:\n+5 health / 20 seconds\n-5 satiety / 20 seconds\n+10 mood / 20 seconds\n");
+                    System.out.println("Sims can choose to work for any time length with a multiple of 20 seconds.");
+                    System.out.println("\nThis action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Sleep":
+                    clearScreen();
+                    System.out.println("Puts your sim to sleep for the amount of time given");
+                    System.out.println("Effects:\n+30 mood / 4 minutes\n+20 health / 4 minutes\n");
+                    System.out.println("Sims can choose to sleep for any time length with a multiple of 20 seconds.");
+                    System.out.println("Not sleeping for too long will decrease mood and health by -5 for every 10 minutes without sleep.");
+                    System.out.println("\nSleeping will require your sim to be near Bed");
+                    System.out.println("This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Eat":
+                    clearScreen();
+                    System.out.println("Lets your sim eat a food item from the inventory.");
+                    System.out.println("Effects:\n+X satiety / food item (depending on the satiety level of the food item)\n");
+                    System.out.println("\nEating will require your sim to be near a Table and Chair\nand takes 30 seconds to finish");
+                    System.out.println("This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Cook":
+                    clearScreen();
+                    System.out.println("Lets your sim cook a dish using ingredients from the inventory.");
+                    System.out.println("Effects:\n+10 mood / dish\n");
+                    System.out.println("\nCooking will require your sim to be near a Stove\nand takes (1.5 x dish satiety level) seconds to finish");
+                    System.out.println("This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Buy Things":
+                    clearScreen();
+                    System.out.println("Lets your sim buy things from the shop.");
+                    System.out.println("Sims can buy things such as food ingredients and furniture.");
+                    System.out.println("Items bought will arrive at a random time of (1..5)*30s");
+                    System.out.println("The items will automatically be stored in the sims' inventory.");
+                    clickEnter();
+                    break;
+                case "View Sim Info":
+                    clearScreen();
+                    System.out.println("Lets you see the current stats of the sim.");
+                    System.out.println("Stats include name, job, health, satiety, mood, and money.");
+                    clickEnter();
+                    break;
+                case "View Current Location":
+                    clearScreen();
+                    System.out.println("Lets you see the current location of the sim,");
+                    System.out.println("including the house and the room that the sim is currently in.");
+                    clickEnter();
+                    break;
+                case "View Inventory":
+                    clearScreen();
+                    System.out.println("Lets you see the what the sim has in their inventory");
+                    clickEnter();
+                    break;
+                case "Upgrade House":
+                    clearScreen();
+                    System.out.println("Lets your sim upgrade their house by adding a new room.");
+                    clickEnter();
+                    break;
+                case "Edit Room":
+                    clearScreen();
+                    System.out.println("Lets you place a furniture in the room from the sim's inventory.");
+                    clickEnter();
+                    break;
+                case "Add Sim":
+                    clearScreen();
+                    System.out.println("Lets you create another sim in the game world.");
+                    System.out.println("You can choose the name and job of the new sim.");
+                    System.out.println("The new sim will have a new house to live in the world.");
+                    clickEnter();
+                    break;
+                case "Change Sim":
+                    clearScreen();
+                    System.out.println("Lets you choose another sim in the game world to control.");
+                    clickEnter();
+                    break;
+                case "List Object":
+                    clearScreen();
+                    System.out.println("Shows a list of all objects in the current room.");
+                    clickEnter();
+                    break;
+                case "Go To Object":
+                    clearScreen();
+                    System.out.println("Lets your sim move to an object in the current room");
+                    clickEnter();
+                    break;
+                case "Exit":
+                    clearScreen();
+                    System.out.println("Exits the game.");
+                    clickEnter();
+                    break;
+                case "Back":
+                    return;
+            }
+        }
     }
 
     public static void gameMenu() {
@@ -305,10 +448,10 @@ public class Manager {
         System.out.println("Here is the information of your sim");
         System.out.println("Name : " + currentSim.getName());
         System.out.println("Job : " + currentSim.getJob().getName());
-        System.out.println("Kesehatan : " + currentSim.getHealth());
-        System.out.println("Kekenyangan : " + currentSim.getSatiety());
+        System.out.println("Health : " + currentSim.getHealth());
+        System.out.println("Satiety : " + currentSim.getSatiety());
         System.out.println("Mood : " + currentSim.getMood());
-        System.out.println("Uang : " + currentSim.getMoney());
+        System.out.println("Money : " + currentSim.getMoney());
         clickEnter();
     }
 
@@ -490,15 +633,24 @@ public class Manager {
                 break;
             case "Work":
                 clearScreen();
+                if(currentSim.getWorkToday() == 4){
+                    System.out.println("This sim has completed their daily work. They cannot work anymore today.");
+                    clickEnter();
+                    break;
+                }
                 System.out.println("Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
                 int time = in.nextInt();
-                while (time % 20 != 0 && time != -1) {
+                while (time % 120 != 0 && time != -1) {
                     System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
                     time = in.nextInt();
                 }
 
                 if (time != -1) {
-                    currentSim.kerja(time);
+                    if(currentSim.getWorkToday() == 2){
+                        currentSim.kerja(120);
+                    } else if (currentSim.getWorkToday() == 0 && time>120){
+                        currentSim.kerja(240);
+                    }
                 }
 
                 clickEnter();
@@ -576,5 +728,9 @@ public class Manager {
 
     public static boolean isCurrentSimWorking() {
         return currentSim.getStatus().equals("Idle") == false;
+    }
+
+    public static void dailyReset(){ // kalo perlu buat yang update per hari
+        currentSim.setWorkToday(0);
     }
 }
