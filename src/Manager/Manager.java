@@ -329,25 +329,94 @@ public class Manager {
 
     }
 
+    public static void upgradeHouse() {
+        clearScreen();
+        // Upgrade House
+        System.out.println("Here is your list of room in your house");
+        currentSim.getHome().showRoom();
+        System.out.println("What room do you want to use as a reference?");
+        Scanner in = new Scanner(System.in);
+        String room = in.nextLine();
+        Room referenceRoom = currentSim.getHome().getRoomByName(room);
+        while (referenceRoom == null || referenceRoom.getUnderConstruction()) {
+            System.out.println("Room not available, please try again");
+            room = in.nextLine();
+        }
+
+        System.out.println("What room do you want to add?");
+        String newRoom = in.nextLine();
+        while (currentSim.getHome().checkRoom(newRoom)) {
+            System.out.println("Room already exist, please try again");
+            newRoom = in.nextLine();
+        }
+
+        System.out.println("What direction do you want to add the room? (north / south / east / west)");
+        String direction = in.nextLine();        
+        currentSim.getHome().addRuangan(room, direction, newRoom);
+        currentSim.getHome().showRoom();
+
+        final String roomNameFinal = newRoom;
+
+        Thread upgradeThread = new Thread(){
+            public void run(){
+                long finalTime = Main.timeNow + 20;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
+                }
+                currentSim.getHome().getRoomByName(roomNameFinal).setUnderConstruction(false);
+            }
+        };
+        upgradeThread.start();
+    }
+
     public static void moveRoom() {
         clearScreen();
         // Move Room
         Scanner in = new Scanner(System.in);
         System.out.println("Where do you want to go? (North / South / East / West)");
         String direction = in.nextLine();
+        Room temp = currentSim.getRoom();
         try {
             switch (direction) {
                 case "North":
-                    currentSim.setRoom(currentSim.getRoom().getNorth());
+                    if (temp.getNorth().getUnderConstruction()) {
+                        System.out.println("Room is under construction");
+                        break;
+                    }
+                    currentSim.setRoom(temp.getNorth());
+                    currentSim.getRoom().adjustSimMap(currentSim, new Point(5, 0));
+                    temp.removeSimMap(currentSim);
                     break;
                 case "South":
-                    currentSim.setRoom(currentSim.getRoom().getSouth());
+                    if (temp.getSouth().getUnderConstruction()) {
+                        System.out.println("Room is under construction");
+                        break;
+                    }
+                    currentSim.setRoom(temp.getSouth());
+                    currentSim.getRoom().adjustSimMap(currentSim, new Point(0, 0));
+                    temp.removeSimMap(currentSim);
                     break;
                 case "East":
-                    currentSim.setRoom(currentSim.getRoom().getEast());
+                    if (temp.getEast().getUnderConstruction()) {
+                        System.out.println("Room is under construction");
+                        break;
+                    }
+                    currentSim.setRoom(temp.getEast());
+                    currentSim.getRoom().adjustSimMap(currentSim, new Point(0, 0));
+                    temp.removeSimMap(currentSim);
                     break;
                 case "West":
-                    currentSim.setRoom(currentSim.getRoom().getWest());
+                    if (temp.getWest().getUnderConstruction()) {
+                        System.out.println("Room is under construction");
+                        break;
+                    }
+                    currentSim.setRoom(temp.getWest());
+                    currentSim.getRoom().adjustSimMap(currentSim, new Point(0, 5));
+                    temp.removeSimMap(currentSim);
                     break;
                 default:
                     System.out.println("Invalid Direction");
@@ -357,7 +426,9 @@ public class Manager {
             currentSim.getRoom().printRoom();
         } catch (NullPointerException e) {
             System.out.println("There is no room in that direction");
+            currentSim.setRoom(temp);
         }
+        clickEnter();
     }
 
     public static void editRoom() {
@@ -551,9 +622,14 @@ public class Manager {
                 viewInventory();
                 break;
             case "Upgrade House":
+                upgradeHouse();
+                clickEnter();
                 break;
             case "Edit Room":
                 editRoom();
+                break;
+            case "Move Room":
+                moveRoom();
                 break;
             case "Add Sim":
                 generateSim();

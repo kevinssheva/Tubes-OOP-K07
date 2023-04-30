@@ -19,6 +19,7 @@ public class Room {
     private Furniture[][] roomMap;
     private Map<Furniture, List<Point>> furnitureList;
     private Map<Sim, Point> simMap;
+    private boolean underConstruction;
 
     public Room(String name) {
         roomName = name;
@@ -30,6 +31,20 @@ public class Room {
         roomMap = new Furniture[dimensi.width][dimensi.height];
         furnitureList = new HashMap<Furniture, List<Point>>();
         simMap = new HashMap<Sim, Point>();
+        underConstruction = false;
+    }
+
+    public Room(String name, boolean underConstruction) {
+        roomName = name;
+        north = null;
+        south = null;
+        west = null;
+        east = null;
+        dimensi = new Dimension(6, 6);
+        roomMap = new Furniture[dimensi.width][dimensi.height];
+        furnitureList = new HashMap<Furniture, List<Point>>();
+        simMap = new HashMap<Sim, Point>();
+        this.underConstruction = underConstruction;
     }
 
     public String getName() {
@@ -68,6 +83,10 @@ public class Room {
         return simMap;
     }
 
+    public boolean getUnderConstruction() {
+        return underConstruction;
+    }
+
     public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
@@ -92,8 +111,16 @@ public class Room {
         this.roomMap = roomMap;
     }
 
+    public void setUnderConstruction(boolean underConstruction) {
+        this.underConstruction = underConstruction;
+    }
+
     public void adjustSimMap(Sim sim, Point newLocation) {
         simMap.put(sim, newLocation);
+    }
+
+    public void removeSimMap(Sim sim) {
+        simMap.remove(sim);
     }
 
     public void setFurnitureList(Map<Furniture, List<Point>> furnitureList) {
