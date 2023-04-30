@@ -22,6 +22,8 @@ public class Manager {
     private static List<Sim> simList = new ArrayList<Sim>();
     private static boolean gameStarted = false;
     private static World world = new World();
+    private String[] arrayBuyable = {"Single Bed","Queen Size Bed","King Size Bed","Toilet","Electric Stove","Gas Stove","Table and Chair","Clock","Rice","Potato","Chicken","Beef","Carrot","Spinach","Peanut","Milk"};
+    private ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
     public static void buyThings(String thing) {
         List<Objek> putArray = new ArrayList<Objek>();
@@ -103,6 +105,28 @@ public class Manager {
             }
         };
         temp.start();
+    }
+
+    public static void queryBuyThings(){
+        System.out.println("Here is the list of things that you can buy\n");
+        System.out.println("- Single Bed\nPrice : 50\nDimension : 4 x 1\n");
+        System.out.println("- Queen Size Bed\nPrice : 100\nDimension : 4 x 2\n");
+        System.out.println("- King Size Bed\nPrice : 150\nDimension : 5 x 2\n");
+        System.out.println("- Toilet\nPrice : 50\nDimension : 1 x 1\n");
+        System.out.println("- Gas Stove\nPrice : 100\nDimension : 2 x 1\n");
+        System.out.println("- Electrical Stove\nPrice : 200\nDimension : 1 x 1\n");
+        System.out.println("- Table and Chair\nPrice : 50\nDimension : 3 x 3\n");
+        System.out.println("- Jam\nPrice : 10\nDimension : 1 x 1\n");
+    
+        System.out.println("- Rice\nPrice : 5\nSatiety : 5\n");
+        System.out.println("- Potato\nPrice : 3\nSatiety : 4\n");
+        System.out.println("- Chicken\nPrice : 10\nSatiety : 8\n");
+        System.out.println("- Beef\nPrice : 12\nSatiety : 15\n");
+        System.out.println("- Carrot\nPrice : 3\nSatiety : 2\n");
+        System.out.println("- Spinach\nPrice : 3\nSatiety : 2\n");
+        System.out.println("- Peanut\nPrice : 2\nSatiety : 2\n");
+        System.out.println("- Milk\nPrice : 2\nSatiety : 1\n");
+
     }
 
     public static boolean isThereAnyWorkingSim() {
@@ -213,6 +237,7 @@ public class Manager {
         if(currentSim.getRoom().checkStove(currentSim)){
             System.out.println("- Cook");
         }
+        System.out.println("- Buy things");
         System.out.println("- View Sim Info");
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
@@ -488,6 +513,9 @@ public class Manager {
                 }
                 clickEnter();
                 break;
+            case "Buy Things":
+                clearScreen();
+                queryBuyThings();
             case "View Sim Info":
                 viewSimInfo();
                 break;
