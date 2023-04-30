@@ -19,17 +19,19 @@ public class World {
     }
 
     public void addHome(Home home) {
-        for (int i = 0; i < 64; i++) {
-            for (int j = 0; j < 64; j++) {
-                if (petaWorld[i][j] == null) {
-                    Point temp = new Point(i, j);
-                    home.setLocation(temp);
-                    this.listRumah.add(home);
-                    petaWorld[i][j] = home;
-                    return;
-                }
-            }
+        Random rand = new Random();
+        int i = rand.nextInt(64);
+        int j = rand.nextInt(64);
+        while(petaWorld[i][j] != null){
+             i = rand.nextInt(64);
+             j = rand.nextInt(64);        
         }
+        Point point = new Point(i,j);
+        home.setLocation(point);
+        this.listRumah.add(home);
+        petaWorld[i][j] = home;
+        return;
+
     } 
 
     // public Home addHome(String name) {

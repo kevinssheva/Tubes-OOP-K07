@@ -55,7 +55,7 @@ public class Sim {
     }
 
     public void setSatiety(Integer satiety) {
-        this.satiety = satiety;
+        this.satiety = Math.min(satiety,100);
     }
 
     public Integer getHealth() {
