@@ -290,6 +290,23 @@ public class Room {
             return false;        
     }
 
+    public boolean checkTableAndChair(Sim sim){
+        for(Map.Entry<Sim,Point> entry : simMap.entrySet()){
+            if(entry.getKey().equals(sim)){
+                for(Map.Entry<Furniture,List<Point>> entryFurniture : furnitureList.entrySet()){
+                    if(entryFurniture.getKey() instanceof MejaKursi){
+                        for(Point pointFurniture : entryFurniture.getValue()){
+                            if(pointFurniture.equals(entry.getValue())){
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;        
+}
+
     public static void main(String[] args) {
         Room room = new Room("Kamar 1");
         System.out.println("Room Name: " + room.getName());
