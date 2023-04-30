@@ -95,7 +95,11 @@ public class Manager {
                 putIntoInventory = milk;
                 break;
         }
-
+        if(((Buyable)putIntoInventory).getPrice() > currentSim.getMoney()){
+            System.out.println("Your money is not sufficient");
+            clickEnter();
+            return;
+        }
         putArray.add(putIntoInventory);
         Thread putInventoryThread = new Thread(){
             public void run(){
@@ -124,7 +128,7 @@ public class Manager {
         System.out.println("- King Size Bed\nPrice : 150\nDimension : 5 x 2\n");
         System.out.println("- Toilet\nPrice : 50\nDimension : 1 x 1\n");
         System.out.println("- Gas Stove\nPrice : 100\nDimension : 2 x 1\n");
-        System.out.println("- Electrical Stove\nPrice : 200\nDimension : 1 x 1\n");
+        System.out.println("- Electric Stove\nPrice : 200\nDimension : 1 x 1\n");
         System.out.println("- Table and Chair\nPrice : 50\nDimension : 3 x 3\n");
         System.out.println("- Jam\nPrice : 10\nDimension : 1 x 1\n");
     
