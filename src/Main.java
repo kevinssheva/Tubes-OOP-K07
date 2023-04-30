@@ -7,6 +7,7 @@ import src.Home.*;
 
 public class Main {
     public static long timeNow = 0; // time is in second
+     
 
     public static void runTheTime() {
         Thread temp = new Thread() {
@@ -27,6 +28,7 @@ public class Main {
         temp.start();
     }
 
+
     public static void main(String args[]) {
         runTheTime();
         while(Manager.getGameStarted() == false)
@@ -46,5 +48,7 @@ public class Main {
             }
 
         }
+
+        System.exit(0);
     }
 }

@@ -178,6 +178,7 @@ public class Manager {
         // System.out.println("Press Enter to return to the main menu...");
         // Scanner scanner = new Scanner(System.in);
         // scanner.nextLine();
+        System.out.println("Click enter to proceed");
         try {
             System.in.read();
         } catch (Exception E) {
@@ -430,7 +431,7 @@ public class Manager {
             case "Work":
                 clearScreen();
                 System.out.println(
-                        "Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\n If you don't want to work,please type -1");
+                        "Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
                 int time = in.nextInt();
                 while (time % 20 != 0 && time != -1) {
                     System.out.println("Please input the multiples of 120 or -1 if you don't want to work");

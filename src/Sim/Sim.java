@@ -102,7 +102,7 @@ public class Sim {
     }
 
     public void setMoney(Integer money) {
-        this.money = Math.min(100, money);
+        this.money = money;
     }
 
     public void setMood(Integer mood) {
