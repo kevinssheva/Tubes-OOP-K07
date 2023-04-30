@@ -3,7 +3,7 @@ package src.Room;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.*;
-
+import src.Objek.Furniture.Bed.*;
 import src.Objek.Furniture.Furniture;
 import src.Sim.Sim;
 
@@ -207,6 +207,23 @@ public class Room {
                 System.out.println("(" + point.getX() + ", " + point.getY() + ")");
             }
         }
+    }
+
+    public boolean checkBed(Sim sim){ // checking whether the sim is standing on top of a bed
+        for(Map.Entry<Sim,Point> entry : simMap.entrySet()){
+            if(entry.getKey().equals(sim)){
+                for(Map.Entry<Furniture,List<Point>> entryFurniture : furnitureList.entrySet()){
+                    if(entryFurniture.getKey() instanceof Bed){
+                        for(Point pointFurniture : entryFurniture.getValue()){
+                            if(pointFurniture.equals(entry.getValue())){
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {

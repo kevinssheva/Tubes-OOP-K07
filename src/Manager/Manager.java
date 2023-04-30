@@ -202,7 +202,9 @@ public class Manager {
         System.out.println("- Work");
         System.out.println("- Exercise");
         // sleep
-        
+        if(currentSim.getRoom().checkBed(currentSim)){
+            System.out.println("- Sleep");
+        }
         System.out.println("- View Sim Info");
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
@@ -448,16 +450,32 @@ public class Manager {
                 break;
             case "Exercise":
                 clearScreen();
-                System.out.println("Please input how many seconds do you want to exercise.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
+                System.out.println("Please input how many seconds do you want to exercise.\nMake sure the input is in multiples of 20.\nIf you don't want to work,please type -1");
                 int timeExercise = in.nextInt();
                 while(timeExercise % 20 != 0 && timeExercise != -1){
-                    System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
+                    System.out.println("Please input the multiples of 20 or -1 if you don't want to work");
                     timeExercise = in.nextInt();
                 }
                 if(timeExercise != -1){
                     currentSim.exercise(timeExercise);
                 }
 
+                clickEnter();
+                break;
+            case "Sleep":
+                if(currentSim.getRoom().checkBed(currentSim)){
+                    System.out.println("Please input how many seconds do you want to sleep.\nMake sure the input is in multiples of 20.\nIf you don't want to work,please type -1");
+                    int timeSleep = in.nextInt();
+                    while(timeSleep % 20 != 0 && timeSleep != -1){
+                        System.out.println("Please input the multiples of 20 or -1 if you don't want to work");
+                        timeSleep = in.nextInt();
+                    }
+                    if(timeSleep != -1){
+                        currentSim.exercise(timeSleep);
+                    }                                        
+                }else{
+                    System.out.println("I know that you actually couldn't work because your sim are not sitting on top of a Bed.\nPlease do not do this again!");
+                }
                 clickEnter();
                 break;
             case "View Sim Info":
@@ -475,6 +493,7 @@ public class Manager {
             case "Upgrade House":
                 break;
             case "Edit Room":
+                editRoom();
                 break;
             case "Add Sim":
                 generateSim();

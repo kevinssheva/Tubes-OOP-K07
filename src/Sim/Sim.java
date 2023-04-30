@@ -156,30 +156,6 @@ public class Sim {
         }
     }
 
-    public void sleep(Integer time, Sim a) {
-        setStatus(String.format("Sleeping..."));
-        Thread sleepThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    int siklus = time / 240;
-                    long startTime = Main.timeNow;
-                    long updateTime = 240;
-                    while ((Main.timeNow - startTime) <= time) {
-                        updateTime -= (Main.timeNow - startTime);
-                        while (siklus > 0) {
-                            a.setMood(getMood() + 30);
-                            a.setHealth(getHealth() + 20);
-                            siklus -= 1;
-                        }
-                    }
-                } catch (Exception e) {
-
-                }
-            }
-        });
-        sleepThread.start();
-    }
 
     public void kerja(Integer time) {
         if (time % 20 == 0) {
@@ -236,18 +212,6 @@ public class Sim {
         visitThread.start();
     }
 
-    public void checkTime() {
-        long timeInSeconds = Main.timeNow;
-        int secondsPerRealDay = 86400;
-        int secondsPerSimplicityDay = 720;
-        int simDay = (int) timeInSeconds / 720;
-        timeInSeconds = timeInSeconds % 720;
-        int simHour = (int) timeInSeconds / 30;
-        timeInSeconds = timeInSeconds % 30;
-        int simMins = (int) timeInSeconds * 2;
-        System.out.println("Day " + simDay);
-        System.out.println(simHour + " " + simMins);
-    }
 
     public boolean stillAlive() {
         return mood > 0 && health > 0 && satiety > 0;
