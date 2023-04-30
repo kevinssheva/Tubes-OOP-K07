@@ -1,6 +1,8 @@
 package src.Manager;
 
 import java.awt.Point;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.*;
 import src.Sim.*;
 import src.Main;
@@ -162,19 +164,20 @@ public class Manager {
                 break;
         }
     }
-    
-    public static void exitTheGame()
-    {
+
+    public static void exitTheGame() {
         System.out.println("Thank you for playing this game!");
         System.exit(0);
     }
 
-    public static boolean getGameStarted()
-    {
+    public static boolean getGameStarted() {
         return gameStarted;
     }
 
     public static void clickEnter() {
+        // System.out.println("Press Enter to return to the main menu...");
+        // Scanner scanner = new Scanner(System.in);
+        // scanner.nextLine();
         try {
             System.in.read();
         } catch (Exception E) {
@@ -217,10 +220,9 @@ public class Manager {
         return world;
     }
 
-    public static Sim getCurrentSim(){
+    public static Sim getCurrentSim() {
         return currentSim;
     }
-
 
     public static void clearScreen() {
         System.out.print("\033[H\033[2J"); // this is for clearscreen
@@ -263,7 +265,7 @@ public class Manager {
         System.out.println("Here is your inventory");
         currentSim.getInventory().showInventory();
         clickEnter();
-        
+
     }
 
     public static void moveRoom() {
@@ -376,7 +378,7 @@ public class Manager {
         System.out.println("Your sim has been generated! ");
         clickEnter();
         simList.add(sim);
-        if(currentSim == null){
+        if (currentSim == null) {
             currentSim = sim;
         }
     }
@@ -393,7 +395,7 @@ public class Manager {
         currentSim = simList.get(chooseSim - 1);
         System.out.println("You have changed your sim to " + currentSim.getName());
         clickEnter();
-        
+
     }
 
     public static void listObject() {
@@ -418,26 +420,27 @@ public class Manager {
         System.out.println("You are now in front of " + objectName);
     }
 
-    public static void doQuery(){
+    public static void doQuery() {
         Scanner in = new Scanner(System.in);
         String query = in.nextLine();
-        switch(query){
+        switch (query) {
             case "Help":
                 help();
                 break;
             case "Work":
                 clearScreen();
-                System.out.println("Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\n If you don't want to work,please type -1");
+                System.out.println(
+                        "Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\n If you don't want to work,please type -1");
                 int time = in.nextInt();
-                while(time%120 != 0 && time != -1){
+                while (time % 20 != 0 && time != -1) {
                     System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
                 }
 
-                if(time != -1){
+                if (time != -1) {
                     currentSim.kerja(time);
                     System.out.println(currentSim.getStatus());
                 }
-                
+
                 clickEnter();
                 break;
             case "View Sim Info":
@@ -455,7 +458,7 @@ public class Manager {
             case "Upgrade House":
                 break;
             case "Edit Room":
-                break; 
+                break;
             case "Add Sim":
                 generateSim();
                 break;
@@ -469,14 +472,13 @@ public class Manager {
             case "Exit":
                 exitTheGame();
                 break;
-            
+
             // add more action
-                
+
         }
     }
 
-    public static boolean isCurrentSimWorking()
-    {
+    public static boolean isCurrentSimWorking() {
         return currentSim.getStatus().equals("Idle") == false;
     }
 }
