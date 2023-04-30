@@ -16,6 +16,7 @@ import src.Objek.Ingredients.Ingredients;
 import src.Room.Room;
 import src.Job.*;
 import src.World.*;
+import src.Objek.*;
 
 public class Manager {
     private static Sim currentSim = null;
@@ -94,7 +95,11 @@ public class Manager {
                 putIntoInventory = milk;
                 break;
         }
-
+        if(((Buyable)putIntoInventory).getPrice() > currentSim.getMoney()){
+            System.out.println("Your money is not sufficient");
+            clickEnter();
+            return;
+        }
         putArray.add(putIntoInventory);
         Thread putInventoryThread = new Thread(){
             public void run(){
@@ -123,7 +128,7 @@ public class Manager {
         System.out.println("- King Size Bed\nPrice : 150\nDimension : 5 x 2\n");
         System.out.println("- Toilet\nPrice : 50\nDimension : 1 x 1\n");
         System.out.println("- Gas Stove\nPrice : 100\nDimension : 2 x 1\n");
-        System.out.println("- Electrical Stove\nPrice : 200\nDimension : 1 x 1\n");
+        System.out.println("- Electric Stove\nPrice : 200\nDimension : 1 x 1\n");
         System.out.println("- Table and Chair\nPrice : 50\nDimension : 3 x 3\n");
         System.out.println("- Jam\nPrice : 10\nDimension : 1 x 1\n");
     
@@ -530,7 +535,18 @@ public class Manager {
                         currentSim.sleep(timeSleep);
                     }                                        
                 }else{
-                    System.out.println("I know that you actually couldn't work because your sim are not sitting on top of a Bed.\nPlease do not do this again!");
+                    System.out.println("you know that you actually couldn't Sleep because your sim are not sitting on top of a Bed.\nPlease do not do this again!");
+                }
+                clickEnter();
+                break;
+            case "Eat":
+                clearScreen();
+                if(currentSim.getRoom().checkTableAndChair(currentSim)){
+                    currentSim.getInventory().showEdibleOnly();
+                    chooseFood();
+
+                }else{
+                    System.out.println("you know that you actually couldn't eat because your sim are not sitting on top of a Table and Chair.\nPlease do not do this again!");
                 }
                 clickEnter();
                 break;
@@ -551,6 +567,7 @@ public class Manager {
                 viewInventory();
                 break;
             case "Upgrade House":
+                
                 break;
             case "Edit Room":
                 editRoom();
@@ -574,7 +591,27 @@ public class Manager {
         }
     }
 
+    public static void chooseFood(){
+        System.out.println("Please choose your food or type Quit if you want to cancel");
+        Scanner in = new Scanner(System.in);
+        String food = in.nextLine();
+
+        while(currentSim.getInventory().getItemByName(food) == null && food.equals("Quit") == false){
+            System.out.println("Your input is wrong.Please choose your food or type Quit if you want to cancel");
+            food = in.nextLine();
+        }
+
+        if(food.equals("Quit")){
+
+        }else{
+            currentSim.setSatiety(currentSim.getSatiety() + (Integer)((Edible)currentSim.getInventory().getItemByName(food)).getKekenyangan());
+            System.out.println("You has eaten " + currentSim.getInventory().getItemByName(food).getName() + " and your satiety increased by " + (Integer)((Edible)currentSim.getInventory().getItemByName(food)).getKekenyangan());
+            currentSim.getInventory().removeItem(currentSim.getInventory().getItemByName(food));
+        }
+    }
+
     public static boolean isCurrentSimWorking() {
         return currentSim.getStatus().equals("Idle") == false;
     }
+
 }
