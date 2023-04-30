@@ -95,8 +95,6 @@ public class Manager {
                 break;
         }
 
-        long upperbound = Main.timeNow + 10; // don't forget to change this
-        Sim receiver = currentSim; // in case the currentsim changed;
         putArray.add(putIntoInventory);
         Thread putInventoryThread = new Thread(){
             public void run(){
@@ -110,7 +108,7 @@ public class Manager {
                     }
                 }
                 currentSim.addToInventory(putArray.get(0));
-                System.out.println(putArray.get(0).getClass().getSimpleName() + " are already arrived at your inventory");
+                System.out.println(putArray.get(0).getName() + " are already arrived at your inventory");
             }
         };
 
@@ -539,7 +537,7 @@ public class Manager {
             case "Buy Things":
                 clearScreen();
                 queryBuyThings();
-
+                break;
             case "View Sim Info":
                 viewSimInfo();
                 break;
