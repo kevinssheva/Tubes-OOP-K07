@@ -23,6 +23,7 @@ public class Sim {
     private Home currentHome; // misal kalo berkunjung currentHome nya yang ganti bukan home nya
     private Home home; // punya rumah sendiri
     private Integer workToday = 0;  // catet waktu kerja yg udah dilakuin hari itu
+    private Integer currentWorkTotal = 0;   // catet waktu kerja total buat ganti job
 
     public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status,
             Home home) {
@@ -91,12 +92,20 @@ public class Sim {
         return home;
     }
 
+    public Home getCurrentHome() {
+        return currentHome;
+    }
+
     public Inventory<Objek> getInventory() {
         return inventory;
     }
 
     public Integer getWorkToday() {
         return workToday;
+    }
+
+    public Integer getCurrentWorkTotal() {
+        return currentWorkTotal;
     }
 
     public void setHealth(Integer health) {
@@ -130,9 +139,17 @@ public class Sim {
     public void setHome(Home h) {
         this.home = h;
     }
+
+    public void setCurrentHome(Home h) {
+        this.currentHome = h;
+    }
     
     public void setWorkToday(Integer workToday) {
         this.workToday = workToday;
+    }
+
+    public void setCurrentWorkTotal(Integer currentWorkTotal) {
+        this.currentWorkTotal = currentWorkTotal;
     }
 
     public void exercise(Integer time) {
@@ -217,7 +234,8 @@ public class Sim {
                 workThread.join();
                 setSatiety(getSatiety() - (10 * (time / 30)));
                 setMood(getMood() - (10 * (time / 30)));
-                setWorkToday(getWorkToday() + (time / 120));
+                setWorkToday(getWorkToday() + (time / 60));
+                setCurrentWorkTotal((time / 60) + getCurrentWorkTotal());
                 System.out.println("Work session done");
                 if(getWorkToday() == 4){
                     setMoney(getMoney() + job.getDailyPay());
@@ -229,21 +247,30 @@ public class Sim {
             }
         }
     }
+    
     public void berkunjung(Home otherHome) {
         Thread visitThread = new Thread() {
             public void run() {
                 try {
                     setStatus("Visiting another house...");
-                    long startTime = Main.timeNow;
-                    long updateTime = 30;
                     double time = getHome().getLocation().distance(otherHome.getLocation());
-                    while ((Main.timeNow - startTime) <= time) {
-                        updateTime -= (Main.timeNow - startTime);
-                        if (updateTime <= 0) {
-                            setMood(getMood() + 10);
-                            setSatiety(getSatiety() - 10);
+                    Thread.sleep(time*1000);
+                    setCurrentHome(otherHome);
+                    setStatus("Idle");
+                    long startTime = Main.timeNow;
+                    boolean start = false;
+                    while (!getStatus().equals("Going back home...")) {
+                        if ((Main.timeNow - startTime) % 30 == 0) {
+                            if (start) {                           // buat pastiin ga langsung ngeubah pas baru sampe
+                                setMood(getMood() + 10);
+                                setSatiety(getSatiety() - 10);
+                            } else {
+                                start = true;
+                            }
                         }
                     }
+                    Thread.sleep(time*1000);
+                    setCurrentHome(getHome());
                     setStatus("Idle");
                 } catch (Exception e) {
 
@@ -251,6 +278,10 @@ public class Sim {
             }
         };
         visitThread.start();
+    }
+
+    public void kembali(){
+        setStatus("Going back home...");
     }
 
 

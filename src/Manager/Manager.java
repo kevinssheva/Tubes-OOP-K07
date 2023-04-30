@@ -280,6 +280,13 @@ public class Manager {
                     System.out.println("Stats include name, job, health, satiety, mood, and money.");
                     clickEnter();
                     break;
+                case "Change Sim Job":
+                    clearScreen();
+                    System.out.println("Lets you change the current job of the sim.");
+                    System.out.println("Changing jobs will require the sim to have already worked in their current job for a minimum of 12 minutes");
+                    System.out.println("as well as pay money as much as the new job's daily salary divided by 2 rounded down.");
+                    clickEnter();
+                    break;
                 case "View Current Location":
                     clearScreen();
                     System.out.println("Lets you see the current location of the sim,");
@@ -321,6 +328,15 @@ public class Manager {
                 case "Go To Object":
                     clearScreen();
                     System.out.println("Lets your sim move to an object in the current room");
+                    clickEnter();
+                    break;
+                case "Visit Other's Houses":
+                    clearScreen();
+                    System.out.println("Lets your sim visit another sim's house.");
+                    System.out.println("Effects:\n+10 mood / 30 seconds spent in other house\n-10 satiety / 30 seconds spent in other house\n");
+                    System.out.println("Visiting requires the sim to walk to the other house for (house distance) amount of seconds.");
+                    System.out.println("Walking is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    System.out.println("After arriving, the sim becomes idle and can act normally except for upgrade house and edit room.");
                     clickEnter();
                     break;
                 case "Exit":
@@ -408,6 +424,10 @@ public class Manager {
         }
         System.out.println("- Buy Things");
         System.out.println("- View Sim Info");
+        // change job
+        if(currentSim.getCurrentWorkTotal()>=12){
+            System.out.println("- Change Sim Job");
+        }
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
         System.out.println("- Upgrade House");
@@ -716,7 +736,7 @@ public class Manager {
                 }
                 System.out.println("Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
                 int time = in.nextInt();
-                while (time % 120 != 0 && time != -1) {
+                while (time % 120 != 0 && time/60 <= 4-currentSim.getWorkToday() && time != -1) {
                     System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
                     time = in.nextInt();
                 }
@@ -773,12 +793,80 @@ public class Manager {
                 }
                 clickEnter();
                 break;
+            case "Cook":
+                clearScreen();
+                if(currentSim.getRoom().checkStove(currentSim)){
+                    System.out.println("These are the list of dishes that you can cook");
+                    System.out.println("1. Chicken Rice\n2. Curry Rice\n3. Nut Milk\n4. Stir Fried Vegetable\n5. Steak");
+                    System.out.println("Please input the number of the dish you want to cook or -1 if you want to cancel");
+                    int dishNum = in.nextInt();
+                    while(dishNum < 1 || dishNum > 5 && dishNum != -1){
+                        System.out.println("Please input a number from the list or -1 to cancel");
+                        dishNum = in.nextInt();
+                    }
+                    Dish newDish;
+                    List<Ingredients> ingredientsList = new ArrayList<Ingredients>();
+                    switch (dishNum){
+                        // cook newDish (blom jadi)
+                    }
+                }else{  // ini kasih not sitting on a stove apa gimana
+                    System.out.println("you know that you actually couldn't cook because your sim are not near a stove.\nPlease do not do this again!");
+                }
+                clickEnter();
+                break;
             case "Buy Things":
                 clearScreen();
                 queryBuyThings();
                 break;
             case "View Sim Info":
                 viewSimInfo();
+                break;
+            case "Change Sim Job":
+                clearScreen();
+                System.out.println("Here's the list of job that we have along with their daily salary");
+                System.out.println("1.Clown : 15\n2.Chef : 30\n3.Police : 35\n4.Programmer : 45\n5.Doctor : 50");
+                System.out.println("Changing job will require you to pay half of the new job's salary(rounded down)");
+                System.out.println("Please input the number of the job you want to choose, or -1 to cancel the job change");
+                boolean valid = false;
+                while(!valid){
+                    int chooseJob = in.nextInt();
+                    while(chooseJob>5 || chooseJob < 1 && chooseJob != -1){
+                        System.out.println("Please input numbers that are on the list or -1 to cancel");
+                        chooseJob = in.nextInt();
+                        if(chooseJob == -1){
+                            valid = true;
+                        }
+                    }
+                    Job newJob;
+                    switch (chooseJob) {
+                        case 1:
+                            newJob = new Job("Badut Sulap");
+                            break;
+                        case 2:
+                            newJob = new Job("Koki");
+                            break;
+                        case 3:
+                            newJob = new Job("Polisi");
+                            break;
+                        case 4:
+                            newJob = new Job("Programmer");    
+                            break;
+                        case 5:
+                            newJob = new Job("Dokter");
+                            break;
+                    }
+                    if(currentSim.getMoney() > newJob.getDailyPay()/2){
+                        valid = true;
+                    } else {
+                        System.out.println("You don't have enough money to change job to " + newJob.getJobName() + ", please choose another job");
+                    }
+                }
+                if(chooseJob == -1){
+                    break;
+                }
+                currentSim.setMoney(currentSim.getMoney() - (newJob.getDailyPay()/2));
+                currentSim.setJob(newJob);
+                clickEnter();
                 break;
             case "View Current Location":
                 world.showWorld();
@@ -806,8 +894,11 @@ public class Manager {
                 changeSim();
                 break;
             case "List Object":
+                currentSim.getRoom().showFurniture();
                 break;
             case "Go To Object":
+                break;
+            case "Visit Other's Houses":
                 break;
             case "Exit":
                 exitTheGame();
