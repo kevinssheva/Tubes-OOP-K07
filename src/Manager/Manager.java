@@ -563,6 +563,7 @@ public class Manager {
                 viewInventory();
                 break;
             case "Upgrade House":
+                
                 break;
             case "Edit Room":
                 editRoom();
