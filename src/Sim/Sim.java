@@ -22,6 +22,7 @@ public class Sim {
     private Room currentRoom;
     private Home currentHome; // misal kalo berkunjung currentHome nya yang ganti bukan home nya
     private Home home; // punya rumah sendiri
+    private Integer workToday = 0;  // catet waktu kerja yg udah dilakuin hari itu
 
     public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status,
             Home home) {
@@ -94,6 +95,10 @@ public class Sim {
         return inventory;
     }
 
+    public Integer getWorkToday() {
+        return workToday;
+    }
+
     public void setHealth(Integer health) {
         this.health = Math.min(100, health);
     }
@@ -124,6 +129,10 @@ public class Sim {
 
     public void setHome(Home h) {
         this.home = h;
+    }
+    
+    public void setWorkToday(Integer workToday) {
+        this.workToday = workToday;
     }
 
     public void exercise(Integer time) {
@@ -186,7 +195,7 @@ public class Sim {
 
 
     public void kerja(Integer time) {
-        if (time % 20 == 0) {
+        if (time % 120 == 0) {
             setStatus(String.format("Working as %s...", job.getName()));
             Thread workThread = new Thread() {
                 public void run() {
@@ -208,8 +217,12 @@ public class Sim {
                 workThread.join();
                 setSatiety(getSatiety() - (10 * (time / 30)));
                 setMood(getMood() - (10 * (time / 30)));
-                setMoney(getMoney() + (job.getDailyPay() * (time / 20)));
-                System.out.println("Work done");
+                setWorkToday(getWorkToday() + (time / 120));
+                System.out.println("Work session done");
+                if(getWorkToday() == 4){
+                    setMoney(getMoney() + job.getDailyPay());
+                    System.out.println("Work finished for current day");
+                }
                 setStatus("Idle");
             } catch (InterruptedException e) {
                 e.printStackTrace();
