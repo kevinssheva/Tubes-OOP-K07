@@ -38,6 +38,8 @@ public class Sim {
         currentRoom = home.getListRuangan().get(0);
         currentRoom.adjustSimMap(this, new Point(0, 0));
         this.currentHome = home;
+        eatCheck();
+        sleepCheck();
     }
 
     public Sim(String name, Job job, Integer money, String status) {
@@ -49,6 +51,8 @@ public class Sim {
         this.status = status;
         this.satiety = 80;
         this.inventory = new Inventory<>();
+        eatCheck();
+        sleepCheck();
     }
 
     public Integer getSatiety() {
@@ -279,6 +283,72 @@ public class Sim {
             currentRoom.addFurniture(f, location);
             inventory.removeItem(f);
         }
+    }
+    
+    public void eatCheck() {
+        Thread t = new Thread() {
+            public void run() {
+                boolean eating = false;
+                Thread th = new Thread() {
+                    public void run() {
+                        long nextPoop = Main.timeNow + 240;
+                        boolean havePooped = false;
+                        while (Main.timeNow < nextPoop) {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            if (status == "Buang Air") havePooped = true;
+                        }
+                        if (!(havePooped)) {
+                            mood -= 5;
+                            health -= 5;
+                        }
+                    }
+                };
+                while (1) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (status == "Makan") {
+                        eating = true;
+                    }
+                    if (eating && status == "Idle") {
+                        eating = false;
+                        th.start();
+                    }
+                }
+            }
+        };
+        t.start();
+    }
+    
+    private void sleepCheck() {
+        Thread t = new Thread() {
+            public void run() {
+                long targetTime;
+                long lastSleep = Main.timeNow;
+                while (1) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (status == "Tidur" || status == "Sleeping...") {
+                        lastSleep = Main.timeNow;
+                    }
+                    if (lastSleep+600 <= Main.timeNow) {
+                        lastSleep = Main.timeNow;
+                        mood -= 5;
+                        health -= 5;
+                    }
+                }
+            }
+        };
+        t.start();
     }
 
     public static void main(String[] args) {
