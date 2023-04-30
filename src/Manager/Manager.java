@@ -22,8 +22,8 @@ public class Manager {
     private static List<Sim> simList = new ArrayList<Sim>();
     private static boolean gameStarted = false;
     private static World world = new World();
-    private String[] arrayBuyable = {"Single Bed","Queen Size Bed","King Size Bed","Toilet","Electric Stove","Gas Stove","Table and Chair","Clock","Rice","Potato","Chicken","Beef","Carrot","Spinach","Peanut","Milk"};
-    private ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
+    private static String[] arrayBuyable = {"Single Bed","Queen Size Bed","King Size Bed","Toilet","Electric Stove","Gas Stove","Table and Chair","Clock","Rice","Potato","Chicken","Beef","Carrot","Spinach","Peanut","Milk"};
+    private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
     public static void buyThings(String thing) {
         List<Objek> putArray = new ArrayList<Objek>();
@@ -54,7 +54,9 @@ public class Manager {
                 putIntoInventory = gStove;
                 break;
             case "Table and Chair":
-                // hasnt implemented yet
+                MejaKursi mejaKursi= new MejaKursi();
+                putIntoInventory = mejaKursi;
+                break;
             case "Clock":
                 Clock clock = new Clock();
                 putIntoInventory = clock;
@@ -96,15 +98,24 @@ public class Manager {
         long upperbound = Main.timeNow + 10; // don't forget to change this
         Sim receiver = currentSim; // in case the currentsim changed;
         putArray.add(putIntoInventory);
-        Thread temp = new Thread() {
-            public void run() {
-                while (Main.timeNow < upperbound) {
-
+        Thread putInventoryThread = new Thread(){
+            public void run(){
+                Random rand = new Random();
+                long finalTime = Main.timeNow + rand.nextLong(45)+1;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
                 }
-                receiver.addToInventory(putArray.get(0));
+                currentSim.addToInventory(putArray.get(0));
+                System.out.println(putArray.get(0).getClass().getSimpleName() + " are already arrived at your inventory");
             }
         };
-        temp.start();
+
+        putInventoryThread.start();
+
     }
 
     public static void queryBuyThings(){
@@ -126,7 +137,19 @@ public class Manager {
         System.out.println("- Spinach\nPrice : 3\nSatiety : 2\n");
         System.out.println("- Peanut\nPrice : 2\nSatiety : 2\n");
         System.out.println("- Milk\nPrice : 2\nSatiety : 1\n");
+        Scanner in = new Scanner(System.in);
+        System.out.println("Please type things that you want or type Quit if you want to cancel this");
+        String thingsName = in.nextLine();
+        while(buyableList.contains(thingsName) == false && thingsName.equals("Quit") == false){
+            System.out.println("There is no such thing. please type it another thing or type Quit if you want to cancel this");
+            thingsName = in.nextLine();
+        }
 
+        if(thingsName.equals("Quit")){
+            return;
+        }else{
+            buyThings(thingsName);
+        }
     }
 
     public static boolean isThereAnyWorkingSim() {
@@ -237,7 +260,7 @@ public class Manager {
         if(currentSim.getRoom().checkStove(currentSim)){
             System.out.println("- Cook");
         }
-        System.out.println("- Buy things");
+        System.out.println("- Buy Things");
         System.out.println("- View Sim Info");
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
@@ -516,6 +539,7 @@ public class Manager {
             case "Buy Things":
                 clearScreen();
                 queryBuyThings();
+
             case "View Sim Info":
                 viewSimInfo();
                 break;
