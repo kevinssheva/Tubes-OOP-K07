@@ -205,6 +205,14 @@ public class Manager {
         if(currentSim.getRoom().checkBed(currentSim)){
             System.out.println("- Sleep");
         }
+        // eat
+        if(currentSim.getRoom().checkMejaKursi(currentSim)){
+            System.out.println("- Eat");
+        }
+        // cook
+        if(currentSim.getRoom().checkStove(currentSim)){
+            System.out.println("- Cook");
+        }
         System.out.println("- View Sim Info");
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
@@ -215,6 +223,7 @@ public class Manager {
         System.out.println("- Change Sim");
         System.out.println("- List Object");
         System.out.println("- Go To Object");
+        System.out.println("- Visit Other's Houses");
         System.out.println("- Exit");
         // don't forget to add action that sim can only do with interaction with object
 
@@ -463,15 +472,16 @@ public class Manager {
                 clickEnter();
                 break;
             case "Sleep":
+                clearScreen();
                 if(currentSim.getRoom().checkBed(currentSim)){
-                    System.out.println("Please input how many seconds do you want to sleep.\nMake sure the input is in multiples of 20.\nIf you don't want to work,please type -1");
+                    System.out.println("Please input how many seconds do you want to sleep.\nMake sure the input is in multiples of 240.\nIf you don't want to work,please type -1");
                     int timeSleep = in.nextInt();
                     while(timeSleep % 20 != 0 && timeSleep != -1){
-                        System.out.println("Please input the multiples of 20 or -1 if you don't want to work");
+                        System.out.println("Please input the multiples of 240 or -1 if you don't want to work");
                         timeSleep = in.nextInt();
                     }
                     if(timeSleep != -1){
-                        currentSim.exercise(timeSleep);
+                        currentSim.sleep(timeSleep);
                     }                                        
                 }else{
                     System.out.println("I know that you actually couldn't work because your sim are not sitting on top of a Bed.\nPlease do not do this again!");

@@ -156,6 +156,34 @@ public class Sim {
         }
     }
 
+    public void sleep(Integer time){
+        if(time % 240 == 0){
+            setStatus("Sleeping...");
+            Thread sleepThread = new Thread(){
+                public void run() {
+                    long finalTime = Main.timeNow + time;
+                    while (Main.timeNow < finalTime) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            System.out.println("Error");
+                        }
+                    }
+                }
+            };
+            sleepThread.start();
+            try{
+                sleepThread.join();
+                setMood(getMood()+ (time/240)*30);
+                setHealth(getHealth() + (time/240)*20);
+                System.out.println("Sleeping done");
+                setStatus("Idle");
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public void kerja(Integer time) {
         if (time % 20 == 0) {

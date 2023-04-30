@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.util.*;
 import src.Objek.Furniture.Bed.*;
 import src.Objek.Furniture.Furniture;
+import src.Objek.Furniture.*;
+import src.Objek.Furniture.Stove.*;
 import src.Sim.Sim;
 
 public class Room {
@@ -224,6 +226,41 @@ public class Room {
             }
         }
         return false;
+    }
+
+    public boolean checkMejaKursi(Sim sim){
+            for(Map.Entry<Sim,Point> entry : simMap.entrySet()){
+                if(entry.getKey().equals(sim)){
+                    for(Map.Entry<Furniture,List<Point>> entryFurniture : furnitureList.entrySet()){
+                        if(entryFurniture.getKey() instanceof MejaKursi){
+                            for(Point pointFurniture : entryFurniture.getValue()){
+                                if(pointFurniture.equals(entry.getValue())){
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return false;        
+    }
+
+    public boolean checkStove(Sim sim){
+
+            for(Map.Entry<Sim,Point> entry : simMap.entrySet()){
+                if(entry.getKey().equals(sim)){
+                    for(Map.Entry<Furniture,List<Point>> entryFurniture : furnitureList.entrySet()){
+                        if(entryFurniture.getKey() instanceof Stove){
+                            for(Point pointFurniture : entryFurniture.getValue()){
+                                if(pointFurniture.equals(entry.getValue())){
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return false;        
     }
 
     public static void main(String[] args) {
