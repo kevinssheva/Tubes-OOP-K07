@@ -23,8 +23,8 @@ public class Sim {
     private Room currentRoom;
     private Home currentHome; // misal kalo berkunjung currentHome nya yang ganti bukan home nya
     private Home home; // punya rumah sendiri
-    private Integer workToday = 0;  // catet waktu kerja yg udah dilakuin hari itu
-    private Integer currentWorkTotal = 0;   // catet waktu kerja total buat ganti job
+    private Integer workToday = 0; // catet waktu kerja yg udah dilakuin hari itu
+    private Integer currentWorkTotal = 0; // catet waktu kerja total buat ganti job
 
     public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status,
             Home home) {
@@ -62,7 +62,7 @@ public class Sim {
     }
 
     public void setSatiety(Integer satiety) {
-        this.satiety = Math.min(satiety,100);
+        this.satiety = Math.min(satiety, 100);
     }
 
     public Integer getHealth() {
@@ -148,7 +148,7 @@ public class Sim {
     public void setCurrentHome(Home h) {
         this.currentHome = h;
     }
-    
+
     public void setWorkToday(Integer workToday) {
         this.workToday = workToday;
     }
@@ -161,14 +161,14 @@ public class Sim {
         if (time % 20 != 0)
             return;
         setStatus("Exercise");
-        
+
         Thread exerciseThread = new Thread() {
             public void run() {
                 long finalTime = Main.timeNow + time;
-                while(Main.timeNow < finalTime){
-                    try{
+                while (Main.timeNow < finalTime) {
+                    try {
                         Thread.sleep(1000);
-                    }catch(InterruptedException e){
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -176,21 +176,21 @@ public class Sim {
         };
         exerciseThread.start();
 
-        try{
+        try {
             exerciseThread.join();
             setHealth(health + 10);
             setSatiety(satiety + 10);
             System.out.println("Exercise done");
             setStatus("Idle");
-        }catch(InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void sleep(Integer time){
-        if(time % 240 == 0){
+    public void sleep(Integer time) {
+        if (time % 240 == 0) {
             setStatus("Sleeping...");
-            Thread sleepThread = new Thread(){
+            Thread sleepThread = new Thread() {
                 public void run() {
                     long finalTime = Main.timeNow + time;
                     while (Main.timeNow < finalTime) {
@@ -203,49 +203,11 @@ public class Sim {
                 }
             };
             sleepThread.start();
-            try{
-                sleepThread.join();
-                setMood(getMood()+ (time/240)*30);
-                setHealth(getHealth() + (time/240)*20);
-                System.out.println("Sleeping done");
-                setStatus("Idle");
-            }catch(InterruptedException e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    public void kerja(Integer time) {
-        if (time % 120 == 0) {
-            setStatus(String.format("Working as %s...", job.getName()));
-            Thread workThread = new Thread() {
-                public void run() {
-                    long finalTime = Main.timeNow + time;
-                    while (Main.timeNow < finalTime) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            System.out.println("Error");
-                        }
-                    }
-                    // System.out.println(getMoney());
-                    // System.out.println(job.getDailyPay() * (time / 20));
-                }
-            };
-            workThread.start();
-
             try {
-                workThread.join();
-                setSatiety(getSatiety() - (10 * (time / 30)));
-                setMood(getMood() - (10 * (time / 30)));
-                setWorkToday(getWorkToday() + (time / 60));
-                setCurrentWorkTotal((time / 60) + getCurrentWorkTotal());
-                System.out.println("Work session done");
-                if(getWorkToday() == 4){
-                    setMoney(getMoney() + job.getDailyPay());
-                    System.out.println("Work finished for current day");
-                }
+                sleepThread.join();
+                setMood(getMood() + (time / 240) * 30);
+                setHealth(getHealth() + (time / 240) * 20);
+                System.out.println("Sleeping done");
                 setStatus("Idle");
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -253,48 +215,84 @@ public class Sim {
         }
     }
 
-    public void cook(String dishName){
+    public void kerja(Integer time) {
+        setStatus(String.format("Working as %s...", job.getName()));
+        System.out.println("Work session started for " + time + " seconds");
+        Thread workThread = new Thread() {
+            public void run() {
+                long finalTime = Main.timeNow + time;
+                while (Main.timeNow < finalTime) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        System.out.println("Error");
+                    }
+                }
+                // System.out.println(getMoney());
+                // System.out.println(job.getDailyPay() * (time / 20));
+            }
+        };
+        workThread.start();
+
+        try {
+            workThread.join();
+            setSatiety(getSatiety() - (10 * (time / 30)));
+            setMood(getMood() - (10 * (time / 30)));
+            setWorkToday(getWorkToday() + (time / 60));
+            setCurrentWorkTotal((time / 60) + getCurrentWorkTotal());
+            System.out.println("Work session done");
+            if (getWorkToday() == 4) {
+                setMoney(getMoney() + job.getDailyPay());
+                System.out.println("Work finished for current day");
+            }
+            setStatus("Idle");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cook(String dishName) {
         long time = 0;
         Dish dish = null;
-        switch(dishName){
+        switch (dishName) {
             case "Chicken Rice":
                 inventory.removeItem(inventory.getItemByName("Chicken"));
                 inventory.removeItem(inventory.getItemByName("Rice"));
-                dish = new Dish("Chicken Rice",16);
+                dish = new Dish("Chicken Rice", 16);
                 break;
             case "Curry Rice":
                 inventory.removeItem(inventory.getItemByName("Potato"));
                 inventory.removeItem(inventory.getItemByName("Rice"));
                 inventory.removeItem(inventory.getItemByName("Carrot"));
                 inventory.removeItem(inventory.getItemByName("Beef"));
-                dish = new Dish("Curry Rice",30);
-                break;               
+                dish = new Dish("Curry Rice", 30);
+                break;
             case "Soy Milk":
                 inventory.removeItem(inventory.getItemByName("Peanut"));
                 inventory.removeItem(inventory.getItemByName("Milk"));
-                dish = new Dish("Soy Milk",5);
+                dish = new Dish("Soy Milk", 5);
                 break;
             case "Stir-fried Vegetables":
                 inventory.removeItem(inventory.getItemByName("Carrot"));
                 inventory.removeItem(inventory.getItemByName("Spinach"));
-                dish = new Dish("Stir-fried Vegetables",5);
+                dish = new Dish("Stir-fried Vegetables", 5);
                 break;
             case "Beef Steak":
                 inventory.removeItem(inventory.getItemByName("Potato"));
                 inventory.removeItem(inventory.getItemByName("Beef"));
-                dish = new Dish("Beef Steak",22);
+                dish = new Dish("Beef Steak", 22);
                 break;
         }
-        time = Math.round(1.5*dish.getKekenyangan());
+        time = Math.round(1.5 * dish.getKekenyangan());
         final long timeThread = time;
         setStatus("Cooking " + dish.getName() + "...");
-        Thread cookThread = new Thread(){
-            public void run(){
+        Thread cookThread = new Thread() {
+            public void run() {
                 long finalTime = Main.timeNow + timeThread;
-                while(Main.timeNow < finalTime){
-                    try{
+                while (Main.timeNow < finalTime) {
+                    try {
                         Thread.sleep(1000);
-                    }catch(InterruptedException e){
+                    } catch (InterruptedException e) {
                         System.out.println("Error");
                     }
                 }
@@ -302,30 +300,30 @@ public class Sim {
         };
 
         cookThread.start();
-        try{
+        try {
             cookThread.join();
             inventory.addItem(dish);
             System.out.println("Your sim has just finished cooking " + dish.getName());
             setStatus("Idle");
-        }catch(InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-    
+
     public void berkunjung(Home otherHome) {
         Thread visitThread = new Thread() {
             public void run() {
                 try {
                     setStatus("Visiting another house...");
                     double time = getHome().getLocation().distance(otherHome.getLocation());
-                    Thread.sleep((long) (time*1000));
+                    Thread.sleep((long) (time * 1000));
                     setCurrentHome(otherHome);
                     setStatus("Idle");
                     long startTime = Main.timeNow;
                     boolean start = false;
                     while (!getStatus().equals("Going back home...")) {
                         if ((Main.timeNow - startTime) % 30 == 0) {
-                            if (start) {                           // buat pastiin ga langsung ngeubah pas baru sampe
+                            if (start) { // buat pastiin ga langsung ngeubah pas baru sampe
                                 setMood(getMood() + 10);
                                 setSatiety(getSatiety() - 10);
                             } else {
@@ -333,7 +331,7 @@ public class Sim {
                             }
                         }
                     }
-                    Thread.sleep((long) (time*1000));
+                    Thread.sleep((long) (time * 1000));
                     setCurrentHome(getHome());
                     setStatus("Idle");
                 } catch (Exception e) {
@@ -344,10 +342,9 @@ public class Sim {
         visitThread.start();
     }
 
-    public void kembali(){
+    public void kembali() {
         setStatus("Going back home...");
     }
-
 
     public boolean stillAlive() {
         return mood > 0 && health > 0 && satiety > 0;
@@ -375,7 +372,7 @@ public class Sim {
             inventory.removeItem(f);
         }
     }
-    
+
     public void eatCheck() {
         Thread t = new Thread() {
             public void run() {
@@ -401,7 +398,8 @@ public class Sim {
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
-                                    if (status == "Buang Air") havePooped = true;
+                                    if (status == "Buang Air")
+                                        havePooped = true;
                                 }
                                 if (!(havePooped)) {
                                     mood -= 5;
@@ -416,7 +414,7 @@ public class Sim {
         };
         t.start();
     }
-    
+
     private void sleepCheck() {
         Thread t = new Thread() {
             public void run() {
@@ -431,7 +429,7 @@ public class Sim {
                     if (status == "Tidur" || status == "Sleeping...") {
                         lastSleep = Main.timeNow;
                     }
-                    if (lastSleep+600 <= Main.timeNow) {
+                    if (lastSleep + 600 <= Main.timeNow) {
                         lastSleep = Main.timeNow;
                         mood -= 5;
                         health -= 5;
