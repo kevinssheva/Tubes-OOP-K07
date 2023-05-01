@@ -9,6 +9,7 @@ import src.Room.*;
 import src.Main;
 import src.Home.*;
 import src.Manager.*;
+import src.Objek.Dish.*;
 
 public class Sim {
     private String name;
@@ -249,6 +250,64 @@ public class Sim {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void cook(String dishName){
+        Integer time = 0;
+        Dish dish = null;
+        switch(dish){
+            case "Chicken Rice":
+                inventory.removeItem(inventory.getItemByName("Chicken"));
+                inventory.removeItem(inventory.getItemByName("Rice"));
+                dish = new Dish("Chicken Rice",16);
+                break;
+            case "Curry Rice":
+                inventory.removeItem(inventory.getItemByName("Potato"));
+                inventory.removeItem(inventory.getItemByName("Rice"));
+                inventory.removeItem(inventory.getItemByName("Carrot"));
+                inventory.removeItem(inventory.getItemByName("Beef"));
+                dish = new Dish("Curry Rice",30);
+                break;               
+            case "Soy Milk":
+                inventory.removeItem(inventory.getItemByName("Peanut"));
+                inventory.removeItem(inventory.getItemByName("Milk"));
+                dish = new Dish("Soy Milk",5);
+                break;
+            case "Stir-fried Vegetables":
+                inventory.removeItem(inventory.getItemByName("Carrot"));
+                inventory.removeItem(inventory.getItemByName("Spinach"));
+                dish = new Dish("Stir-fried Vegetables",5);
+                break;
+            case "Beef Steak":
+                inventory.removeItem(inventory.getItemByName("Potato"));
+                inventory.removeItem(inventory.getItemByName("Beef"));
+                dish = new Dish("Beef Steak",22);
+                break;
+        }
+        time = (Integer)(1.5*dish.getKekenyangan());
+        setStatus("Cooking " + dish.getName() + "...");
+        Thread cookThread = new Thread(){
+            public void run(){
+                long finalTime = Main.timeNow + time;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep();
+                    }catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
+                }
+            }
+        };
+
+        cookThread.start();
+        try{
+            cookThread.join();
+            inventory.addItem(dish);
+            System.out.println("Your sim has just finished cooking " + dish.getName());
+            setStatus("Idle");
+        }catch(InterruptedException e){
+            e.printStackTrace();
         }
     }
     
