@@ -946,7 +946,7 @@ public class Manager {
             return;
         }
         System.out.println("\nBut, you are going to need some ingredients to cook the dish!.\nHere's the actual list of food that you can cook : ");
-        System.out.println((canSimCookThisDish("Chicken Rice") ? "- Chicken Rice\n" : "") + (canSimCookThisDish("Curry Rice") ? "- Curry Rice\n" : "") + (canSimCookThisDish("Soy Milk") ? "- Soy Milk\n" : "") + (canSimCookThisDish("Stir-fried Vegetables") ? "- Stir-fried Vegetables\n" : "" ) );
+        System.out.println((canSimCookThisDish("Chicken Rice") ? "- Chicken Rice\n" : "") + (canSimCookThisDish("Curry Rice") ? "- Curry Rice\n" : "") + (canSimCookThisDish("Soy Milk") ? "- Soy Milk\n" : "") + (canSimCookThisDish("Stir-fried Vegetables") ? "- Stir-fried Vegetables\n" : "" ) + (canSimCookThisDish("Beef Steak") ? "- Beef Steak\n" : ""));
         Scanner in = new Scanner(System.in);
         System.out.println("Please type the dish that you want to cook or type Quit instead if you want to cancel this");
         String dish = in.nextLine();
@@ -972,20 +972,16 @@ public class Manager {
         switch(theDish){
             case "Chicken Rice":
                 return currentSim.getInventory().checkItemByName("Chicken") && currentSim.getInventory().checkItemByName("Rice");
-                break;
             case "Curry Rice":
                 return currentSim.getInventory().checkItemByName("Rice") && currentSim.getInventory().checkItemByName("Potato") && currentSim.getInventory().checkItemByName("Carrot") && currentSim.getInventory().checkItemByName("Beef");
-                break;
             case "Soy Milk":
                 return currentSim.getInventory().checkItemByName("Milk") && currentSim.getInventory().checkItemByName("Peanut");
-                break;
             case "Stir-fried Vegetables":
                 return currentSim.getInventory().checkItemByName("Carrot") && currentSim.getInventory().checkItemByName("Spinach");
-                break;
             case "Beef Steak":
                 return currentSim.getInventory().checkItemByName("Potato") && currentSim.getInventory().checkItemByName("Beef");
-                break;
         }
+        return false;
     }
 
     public static boolean isThereThisDish(String theDish){

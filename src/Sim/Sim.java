@@ -254,9 +254,9 @@ public class Sim {
     }
 
     public void cook(String dishName){
-        Integer time = 0;
+        long time = 0;
         Dish dish = null;
-        switch(dish){
+        switch(dishName){
             case "Chicken Rice":
                 inventory.removeItem(inventory.getItemByName("Chicken"));
                 inventory.removeItem(inventory.getItemByName("Rice"));
@@ -285,14 +285,15 @@ public class Sim {
                 dish = new Dish("Beef Steak",22);
                 break;
         }
-        time = (Integer)(1.5*dish.getKekenyangan());
+        time = Math.round(1.5*dish.getKekenyangan());
+        final long timeThread = time;
         setStatus("Cooking " + dish.getName() + "...");
         Thread cookThread = new Thread(){
             public void run(){
-                long finalTime = Main.timeNow + time;
+                long finalTime = Main.timeNow + timeThread;
                 while(Main.timeNow < finalTime){
                     try{
-                        Thread.sleep();
+                        Thread.sleep(1000);
                     }catch(InterruptedException e){
                         System.out.println("Error");
                     }

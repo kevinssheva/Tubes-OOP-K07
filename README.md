@@ -1,4 +1,13 @@
 Semangat Ya Tubesnya!!
+## Created By
+| Name  | NIM |
+| ------------- | ------------- |
+| Jonathan Arthurito Aldi Sinaga  |  18221079  |
+| Lie, Kevin Sebastian S. T.  | 18221143  |
+| Felisa Aidadora Darmawan  |  18221137  |
+| Aufar Ramadhan | 18221163  |
+| Ferdinand Refrandt  |  18221169  |
+
 
 ## Tutorial on how to use Gradle to run the program
 
