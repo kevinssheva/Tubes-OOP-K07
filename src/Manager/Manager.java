@@ -946,7 +946,7 @@ public class Manager {
             return;
         }
         System.out.println("\nBut, you are going to need some ingredients to cook the dish!.\nHere's the actual list of food that you can cook : ");
-        System.out.println((canSimCookThisDish("Chicken Rice") ? "- Chicken Rice\n" : "") + (canSimCookThisDish("Curry Rice") ? "- Curry Rice\n" : "") + (canSimCookThisDish("Soy Milk") ? "- Soy Milk\n" : "") + (canSimCookThisDish("Stir-fried Vegetables") ? "- Stir-fried Vegetables\n" : "" ) );
+        System.out.println((canSimCookThisDish("Chicken Rice") ? "- Chicken Rice\n" : "") + (canSimCookThisDish("Curry Rice") ? "- Curry Rice\n" : "") + (canSimCookThisDish("Soy Milk") ? "- Soy Milk\n" : "") + (canSimCookThisDish("Stir-fried Vegetables") ? "- Stir-fried Vegetables\n" : "" ) + (canSimCookThisDish("Beef Steak") ? "- Beef Steak\n" : ""));
         Scanner in = new Scanner(System.in);
         System.out.println("Please type the dish that you want to cook or type Quit instead if you want to cancel this");
         String dish = in.nextLine();
