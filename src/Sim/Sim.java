@@ -178,8 +178,9 @@ public class Sim {
 
         try {
             exerciseThread.join();
-            setHealth(health + 10);
-            setSatiety(satiety + 10);
+            setHealth(health + (time/20)*5);
+            setSatiety(satiety - (time/20)*5);
+            setMood(mood + (time/20)*10);
             System.out.println("Exercise done");
             setStatus("Idle");
         } catch (InterruptedException e) {
