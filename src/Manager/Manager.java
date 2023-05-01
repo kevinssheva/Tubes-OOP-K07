@@ -796,19 +796,19 @@ public class Manager {
             case "Cook":
                 clearScreen();
                 if(currentSim.getRoom().checkStove(currentSim)){
-                    System.out.println("These are the list of dishes that you can cook");
-                    System.out.println("1. Chicken Rice\n2. Curry Rice\n3. Nut Milk\n4. Stir Fried Vegetable\n5. Steak");
-                    System.out.println("Please input the number of the dish you want to cook or -1 if you want to cancel");
-                    int dishNum = in.nextInt();
-                    while(dishNum < 1 || dishNum > 5 && dishNum != -1){
-                        System.out.println("Please input a number from the list or -1 to cancel");
-                        dishNum = in.nextInt();
-                    }
-                    Dish newDish;
-                    List<Ingredients> ingredientsList = new ArrayList<Ingredients>();
-                    switch (dishNum){
-                        // cook newDish (blom jadi)
-                    }
+                    printListDish();
+                    doQueryCook();
+                    // System.out.println("Please input the number of the dish you want to cook or -1 if you want to cancel");
+                    // int dishNum = in.nextInt();
+                    // while(dishNum < 1 || dishNum > 5 && dishNum != -1){
+                    //     System.out.println("Please input a number from the list or -1 to cancel");
+                    //     dishNum = in.nextInt();
+                    // }
+                    // Dish newDish;
+                    // List<Ingredients> ingredientsList = new ArrayList<Ingredients>();
+                    // switch (dishNum){
+                    //     // cook newDish (blom jadi)
+                    // }
                 }else{  // ini kasih not sitting on a stove apa gimana
                     System.out.println("you know that you actually couldn't cook because your sim are not near a stove.\nPlease do not do this again!");
                 }
@@ -907,6 +907,38 @@ public class Manager {
             // add more action
 
         }
+    }
+
+    public static void doQueryCook(){
+        // check for each dish
+        System.out.println("\nBut, you are going to need some ingredients to cook the dish!.\nHere's the actual list of food that you can cook : ");
+
+    }
+
+    public static boolean canSimCookThisDish(String theDish){
+        switch(theDish){
+            case "Chicken Rice":
+                return currentSim.getInventory().checkItemByName("Chicken") && currentSim.getInventory().checkItemByName("Rice");
+                break;
+            case "Curry Rice":
+                return currentSim.getInventory().checkItemByName("Rice") && currentSim.getInventory().checkItemByName("Potato") && currentSim.getInventory().checkItemByName("Carrot") && currentSim.getInventory().checkItemByName("Beef");
+                break;
+            case "Soy Milk":
+                return currentSim.getInventory().checkItemByName("Milk") && currentSim.getInventory().checkItemByName("Peanut");
+                break;
+            case "Stir-fried Vegetables":
+                return currentSim.getInventory().checkItemByName("Carrot") && currentSim.getInventory().checkItemByName("Spinach");
+                break;
+            case "Beef Steak":
+                return currentSim.getInventory().checkItemByName("Potato") && currentSim.getInventory().checkItemByName("Beef");
+                break;
+        }
+    }
+
+    public static void printListDish(){
+        clearScreen();
+        System.out.println("These are the list of dishes that you can cook");
+        System.out.println("1. Chicken Rice\n2. Curry Rice\n3. Nut Milk\n4. Stir Fried Vegetable\n5. Steak");
     }
 
     public static void chooseFood(){
