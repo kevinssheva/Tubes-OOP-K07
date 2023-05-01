@@ -258,7 +258,7 @@ public class Sim {
                 try {
                     setStatus("Visiting another house...");
                     double time = getHome().getLocation().distance(otherHome.getLocation());
-                    Thread.sleep(time*1000);
+                    Thread.sleep((long) (time*1000));
                     setCurrentHome(otherHome);
                     setStatus("Idle");
                     long startTime = Main.timeNow;
@@ -273,7 +273,7 @@ public class Sim {
                             }
                         }
                     }
-                    Thread.sleep(time*1000);
+                    Thread.sleep((long) (time*1000));
                     setCurrentHome(getHome());
                     setStatus("Idle");
                 } catch (Exception e) {
@@ -320,7 +320,7 @@ public class Sim {
         Thread t = new Thread() {
             public void run() {
                 boolean eating = false;
-                while (1) {
+                while (true) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -331,7 +331,7 @@ public class Sim {
                     }
                     if (eating && status == "Idle") {
                         eating = false;
-                        (Thread th = new Thread() {
+                        Thread th = new Thread() {
                             public void run() {
                                 long nextPoop = Main.timeNow + 240;
                                 boolean havePooped = false;
@@ -348,7 +348,8 @@ public class Sim {
                                     health -= 5;
                                 }
                             }
-                        }).start();
+                        };
+                        th.start();
                     }
                 }
             }
@@ -361,7 +362,7 @@ public class Sim {
             public void run() {
                 long targetTime;
                 long lastSleep = Main.timeNow;
-                while (1) {
+                while (true) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
