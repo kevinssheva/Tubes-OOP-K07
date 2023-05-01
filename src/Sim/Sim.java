@@ -289,24 +289,6 @@ public class Sim {
         Thread t = new Thread() {
             public void run() {
                 boolean eating = false;
-                Thread th = new Thread() {
-                    public void run() {
-                        long nextPoop = Main.timeNow + 240;
-                        boolean havePooped = false;
-                        while (Main.timeNow < nextPoop) {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            if (status == "Buang Air") havePooped = true;
-                        }
-                        if (!(havePooped)) {
-                            mood -= 5;
-                            health -= 5;
-                        }
-                    }
-                };
                 while (1) {
                     try {
                         Thread.sleep(1000);
@@ -318,7 +300,24 @@ public class Sim {
                     }
                     if (eating && status == "Idle") {
                         eating = false;
-                        th.start();
+                        (Thread th = new Thread() {
+                            public void run() {
+                                long nextPoop = Main.timeNow + 240;
+                                boolean havePooped = false;
+                                while (Main.timeNow < nextPoop) {
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (status == "Buang Air") havePooped = true;
+                                }
+                                if (!(havePooped)) {
+                                    mood -= 5;
+                                    health -= 5;
+                                }
+                            }
+                        }).start();
                     }
                 }
             }
