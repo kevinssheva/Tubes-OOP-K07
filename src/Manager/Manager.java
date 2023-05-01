@@ -8,6 +8,7 @@ import src.Sim.*;
 import src.Main;
 import src.Home.Home;
 import src.Objek.Objek;
+import src.Objek.Dish.Dish;
 import src.Objek.Furniture.*;
 import src.Objek.Furniture.Bed.Bed;
 import src.Objek.Furniture.Bed.*;
@@ -24,7 +25,9 @@ public class Manager {
     private static List<Sim> simList = new ArrayList<Sim>();
     private static boolean gameStarted = false;
     private static World world = new World();
-    private static String[] arrayBuyable = {"Single Bed","Queen Size Bed","King Size Bed","Toilet","Electric Stove","Gas Stove","Table and Chair","Clock","Rice","Potato","Chicken","Beef","Carrot","Spinach","Peanut","Milk"};
+    private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
+            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "Rice", "Potato", "Chicken", "Beef", "Carrot",
+            "Spinach", "Peanut", "Milk" };
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
     public static void buyThings(String thing) {
@@ -56,7 +59,7 @@ public class Manager {
                 putIntoInventory = gStove;
                 break;
             case "Table and Chair":
-                MejaKursi mejaKursi= new MejaKursi();
+                MejaKursi mejaKursi = new MejaKursi();
                 putIntoInventory = mejaKursi;
                 break;
             case "Clock":
@@ -96,20 +99,20 @@ public class Manager {
                 putIntoInventory = milk;
                 break;
         }
-        if(((Buyable)putIntoInventory).getPrice() > currentSim.getMoney()){
+        if (((Buyable) putIntoInventory).getPrice() > currentSim.getMoney()) {
             System.out.println("Your money is not sufficient");
             clickEnter();
             return;
         }
         putArray.add(putIntoInventory);
-        Thread putInventoryThread = new Thread(){
-            public void run(){
+        Thread putInventoryThread = new Thread() {
+            public void run() {
                 Random rand = new Random();
-                long finalTime = Main.timeNow + rand.nextLong(45)+1;
-                while(Main.timeNow < finalTime){
-                    try{
+                long finalTime = Main.timeNow + rand.nextInt(45) + 1;
+                while (Main.timeNow < finalTime) {
+                    try {
                         Thread.sleep(1000);
-                    }catch(InterruptedException e){
+                    } catch (InterruptedException e) {
                         System.out.println("Error");
                     }
                 }
@@ -122,7 +125,7 @@ public class Manager {
 
     }
 
-    public static void queryBuyThings(){
+    public static void queryBuyThings() {
         System.out.println("Here is the list of things that you can buy\n");
         System.out.println("- Single Bed\nPrice : 50\nDimension : 4 x 1\n");
         System.out.println("- Queen Size Bed\nPrice : 100\nDimension : 4 x 2\n");
@@ -132,7 +135,7 @@ public class Manager {
         System.out.println("- Electric Stove\nPrice : 200\nDimension : 1 x 1\n");
         System.out.println("- Table and Chair\nPrice : 50\nDimension : 3 x 3\n");
         System.out.println("- Jam\nPrice : 10\nDimension : 1 x 1\n");
-    
+
         System.out.println("- Rice\nPrice : 5\nSatiety : 5\n");
         System.out.println("- Potato\nPrice : 3\nSatiety : 4\n");
         System.out.println("- Chicken\nPrice : 10\nSatiety : 8\n");
@@ -144,14 +147,15 @@ public class Manager {
         Scanner in = new Scanner(System.in);
         System.out.println("Please type things that you want or type Quit if you want to cancel this");
         String thingsName = in.nextLine();
-        while(buyableList.contains(thingsName) == false && thingsName.equals("Quit") == false){
-            System.out.println("There is no such thing. please type it another thing or type Quit if you want to cancel this");
+        while (buyableList.contains(thingsName) == false && thingsName.equals("Quit") == false) {
+            System.out.println(
+                    "There is no such thing. please type it another thing or type Quit if you want to cancel this");
             thingsName = in.nextLine();
         }
 
-        if(thingsName.equals("Quit")){
+        if (thingsName.equals("Quit")) {
             return;
-        }else{
+        } else {
             buyThings(thingsName);
         }
     }
@@ -187,13 +191,13 @@ public class Manager {
     }
 
     public static void help() {
-        while(true){
+        while (true) {
             clearScreen();
             System.out.println("Welcome to Sim-Plicity! A world where sims live.");
             System.out.println("Sims can work, cook, eat, sleep, buy things, upgrade their house and more!");
             System.out.println("Control your sims' actions and guide them through their everyday lives.");
             System.out.println("And don't forget to make sure your sims are happy and healthy!\n");
-    
+
             System.out.println("Here is the list of all ingame commands:");
             System.out.println("- Help");
             System.out.println("- Work");
@@ -215,30 +219,36 @@ public class Manager {
             System.out.println("- Visit Other's Houses");
             System.out.println("- Exit");
             System.out.println("\nType in the command for details or type 'Back' to go back\n");
-    
+
             Scanner in = new Scanner(System.in);
             String query = in.nextLine();
             switch (query) {
                 case "Help":
                     clearScreen();
-                    System.out.println("Shows up this help menu.\nThis menu can be accessed in the main menu as well as ingame.");
+                    System.out.println(
+                            "Shows up this help menu.\nThis menu can be accessed in the main menu as well as ingame.");
                     clickEnter();
                     break;
                 case "Work":
                     clearScreen();
                     System.out.println("Puts your sim to work for the amount of time given");
-                    System.out.println("Effects:\n-10 satiety / 30 seconds\n-10 mood / 30 seconds\n+X money / 4 minutes (depending on the job that the sim has)\n");
-                    System.out.println("Sims can choose to work for 2 minutes(120s) or 4 minutes(240s) in one session.");
+                    System.out.println(
+                            "Effects:\n-10 satiety / 30 seconds\n-10 mood / 30 seconds\n+X money / 4 minutes (depending on the job that the sim has)\n");
+                    System.out
+                            .println("Sims can choose to work for 2 minutes(120s) or 4 minutes(240s) in one session.");
                     System.out.println("A sim can only work for up to 4 minutes(240s) a day.");
-                    System.out.println("\nThis action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    System.out.println(
+                            "\nThis action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
                 case "Exercise":
                     clearScreen();
                     System.out.println("Make your sim do exercise for the amount of time given");
-                    System.out.println("Effects:\n+5 health / 20 seconds\n-5 satiety / 20 seconds\n+10 mood / 20 seconds\n");
+                    System.out.println(
+                            "Effects:\n+5 health / 20 seconds\n-5 satiety / 20 seconds\n+10 mood / 20 seconds\n");
                     System.out.println("Sims can choose to work for any time length with a multiple of 20 seconds.");
-                    System.out.println("\nThis action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    System.out.println(
+                            "\nThis action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
                 case "Sleep":
@@ -246,25 +256,32 @@ public class Manager {
                     System.out.println("Puts your sim to sleep for the amount of time given");
                     System.out.println("Effects:\n+30 mood / 4 minutes\n+20 health / 4 minutes\n");
                     System.out.println("Sims can choose to sleep for any time length with a multiple of 20 seconds.");
-                    System.out.println("Not sleeping for too long will decrease mood and health by -5 for every 10 minutes without sleep.");
+                    System.out.println(
+                            "Not sleeping for too long will decrease mood and health by -5 for every 10 minutes without sleep.");
                     System.out.println("\nSleeping will require your sim to be near Bed");
-                    System.out.println("This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
                 case "Eat":
                     clearScreen();
                     System.out.println("Lets your sim eat a food item from the inventory.");
-                    System.out.println("Effects:\n+X satiety / food item (depending on the satiety level of the food item)\n");
-                    System.out.println("\nEating will require your sim to be near a Table and Chair\nand takes 30 seconds to finish");
-                    System.out.println("This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    System.out.println(
+                            "Effects:\n+X satiety / food item (depending on the satiety level of the food item)\n");
+                    System.out.println(
+                            "\nEating will require your sim to be near a Table and Chair\nand takes 30 seconds to finish");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
                 case "Cook":
                     clearScreen();
                     System.out.println("Lets your sim cook a dish using ingredients from the inventory.");
                     System.out.println("Effects:\n+10 mood / dish\n");
-                    System.out.println("\nCooking will require your sim to be near a Stove\nand takes (1.5 x dish satiety level) seconds to finish");
-                    System.out.println("This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    System.out.println(
+                            "\nCooking will require your sim to be near a Stove\nand takes (1.5 x dish satiety level) seconds to finish");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
                 case "Buy Things":
@@ -284,8 +301,10 @@ public class Manager {
                 case "Change Sim Job":
                     clearScreen();
                     System.out.println("Lets you change the current job of the sim.");
-                    System.out.println("Changing jobs will require the sim to have already worked in their current job for a minimum of 12 minutes");
-                    System.out.println("as well as pay money as much as the new job's daily salary divided by 2 rounded down.");
+                    System.out.println(
+                            "Changing jobs will require the sim to have already worked in their current job for a minimum of 12 minutes");
+                    System.out.println(
+                            "as well as pay money as much as the new job's daily salary divided by 2 rounded down.");
                     clickEnter();
                     break;
                 case "View Current Location":
@@ -334,10 +353,14 @@ public class Manager {
                 case "Visit Other's Houses":
                     clearScreen();
                     System.out.println("Lets your sim visit another sim's house.");
-                    System.out.println("Effects:\n+10 mood / 30 seconds spent in other house\n-10 satiety / 30 seconds spent in other house\n");
-                    System.out.println("Visiting requires the sim to walk to the other house for (house distance) amount of seconds.");
-                    System.out.println("Walking is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
-                    System.out.println("After arriving, the sim becomes idle and can act normally except for upgrade house and edit room.");
+                    System.out.println(
+                            "Effects:\n+10 mood / 30 seconds spent in other house\n-10 satiety / 30 seconds spent in other house\n");
+                    System.out.println(
+                            "Visiting requires the sim to walk to the other house for (house distance) amount of seconds.");
+                    System.out.println(
+                            "Walking is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    System.out.println(
+                            "After arriving, the sim becomes idle and can act normally except for upgrade house and edit room.");
                     clickEnter();
                     break;
                 case "Exit":
@@ -412,21 +435,21 @@ public class Manager {
         System.out.println("- Work");
         System.out.println("- Exercise");
         // sleep
-        if(currentSim.getRoom().checkBed(currentSim)){
+        if (currentSim.getRoom().checkBed(currentSim)) {
             System.out.println("- Sleep");
         }
         // eat
-        if(currentSim.getRoom().checkMejaKursi(currentSim)){
+        if (currentSim.getRoom().checkMejaKursi(currentSim)) {
             System.out.println("- Eat");
         }
         // cook
-        if(currentSim.getRoom().checkStove(currentSim)){
+        if (currentSim.getRoom().checkStove(currentSim)) {
             System.out.println("- Cook");
         }
         System.out.println("- Buy Things");
         System.out.println("- View Sim Info");
         // change job
-        if(currentSim.getCurrentWorkTotal()>=12){
+        if (currentSim.getCurrentWorkTotal() >= 12) {
             System.out.println("- Change Sim Job");
         }
         System.out.println("- View Current Location");
@@ -481,6 +504,61 @@ public class Manager {
         clickEnter();
     }
 
+    public static void changeSimJob() {
+        clearScreen();
+        if (currentSim.getCurrentWorkTotal() < 12) {
+            System.out.println(
+                    "You can't change your job just yet. You still have some work to do for the next 12 minutes. Keep hustling!");
+            System.out.println("Current work time : " + currentSim.getCurrentWorkTotal() + " minutes");
+            clickEnter();
+            return;
+        } else {
+            System.out.println("Here's the list of job that we have along with their daily salary");
+            System.out.println("1.Clown : 15\n2.Chef : 30\n3.Police : 35\n4.Programmer : 45\n5.Doctor : 50");
+            System.out.println(
+                    "Make sure your wallet's ready! Changing job will require you to pay half of the new job's salary(rounded down)");
+            System.out.println("Please input the number of the job you want to choose, or -1 to cancel the job change");
+            Scanner in = new Scanner(System.in);
+            int chooseJob = in.nextInt();
+            while ((chooseJob > 5 || chooseJob < 1) && chooseJob != -1) {
+                System.out.println("Please input numbers that are on the list or -1 to cancel");
+                chooseJob = in.nextInt();
+            }
+            if (chooseJob == -1) {
+                return;
+            }
+            Job newJob;
+            switch (chooseJob) {
+                case 1:
+                    newJob = new Job("Badut Sulap");
+                    break;
+                case 2:
+                    newJob = new Job("Koki");
+                    break;
+                case 3:
+                    newJob = new Job("Polisi");
+                    break;
+                case 4:
+                    newJob = new Job("Programmer");
+                    break;
+                default:
+                    newJob = new Job("Dokter");
+                    break;
+            }
+            if (currentSim.getMoney() > newJob.getDailyPay() / 2) {
+                currentSim.setMoney(currentSim.getMoney() - (newJob.getDailyPay() / 2));
+                currentSim.setJob(newJob);
+                currentSim.setCurrentWorkTotal(0);
+                System.out.println("Congratulations! You have successfully switched to " + newJob.getName());
+            } else {
+                System.out.println(
+                        "Woah there! Looks like you're a bit short on cash. You can't switch to " + newJob.getName()
+                                + " just yet. Why not explore some other job options for now?");
+            }
+        }
+
+    }
+
     public static void viewCurrentLocation() {
         clearScreen();
         // View Current Location
@@ -520,19 +598,19 @@ public class Manager {
         }
 
         System.out.println("What direction do you want to add the room? (north / south / east / west)");
-        String direction = in.nextLine();        
+        String direction = in.nextLine();
         currentSim.getHome().addRuangan(room, direction, newRoom);
         currentSim.getHome().showRoom();
 
         final String roomNameFinal = newRoom;
 
-        Thread upgradeThread = new Thread(){
-            public void run(){
+        Thread upgradeThread = new Thread() {
+            public void run() {
                 long finalTime = Main.timeNow + 20;
-                while(Main.timeNow < finalTime){
-                    try{
+                while (Main.timeNow < finalTime) {
+                    try {
                         Thread.sleep(1000);
-                    }catch(InterruptedException e){
+                    } catch (InterruptedException e) {
                         System.out.println("Error");
                     }
                 }
@@ -730,22 +808,23 @@ public class Manager {
                 break;
             case "Work":
                 clearScreen();
-                if(currentSim.getWorkToday() == 4){
+                if (currentSim.getWorkToday() == 4) {
                     System.out.println("This sim has completed their daily work. They cannot work anymore today.");
                     clickEnter();
                     break;
                 }
-                System.out.println("Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
+                System.out.println(
+                        "Please input how many seconds do you want to work.\nMake sure the input is in multiples of 120.\nIf you don't want to work,please type -1");
                 int time = in.nextInt();
-                while (time % 120 != 0 && time/60 <= 4-currentSim.getWorkToday() && time != -1) {
+                while (time % 120 != 0 && time / 60 <= 4 - currentSim.getWorkToday() && time != -1) {
                     System.out.println("Please input the multiples of 120 or -1 if you don't want to work");
                     time = in.nextInt();
                 }
 
                 if (time != -1) {
-                    if(currentSim.getWorkToday() == 2){
+                    if (currentSim.getWorkToday() == 2) {
                         currentSim.kerja(120);
-                    } else if (currentSim.getWorkToday() == 0 && time>120){
+                    } else if (currentSim.getWorkToday() == 0 && time > 120) {
                         currentSim.kerja(240);
                     }
                 }
@@ -754,13 +833,14 @@ public class Manager {
                 break;
             case "Exercise":
                 clearScreen();
-                System.out.println("Please input how many seconds do you want to exercise.\nMake sure the input is in multiples of 20.\nIf you don't want to work,please type -1");
+                System.out.println(
+                        "Please input how many seconds do you want to exercise.\nMake sure the input is in multiples of 20.\nIf you don't want to work,please type -1");
                 int timeExercise = in.nextInt();
-                while(timeExercise % 20 != 0 && timeExercise != -1){
+                while (timeExercise % 20 != 0 && timeExercise != -1) {
                     System.out.println("Please input the multiples of 20 or -1 if you don't want to work");
                     timeExercise = in.nextInt();
                 }
-                if(timeExercise != -1){
+                if (timeExercise != -1) {
                     currentSim.exercise(timeExercise);
                 }
 
@@ -768,29 +848,32 @@ public class Manager {
                 break;
             case "Sleep":
                 clearScreen();
-                if(currentSim.getRoom().checkBed(currentSim)){
-                    System.out.println("Please input how many seconds do you want to sleep.\nMake sure the input is in multiples of 240.\nIf you don't want to work,please type -1");
+                if (currentSim.getRoom().checkBed(currentSim)) {
+                    System.out.println(
+                            "Please input how many seconds do you want to sleep.\nMake sure the input is in multiples of 240.\nIf you don't want to work,please type -1");
                     int timeSleep = in.nextInt();
-                    while(timeSleep % 20 != 0 && timeSleep != -1){
+                    while (timeSleep % 20 != 0 && timeSleep != -1) {
                         System.out.println("Please input the multiples of 240 or -1 if you don't want to work");
                         timeSleep = in.nextInt();
                     }
-                    if(timeSleep != -1){
+                    if (timeSleep != -1) {
                         currentSim.sleep(timeSleep);
-                    }                                        
-                }else{
-                    System.out.println("you know that you actually couldn't Sleep because your sim are not sitting on top of a Bed.\nPlease do not do this again!");
+                    }
+                } else {
+                    System.out.println(
+                            "You know that you actually couldn't Sleep because your sim are not sitting on top of a Bed.\nPlease do not do this again!");
                 }
                 clickEnter();
                 break;
             case "Eat":
                 clearScreen();
-                if(currentSim.getRoom().checkTableAndChair(currentSim)){
+                if (currentSim.getRoom().checkTableAndChair(currentSim)) {
                     currentSim.getInventory().showEdibleOnly();
                     chooseFood();
 
-                }else{
-                    System.out.println("you know that you actually couldn't eat because your sim are not sitting on top of a Table and Chair.\nPlease do not do this again!");
+                } else {
+                    System.out.println(
+                            "you know that you actually couldn't eat because your sim are not sitting on top of a Table and Chair.\nPlease do not do this again!");
                 }
                 clickEnter();
                 break;
@@ -812,50 +895,7 @@ public class Manager {
                 viewSimInfo();
                 break;
             case "Change Sim Job":
-                clearScreen();
-                System.out.println("Here's the list of job that we have along with their daily salary");
-                System.out.println("1.Clown : 15\n2.Chef : 30\n3.Police : 35\n4.Programmer : 45\n5.Doctor : 50");
-                System.out.println("Changing job will require you to pay half of the new job's salary(rounded down)");
-                System.out.println("Please input the number of the job you want to choose, or -1 to cancel the job change");
-                boolean valid = false;
-                while(!valid){
-                    int chooseJob = in.nextInt();
-                    while(chooseJob>5 || chooseJob < 1 && chooseJob != -1){
-                        System.out.println("Please input numbers that are on the list or -1 to cancel");
-                        chooseJob = in.nextInt();
-                        if(chooseJob == -1){
-                            valid = true;
-                        }
-                    }
-                    Job newJob;
-                    switch (chooseJob) {
-                        case 1:
-                            newJob = new Job("Badut Sulap");
-                            break;
-                        case 2:
-                            newJob = new Job("Koki");
-                            break;
-                        case 3:
-                            newJob = new Job("Polisi");
-                            break;
-                        case 4:
-                            newJob = new Job("Programmer");    
-                            break;
-                        case 5:
-                            newJob = new Job("Dokter");
-                            break;
-                    }
-                    if(currentSim.getMoney() > newJob.getDailyPay()/2){
-                        valid = true;
-                    } else {
-                        System.out.println("You don't have enough money to change job to " + newJob.getJobName() + ", please choose another job");
-                    }
-                }
-                if(chooseJob == -1){
-                    break;
-                }
-                currentSim.setMoney(currentSim.getMoney() - (newJob.getDailyPay()/2));
-                currentSim.setJob(newJob);
+                changeSimJob();
                 clickEnter();
                 break;
             case "View Current Location":
@@ -898,7 +938,7 @@ public class Manager {
 
         }
     }
-
+    
     public static void doQueryCook(){
         // check for each dish
         if(canSimCookAnyDish() == false){
@@ -968,16 +1008,19 @@ public class Manager {
         Scanner in = new Scanner(System.in);
         String food = in.nextLine();
 
-        while(currentSim.getInventory().getItemByName(food) == null && food.equals("Quit") == false){
+        while (currentSim.getInventory().getItemByName(food) == null && food.equals("Quit") == false) {
             System.out.println("Your input is wrong.Please choose your food or type Quit if you want to cancel");
             food = in.nextLine();
         }
 
-        if(food.equals("Quit")){
+        if (food.equals("Quit")) {
 
-        }else{
-            currentSim.setSatiety(currentSim.getSatiety() + (Integer)((Edible)currentSim.getInventory().getItemByName(food)).getKekenyangan());
-            System.out.println("You has eaten " + currentSim.getInventory().getItemByName(food).getName() + " and your satiety increased by " + (Integer)((Edible)currentSim.getInventory().getItemByName(food)).getKekenyangan());
+        } else {
+            currentSim.setSatiety(currentSim.getSatiety()
+                    + (Integer) ((Edible) currentSim.getInventory().getItemByName(food)).getKekenyangan());
+            System.out.println("You has eaten " + currentSim.getInventory().getItemByName(food).getName()
+                    + " and your satiety increased by "
+                    + (Integer) ((Edible) currentSim.getInventory().getItemByName(food)).getKekenyangan());
             currentSim.getInventory().removeItem(currentSim.getInventory().getItemByName(food));
         }
     }
@@ -986,7 +1029,7 @@ public class Manager {
         return currentSim.getStatus().equals("Idle") == false;
     }
 
-    public static void dailyReset(){ // kalo perlu buat yang update per hari
+    public static void dailyReset() { // kalo perlu buat yang update per hari
         currentSim.setWorkToday(0);
     }
 }
