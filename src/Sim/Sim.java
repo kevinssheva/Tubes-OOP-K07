@@ -1,6 +1,9 @@
 package src.Sim;
 
 import java.awt.Point;
+import java.util.HashMap;
+import java.util.Map;
+
 import src.Inventory.*;
 import src.Job.*;
 import src.Objek.Objek;
@@ -25,6 +28,7 @@ public class Sim {
     private Home home; // punya rumah sendiri
     private Integer workToday = 0; // catet waktu kerja yg udah dilakuin hari itu
     private Integer currentWorkTotal = 0; // catet waktu kerja total buat ganti job
+    private Map<String, Long> actionList = new HashMap<String, Long>();
 
     public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status,
             Home home) {
@@ -155,6 +159,18 @@ public class Sim {
 
     public void setCurrentWorkTotal(Integer currentWorkTotal) {
         this.currentWorkTotal = currentWorkTotal;
+    }
+
+    public boolean checkAction(String action) {
+        return actionList.containsKey(action);
+    }
+
+    public void addAction(String action, Long time) {
+        actionList.put(action, time);
+    }
+
+    public void removeAction(String action) {
+        actionList.remove(action);
     }
 
     public void exercise(Integer time) {
@@ -344,6 +360,15 @@ public class Sim {
 
     public void kembali() {
         setStatus("Going back home...");
+    }
+
+    public void showTime() {
+        System.out.println("Current time: " + Main.timeNow);
+        System.out.println("Your ongoing action : ");
+        for (Map.Entry<String, Long> entry : actionList.entrySet()) {
+            Long timeLeft = entry.getValue() - Main.timeNow;
+            System.out.println(entry.getKey() + " : " + timeLeft + " seconds left");
+        }
     }
 
     public boolean stillAlive() {

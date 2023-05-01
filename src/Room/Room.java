@@ -172,7 +172,7 @@ public class Room {
                     System.out.println("Pilih lokasi furniture yang ingin dituju : ");
                     for (int i = 0; i < entry.getValue().size(); i++) {
                         System.out.println(i + 1 + ". (" + entry.getValue().get(i).x + ", "
-                                + entry.getValue().get(i).y + ")" );
+                                + entry.getValue().get(i).y + ")");
                     }
                     Scanner scanRoom = new Scanner(System.in);
                     int input = scanRoom.nextInt();
@@ -188,7 +188,7 @@ public class Room {
         }
         return null;
     }
-    
+
     public void printRoom() {
         System.out.println("Room map");
         for (int i = 0; i < dimensi.width; i++) {
@@ -202,7 +202,7 @@ public class Room {
             System.out.println();
         }
 
-        //print simMap and roomMap in 2d array
+        // print simMap and roomMap in 2d array
         System.out.println("Sim Map: ");
         for (int i = 0; i < dimensi.width; i++) {
             for (int j = 0; j < dimensi.height; j++) {
@@ -220,7 +220,6 @@ public class Room {
             }
             System.out.println();
         }
-        
 
     }
 
@@ -238,13 +237,13 @@ public class Room {
         }
     }
 
-    public boolean checkBed(Sim sim){ // checking whether the sim is standing on top of a bed
-        for(Map.Entry<Sim,Point> entry : simMap.entrySet()){
-            if(entry.getKey().equals(sim)){
-                for(Map.Entry<Furniture,List<Point>> entryFurniture : furnitureList.entrySet()){
-                    if(entryFurniture.getKey() instanceof Bed){
-                        for(Point pointFurniture : entryFurniture.getValue()){
-                            if(pointFurniture.equals(entry.getValue())){
+    public boolean checkBed(Sim sim) { // checking whether the sim is standing on top of a bed
+        for (Map.Entry<Sim, Point> entry : simMap.entrySet()) {
+            if (entry.getKey().equals(sim)) {
+                for (Map.Entry<Furniture, List<Point>> entryFurniture : furnitureList.entrySet()) {
+                    if (entryFurniture.getKey() instanceof Bed) {
+                        for (Point pointFurniture : entryFurniture.getValue()) {
+                            if (pointFurniture.equals(entry.getValue())) {
                                 return true;
                             }
                         }
@@ -255,48 +254,13 @@ public class Room {
         return false;
     }
 
-    public boolean checkMejaKursi(Sim sim){
-            for(Map.Entry<Sim,Point> entry : simMap.entrySet()){
-                if(entry.getKey().equals(sim)){
-                    for(Map.Entry<Furniture,List<Point>> entryFurniture : furnitureList.entrySet()){
-                        if(entryFurniture.getKey() instanceof MejaKursi){
-                            for(Point pointFurniture : entryFurniture.getValue()){
-                                if(pointFurniture.equals(entry.getValue())){
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return false;        
-    }
-
-    public boolean checkStove(Sim sim){
-
-            for(Map.Entry<Sim,Point> entry : simMap.entrySet()){
-                if(entry.getKey().equals(sim)){
-                    for(Map.Entry<Furniture,List<Point>> entryFurniture : furnitureList.entrySet()){
-                        if(entryFurniture.getKey() instanceof Stove){
-                            for(Point pointFurniture : entryFurniture.getValue()){
-                                if(pointFurniture.equals(entry.getValue())){
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return false;        
-    }
-
-    public boolean checkTableAndChair(Sim sim){
-        for(Map.Entry<Sim,Point> entry : simMap.entrySet()){
-            if(entry.getKey().equals(sim)){
-                for(Map.Entry<Furniture,List<Point>> entryFurniture : furnitureList.entrySet()){
-                    if(entryFurniture.getKey() instanceof MejaKursi){
-                        for(Point pointFurniture : entryFurniture.getValue()){
-                            if(pointFurniture.equals(entry.getValue())){
+    public boolean checkMejaKursi(Sim sim) {
+        for (Map.Entry<Sim, Point> entry : simMap.entrySet()) {
+            if (entry.getKey().equals(sim)) {
+                for (Map.Entry<Furniture, List<Point>> entryFurniture : furnitureList.entrySet()) {
+                    if (entryFurniture.getKey() instanceof MejaKursi) {
+                        for (Point pointFurniture : entryFurniture.getValue()) {
+                            if (pointFurniture.equals(entry.getValue())) {
                                 return true;
                             }
                         }
@@ -304,8 +268,60 @@ public class Room {
                 }
             }
         }
-        return false;        
-}
+        return false;
+    }
+
+    public boolean checkStove(Sim sim) {
+
+        for (Map.Entry<Sim, Point> entry : simMap.entrySet()) {
+            if (entry.getKey().equals(sim)) {
+                for (Map.Entry<Furniture, List<Point>> entryFurniture : furnitureList.entrySet()) {
+                    if (entryFurniture.getKey() instanceof Stove) {
+                        for (Point pointFurniture : entryFurniture.getValue()) {
+                            if (pointFurniture.equals(entry.getValue())) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkTableAndChair(Sim sim) {
+        for (Map.Entry<Sim, Point> entry : simMap.entrySet()) {
+            if (entry.getKey().equals(sim)) {
+                for (Map.Entry<Furniture, List<Point>> entryFurniture : furnitureList.entrySet()) {
+                    if (entryFurniture.getKey() instanceof MejaKursi) {
+                        for (Point pointFurniture : entryFurniture.getValue()) {
+                            if (pointFurniture.equals(entry.getValue())) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkClock(Sim sim) {
+        for (Map.Entry<Sim, Point> entry : simMap.entrySet()) {
+            if (entry.getKey().equals(sim)) {
+                for (Map.Entry<Furniture, List<Point>> entryFurniture : furnitureList.entrySet()) {
+                    if (entryFurniture.getKey() instanceof Clock) {
+                        for (Point pointFurniture : entryFurniture.getValue()) {
+                            if (pointFurniture.equals(entry.getValue())) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         Room room = new Room("Kamar 1");

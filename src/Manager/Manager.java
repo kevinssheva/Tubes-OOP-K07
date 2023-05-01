@@ -109,6 +109,7 @@ public class Manager {
             public void run() {
                 Random rand = new Random();
                 long finalTime = Main.timeNow + rand.nextInt(45) + 1;
+                Manager.currentSim.addAction("Buy")
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
@@ -446,6 +447,9 @@ public class Manager {
         if (currentSim.getRoom().checkStove(currentSim)) {
             System.out.println("- Cook");
         }
+        if (currentSim.getRoom().checkClock(currentSim)) {
+            System.out.println("- View Clock");
+        }
         System.out.println("- Buy Things");
         System.out.println("- View Sim Info");
         // change job
@@ -454,9 +458,14 @@ public class Manager {
         }
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
-        System.out.println("- Upgrade House");
+
+        if (!currentSim.checkAction("Upgrade House")) {
+            System.out.println("- Upgrade House");
+        }
         System.out.println("- Move Room");
-        System.out.println("- Edit Room");
+        if (currentSim.getCurrentHome() == currentSim.getHome()) {
+            System.out.println("- Edit Room");
+        }
         System.out.println("- Add Sim");
         System.out.println("- Change Sim");
         System.out.println("- List Object");
@@ -579,6 +588,11 @@ public class Manager {
     public static void upgradeHouse() {
         clearScreen();
         // Upgrade House
+        if (currentSim.checkAction("Upgrade House")) {
+            System.out.println("You have already upgraded your house");
+            clickEnter();
+            return;
+        }
         System.out.println("Here is your list of room in your house");
         currentSim.getHome().showRoom();
         System.out.println("What room do you want to use as a reference?");
@@ -588,6 +602,7 @@ public class Manager {
         while (referenceRoom == null || referenceRoom.getUnderConstruction()) {
             System.out.println("Room not available, please try again");
             room = in.nextLine();
+            referenceRoom = currentSim.getHome().getRoomByName(room);
         }
 
         System.out.println("What room do you want to add?");
@@ -607,6 +622,7 @@ public class Manager {
         Thread upgradeThread = new Thread() {
             public void run() {
                 long finalTime = Main.timeNow + 20;
+                Manager.currentSim.addAction("Upgrade House", finalTime);
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
@@ -615,6 +631,7 @@ public class Manager {
                     }
                 }
                 currentSim.getHome().getRoomByName(roomNameFinal).setUnderConstruction(false);
+                currentSim.removeAction("Upgrade House");
             }
         };
         upgradeThread.start();
@@ -752,7 +769,7 @@ public class Manager {
         }
         Home home = new Home(name + "'s Home");
         world.addHome(home);
-        Sim sim = new Sim(name, job, 80, 80, 80, 100, "Idle", home);
+        Sim sim = new Sim(name, job, 80, 100, 80, 80, "Idle", home);
         System.out.println("Your sim's job is " + sim.getJob().getName());
         System.out.println("Your sim has been generated! ");
         clickEnter();
@@ -823,11 +840,11 @@ public class Manager {
 
                 if (time == -1) {
                     break;
-                } 
+                }
 
                 int timeToWork = Math.min(time, 240 - currentSim.getWorkToday() * 60);
                 currentSim.kerja(timeToWork);
-                
+
                 clickEnter();
                 break;
             case "Exercise":
@@ -887,6 +904,17 @@ public class Manager {
                 }
                 clickEnter();
                 break;
+            case "View Clock": {
+                clearScreen();
+                if (currentSim.getRoom().checkClock(currentSim)) {
+                    currentSim.showTime();
+                } else {
+                    System.out.println(
+                            "you know that you actually couldn't view the clock because your sim are not near a clock.\nPlease do not do this again!");
+                }
+                clickEnter();
+                break;
+            }
             case "Buy Things":
                 clearScreen();
                 queryBuyThings();
@@ -912,6 +940,10 @@ public class Manager {
                 clickEnter();
                 break;
             case "Edit Room":
+                if (currentSim.getCurrentHome() != currentSim.getHome()) {
+                    System.out.println("You can only edit your own house!");
+                    break;
+                }
                 editRoom();
                 break;
             case "Move Room":
