@@ -972,20 +972,16 @@ public class Manager {
         switch(theDish){
             case "Chicken Rice":
                 return currentSim.getInventory().checkItemByName("Chicken") && currentSim.getInventory().checkItemByName("Rice");
-                break;
             case "Curry Rice":
                 return currentSim.getInventory().checkItemByName("Rice") && currentSim.getInventory().checkItemByName("Potato") && currentSim.getInventory().checkItemByName("Carrot") && currentSim.getInventory().checkItemByName("Beef");
-                break;
             case "Soy Milk":
                 return currentSim.getInventory().checkItemByName("Milk") && currentSim.getInventory().checkItemByName("Peanut");
-                break;
             case "Stir-fried Vegetables":
                 return currentSim.getInventory().checkItemByName("Carrot") && currentSim.getInventory().checkItemByName("Spinach");
-                break;
             case "Beef Steak":
                 return currentSim.getInventory().checkItemByName("Potato") && currentSim.getInventory().checkItemByName("Beef");
-                break;
         }
+        return false;
     }
 
     public static boolean isThereThisDish(String theDish){
