@@ -954,6 +954,7 @@ public class Manager {
                 break;
             case "Change Sim":
                 changeSim();
+                clickEnter();
                 break;
             case "List Object":
                 currentSim.getRoom().showFurniture();
@@ -965,6 +966,10 @@ public class Manager {
                 clickEnter();
                 break;
             case "Visit Other's Houses":
+                clearScreen();
+                listHome();
+                doQueryVisitHome();
+                clickEnter();
                 break;
             case "Exit":
                 exitTheGame();
@@ -973,6 +978,52 @@ public class Manager {
             // add more action
 
         }
+    }
+
+    public static void listHome(){
+        System.out.println("This is the list of home in this world");
+        for(Sim sim : simList){
+            System.out.println("- " + sim.getName() +"'s house in coordinate of (" + (sim.getHome().getLocation().x) + "," + (sim.getHome().getLocation().y)+")");
+        }
+    }
+
+    public static void doQueryVisitHome(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("Please type your sim name's that whose  you will visit or Quit if you want to cancel");
+        String name = in.nextLine();
+        while((!isThereSimNamed(name) && !name.equals("Quit")) || currentSim.getName().equals(name)){
+            if(currentSim.getName().equals(name)){
+                System.out.println("That is your own home, dumbass");
+            }else System.out.println("There is no sim named " + name);
+            System.out.println("Please type the correct one");
+            name = in.nextLine();
+        }
+
+        if(name.equals("Quit")){
+            return;
+        }
+
+        for(Sim sim : simList){
+            if(sim.getName().equals(name)){
+                currentSim.getRoom().removeSimMap(currentSim);
+                currentSim.setCurrentHome(sim.getHome());
+                currentSim.setRoom(sim.getHome().getListRuangan().get(0));
+                currentSim.getRoom().addSim(currentSim);
+                System.out.println(currentSim.getName() + " has moved to " + name + "'s home!");
+                break;
+            }
+        }
+        
+
+    }
+
+    public static boolean isThereSimNamed(String name){
+        for(Sim sim : simList){
+            if(sim.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void doQueryCook() {

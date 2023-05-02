@@ -119,6 +119,19 @@ public class Room {
         simMap.put(sim, newLocation);
     }
 
+    public void addSim(Sim sim){
+        Random rand = new Random();
+        int x = rand.nextInt(6);
+        int y = rand.nextInt(6);
+        Point temp = new Point(x,y);
+        while(simMap.containsValue(temp)){
+            x = rand.nextInt(6);
+            y = rand.nextInt(6);
+            temp = new Point(x,y);
+        }
+        adjustSimMap(sim,temp);
+    }
+
     public void removeSimMap(Sim sim) {
         simMap.remove(sim);
     }
