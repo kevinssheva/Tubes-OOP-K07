@@ -3,8 +3,8 @@ Semangat Ya Tubesnya!!
 | Name  | NIM |
 | ------------- | ------------- |
 | Jonathan Arthurito Aldi Sinaga  |  18221079  |
-| Lie, Kevin Sebastian S. T.  | 18221143  |
-| Felisa Aidadora Darmawan  |  18221137  |
+| Felisa Aidadora Darmawan | 18221137  |
+| Lie, Kevin Sebastian S. T.  |  18221143  |
 | Aufar Ramadhan | 18221163  |
 | Ferdinand Refrandt  |  18221169  |
 
