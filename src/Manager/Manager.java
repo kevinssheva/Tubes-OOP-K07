@@ -1005,6 +1005,8 @@ public class Manager {
 
         for(Sim sim : simList){
             if(sim.getName().equals(name)){
+                //currentSim.visit(Math.round(Math.sqrt(((Integer)currentSim.getCurrentHome().getLocation().x - (Integer)sim.getCurrentHome().getLocation().x)*((Integer)currentSim.getCurrentHome().getLocation().x - (Integer)sim.getCurrentHome().getLocation().x)+((Integer)currentSim.getCurrentHome().getLocation().y - (Integer)sim.getCurrentHome().getLocation().y)*((Integer)currentSim.getCurrentHome().getLocation().y - (Integer)sim.getCurrentHome().getLocation().y))));
+                currentSim.visit(calculateTime(currentSim,sim));
                 currentSim.getRoom().removeSimMap(currentSim);
                 currentSim.setCurrentHome(sim.getHome());
                 currentSim.setRoom(sim.getHome().getListRuangan().get(0));
@@ -1013,8 +1015,14 @@ public class Manager {
                 break;
             }
         }
-        
+    }
 
+    public static Long calculateTime(Sim a, Sim b){
+        Point loca = a.getCurrentHome().getLocation();
+        Point locb = b.getCurrentHome().getLocation();
+        Integer x = loca.x - locb.x;
+        Integer y = loca.y -  locb.y;
+        return Math.round(Math.sqrt((Integer)(x*x +y*y)));
     }
 
     public static boolean isThereSimNamed(String name){

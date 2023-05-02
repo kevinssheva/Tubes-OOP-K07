@@ -29,7 +29,8 @@ public class Sim {
     private Integer workToday = 0; // catet waktu kerja yg udah dilakuin hari itu
     private Integer currentWorkTotal = 0; // catet waktu kerja total buat ganti job
     private Map<String, Long> actionList = new HashMap<String, Long>();
-
+    private Integer traveledTime = 0;
+    
     public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status,
             Home home) {
         this.name = name;
@@ -61,6 +62,12 @@ public class Sim {
         sleepCheck();
     }
 
+    public Integer getTraveledTime(){
+        return traveledTime;
+    }
+    public void setTraveledTime(Integer traveledTime){
+        this.traveledTime = traveledTime;
+    }
     public Integer getSatiety() {
         return satiety;
     }
@@ -200,6 +207,35 @@ public class Sim {
             System.out.println("Exercise done");
             setStatus("Idle");
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void visit(long time){
+        setStatus("Visiting to other's home...");
+        Thread visitThread = new Thread(){
+            public void run(){
+                long finalTime = Main.timeNow + time;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
+                    traveledTime += 1;
+                    if(traveledTime == 30){
+                        setMood(mood+10);
+                        setSatiety(satiety-10);
+                        traveledTime = 0;
+                    }
+                }
+            }
+        };
+        visitThread.start();
+        try{
+            visitThread.join();
+            setStatus("Idle");
+        }catch(InterruptedException e){
             e.printStackTrace();
         }
     }
