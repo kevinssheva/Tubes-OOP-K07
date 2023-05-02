@@ -6,7 +6,7 @@ import src.Main;
 
 public class Clock extends Furniture {
     public Clock() {
-        super("Jam", "Melihat Waktu", 10, new Dimension(1, 1));
+        super("Clock", "View Time", 10, new Dimension(1, 1));
     }
 
     public void aksi() {
