@@ -886,7 +886,7 @@ public class Manager {
                 if (currentSim.getRoom().checkTableAndChair(currentSim)) {
                     currentSim.getInventory().showEdibleOnly();
                     chooseFood();
-
+                    
                 } else {
                     System.out.println(
                             "you know that you actually couldn't eat because your sim are not sitting on top of a Table and Chair.\nPlease do not do this again!");

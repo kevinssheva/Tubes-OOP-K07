@@ -363,38 +363,6 @@ public class Sim {
         }
     }
 
-    public void berkunjung(Home otherHome) {
-        Thread visitThread = new Thread() {
-            public void run() {
-                try {
-                    setStatus("Visiting another house...");
-                    double time = getHome().getLocation().distance(otherHome.getLocation());
-                    Thread.sleep((long) (time * 1000));
-                    setCurrentHome(otherHome);
-                    setStatus("Idle");
-                    long startTime = Main.timeNow;
-                    boolean start = false;
-                    while (!getStatus().equals("Going back home...")) {
-                        if ((Main.timeNow - startTime) % 30 == 0) {
-                            if (start) { // buat pastiin ga langsung ngeubah pas baru sampe
-                                setMood(getMood() + 10);
-                                setSatiety(getSatiety() - 10);
-                            } else {
-                                start = true;
-                            }
-                        }
-                    }
-                    Thread.sleep((long) (time * 1000));
-                    setCurrentHome(getHome());
-                    setStatus("Idle");
-                } catch (Exception e) {
-
-                }
-            }
-        };
-        visitThread.start();
-    }
-
     public void kembali() {
         setStatus("Going back home...");
     }
