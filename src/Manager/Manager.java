@@ -109,7 +109,7 @@ public class Manager {
             public void run() {
                 Random rand = new Random();
                 long finalTime = Main.timeNow + rand.nextInt(45) + 1;
-                Manager.currentSim.addAction("Buy")
+                Manager.currentSim.addAction("Buy",finalTime);
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
@@ -813,7 +813,7 @@ public class Manager {
             return;
         }
         currentSim.getRoom().adjustSimMap(currentSim, point);
-        System.out.println("You are now in front of " + objectName);
+        System.out.println("You are now in top of " + objectName);
     }
 
     public static void doQuery() {
@@ -957,8 +957,12 @@ public class Manager {
                 break;
             case "List Object":
                 currentSim.getRoom().showFurniture();
+                clickEnter();
                 break;
             case "Go To Object":
+                clearScreen();
+                goToObject();
+                clickEnter();
                 break;
             case "Visit Other's Houses":
                 break;
