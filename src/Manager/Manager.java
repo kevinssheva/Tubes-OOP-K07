@@ -436,18 +436,18 @@ public class Manager {
         System.out.println("- Work");
         System.out.println("- Exercise");
         // sleep
-        if (currentSim.getRoom().checkBed(currentSim)) {
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Bed.class)) {
             System.out.println("- Sleep");
         }
         // eat
-        if (currentSim.getRoom().checkMejaKursi(currentSim)) {
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, MejaKursi.class)) {
             System.out.println("- Eat");
         }
         // cook
-        if (currentSim.getRoom().checkStove(currentSim)) {
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Stove.class)) {
             System.out.println("- Cook");
         }
-        if (currentSim.getRoom().checkClock(currentSim)) {
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Clock.class)) {
             System.out.println("- View Clock");
         }
         System.out.println("- Buy Things");
@@ -889,7 +889,7 @@ public class Manager {
                 break;
             case "Sleep":
                 clearScreen();
-                if (currentSim.getRoom().checkBed(currentSim)) {
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Bed.class)) {
                     System.out.println(
                             "Please input how many seconds do you want to sleep.\nMake sure the input is in multiples of 240.\nIf you don't want to work,please type -1");
                     int timeSleep = in.nextInt();
@@ -908,7 +908,7 @@ public class Manager {
                 break;
             case "Eat":
                 clearScreen();
-                if (currentSim.getRoom().checkTableAndChair(currentSim)) {
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, MejaKursi.class)) {
                     currentSim.getInventory().showEdibleOnly();
                     chooseFood();
                     
@@ -920,7 +920,7 @@ public class Manager {
                 break;
             case "Cook":
                 clearScreen();
-                if (currentSim.getRoom().checkStove(currentSim)) {
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Stove.class)) {
                     printListDish();
                     doQueryCook();
                 } else {
@@ -931,7 +931,7 @@ public class Manager {
                 break;
             case "View Clock": {
                 clearScreen();
-                if (currentSim.getRoom().checkClock(currentSim)) {
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Clock.class)) {
                     currentSim.showTime();
                 } else {
                     System.out.println(
