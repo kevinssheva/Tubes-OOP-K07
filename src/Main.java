@@ -15,7 +15,17 @@ public class Main {
                 while (true) {
                     if (Manager.isThereAnyWorkingSim()) {
                         timeNow++;
-                        System.out.println(timeNow);
+                        Manager.clearScreen();
+                        System.out.print(Manager.getCurrentSim().getName() + " is " + Manager.getCurrentSim().getStatus());
+                        long i = timeNow % 3;
+                        if (i == 0) {
+                            System.out.println(".");
+                        } else if (i == 1) {
+                            System.out.println("..");
+                        } else {
+                            System.out.println("...");
+                        }
+                        System.out.println("Time : " + timeNow);
                     }
                     try {
                         Thread.sleep(1000);
