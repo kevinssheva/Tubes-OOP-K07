@@ -891,9 +891,9 @@ public class Manager {
                 clearScreen();
                 if (currentSim.getRoom().isSimOnFurniture(currentSim, Bed.class)) {
                     System.out.println(
-                            "Please input how many seconds do you want to sleep.\nMake sure the input is in multiples of 240.\nIf you don't want to work,please type -1");
+                            "Please input how many seconds do you want to sleep.\nMake sure the input is more than 180.\nIf you don't want to work,please type -1");
                     int timeSleep = in.nextInt();
-                    while (timeSleep % 20 != 0 && timeSleep != -1) {
+                    while (timeSleep % 240 != 0 && timeSleep != -1) {
                         System.out.println("Please input the multiples of 240 or -1 if you don't want to work");
                         timeSleep = in.nextInt();
                     }
