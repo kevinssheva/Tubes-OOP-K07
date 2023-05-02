@@ -8,13 +8,16 @@ import src.Sim.Sim;
 public class Home {
     private String name;
     private List<Room> listRuangan;
+    private Map<Point, Room> mapRuangan;
     private Point location;
 
     public Home(String name) {
         this.name = name;
         this.listRuangan = new ArrayList<Room>();
+        this.mapRuangan = new HashMap<Point, Room>();
         Room room = new Room("Main Room");
         listRuangan.add(room);
+        mapRuangan.put(new Point(0, 0), room);
     }
 
     public Home(String name, Point location) {
@@ -57,6 +60,15 @@ public class Home {
         return null;
     }
 
+    public Room getRoomByPoint(Point point) {
+        for (Map.Entry<Point, Room> entry : mapRuangan.entrySet()) {
+            if (entry.getKey().getX() == point.getX() && entry.getKey().getY() == point.getY()) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
     public boolean checkRoom(String name) {
         for (Room room : listRuangan) {
             if (room.getName().equals(name)) {
@@ -64,6 +76,34 @@ public class Home {
             }
         }
         return false;
+    }
+
+    public Point getRoomPoint(Room room) {
+        for (Map.Entry<Point, Room> entry : mapRuangan.entrySet()) {
+            if (entry.getValue().equals(room)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public void checkDirectionRoom(Room newRoom, Point point) {
+        if (mapRuangan.containsKey(new Point(point.x - 1, point.y))) {
+            newRoom.setWest(mapRuangan.get(new Point(point.x - 1, point.y)));
+            mapRuangan.get(new Point(point.x - 1, point.y)).setEast(newRoom);
+        }
+        if (mapRuangan.containsKey(new Point(point.x + 1, point.y))) {
+            newRoom.setEast(mapRuangan.get(new Point(point.x + 1, point.y)));
+            mapRuangan.get(new Point(point.x + 1, point.y)).setWest(newRoom);
+        }
+        if (mapRuangan.containsKey(new Point(point.x, point.y - 1))) {
+            newRoom.setSouth(mapRuangan.get(new Point(point.x, point.y - 1)));
+            mapRuangan.get(new Point(point.x, point.y - 1)).setNorth(newRoom);
+        }
+        if (mapRuangan.containsKey(new Point(point.x, point.y + 1))) {
+            newRoom.setNorth(mapRuangan.get(new Point(point.x, point.y + 1)));
+            mapRuangan.get(new Point(point.x, point.y + 1)).setSouth(newRoom);
+        }
     }
 
     public void addRuangan(String referenceRoom, String direction, String name) {
@@ -75,35 +115,48 @@ public class Home {
                 break;
             }
         }
+        Point roomPoint = getRoomPoint(room);
+
         Room newRoom = new Room(name, true);
         if (direction.equals("north")) {
             if (room.getNorth() != null) {
                 System.out.println("Ruangan sudah ada");
                 return;
             }
-            room.setNorth(newRoom);
-            newRoom.setSouth(room);
+            Point newRoomPoint = new Point(roomPoint.x, roomPoint.y + 1);
+            
+            mapRuangan.put(newRoomPoint, newRoom);
+            // check every direction of the new room
+            checkDirectionRoom(newRoom, newRoomPoint);
+
+            
         } else if (direction.equals("south")) {
             if (room.getSouth() != null) {
                 System.out.println("Ruangan sudah ada");
                 return;
             }
-            room.setSouth(newRoom);
-            newRoom.setNorth(room);
+            Point newRoomPoint = new Point(roomPoint.x, roomPoint.y - 1);
+            mapRuangan.put(newRoomPoint, newRoom);
+            // check every direction of the new room
+            checkDirectionRoom(newRoom, newRoomPoint);
         } else if (direction.equals("east")) {
             if (room.getEast() != null) {
                 System.out.println("Ruangan sudah ada");
                 return;
             }
-            room.setEast(newRoom);
-            newRoom.setWest(room);
+            Point newRoomPoint = new Point(roomPoint.x + 1, roomPoint.y);
+            mapRuangan.put(newRoomPoint, newRoom);
+            // check every direction of the new room
+            checkDirectionRoom(newRoom, newRoomPoint);
         } else if (direction.equals("west")) {
             if (room.getWest() != null) {
                 System.out.println("Ruangan sudah ada");
                 return;
             }
-            room.setWest(newRoom);
-            newRoom.setEast(room);
+            Point newRoomPoint = new Point(roomPoint.x - 1, roomPoint.y);
+            mapRuangan.put(newRoomPoint, newRoom);
+            // check every direction of the new room
+            checkDirectionRoom(newRoom, newRoomPoint);
         } else {
             System.out.println("Masukkan arah yang benar");
             return;

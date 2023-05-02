@@ -694,15 +694,12 @@ public class Manager {
         }
         clickEnter();
     }
-
-    public static void editRoom() {
+    public static void putFurniture() {
         clearScreen();
-        // Edit Room
+        Scanner in = new Scanner(System.in);
         System.out.println("Here is your furniture");
         currentSim.getInventory().showFurnitureOnly();
         System.out.println("Which furniture do you want to put in your room?");
-
-        Scanner in = new Scanner(System.in);
 
         Furniture furniture = null;
         String furnitureName = "";
@@ -737,6 +734,34 @@ public class Manager {
             return;
         }
         currentSim.getInventory().removeItem(furniture);
+    }
+
+    public static void removeFurniture() {
+        clearScreen();
+        Scanner in = new Scanner(System.in);
+        System.out.println("Here is your furniture");
+        currentSim.getRoom().showFurniture();
+        System.out.println("Which furniture do you want to remove from your room?");
+        String furnitureName = in.nextLine();
+        currentSim.getRoom().removeFurniture(furnitureName);
+    }
+
+    public static void editRoom() {
+        clearScreen();
+        // Edit Room
+        Scanner in = new Scanner(System.in);
+        System.out.println("Do you want to put or remove furniture?");
+        System.out.println("1. Put Furniture");
+        System.out.println("2. Remove Furniture");
+        int choice = in.nextInt();
+        if (choice == 1) {
+            putFurniture();
+        } else if (choice == 2) {
+            removeFurniture();
+        } else {
+            System.out.println("Invalid Input");
+        }
+        clickEnter();
     }
 
     public static void generateSim() {

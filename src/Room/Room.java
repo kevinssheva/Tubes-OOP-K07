@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.*;
 import src.Objek.Furniture.Bed.*;
 import src.Objek.Furniture.Furniture;
+import src.Manager.Manager;
 import src.Objek.Furniture.*;
 import src.Objek.Furniture.Stove.*;
 import src.Sim.Sim;
@@ -126,6 +127,56 @@ public class Room {
     public void setFurnitureList(Map<Furniture, List<Point>> furnitureList) {
         this.furnitureList = furnitureList;
     }
+
+    public void removeFurniture(String name) {
+        List<Point> points = null;
+        Furniture furniture = null;
+        for (Map.Entry<Furniture, List<Point>> entry : furnitureList.entrySet()) {
+            if (entry.getKey().getName().equals(name)) {
+                points = entry.getValue();
+                furniture = entry.getKey();
+                break;
+            }
+        }
+        if (furniture == null) {
+            System.out.println("Furniture tidak ditemukan");
+            return;
+        }
+        Dimension furnitureDimension = furniture.getDimensi();
+        //choose furniture if there are more than one
+        if (points.size() > 1) {
+            System.out.println("Pilih lokasi furniture yang ingin dihapus : ");
+            for (int i = 0; i < points.size(); i++) {
+                System.out.println(i + 1 + ". (" + points.get(i).x + ", " + points.get(i).y + ")");
+            }
+            Scanner scanRoom = new Scanner(System.in);
+            int input = scanRoom.nextInt();
+            while (input < 1 || input > points.size()) {
+                System.out.println("Input salah, masukkan ulang : ");
+                input = scanRoom.nextInt();
+            }
+            Point location = points.get(input - 1);
+            for (int i = 0; i < furnitureDimension.height; i++) {
+                for (int j = 0; j < furnitureDimension.width; j++) {
+                    roomMap[location.y + i][location.x + j] = null;
+                }
+            }
+            points.remove(input - 1);
+            furnitureList.put(furniture, points);
+            System.out.println("Furniture berhasil dihapus");
+        } else {
+            Point location = points.get(0);
+            for (int i = 0; i < furnitureDimension.height; i++) {
+                for (int j = 0; j < furnitureDimension.width; j++) {
+                    roomMap[location.y + i][location.x + j] = null;
+                }
+            }
+            furnitureList.remove(furniture);
+            System.out.println("Furniture berhasil dihapus");
+        }
+        Manager.getCurrentSim().getInventory().addItem(furniture);
+    }
+
 
     public void addFurniture(Furniture furniture, Point location) {
         Furniture checkMap = roomMap[location.y][location.x];
