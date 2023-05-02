@@ -29,7 +29,8 @@ public class Sim {
     private Integer workToday = 0; // catet waktu kerja yg udah dilakuin hari itu
     private Integer currentWorkTotal = 0; // catet waktu kerja total buat ganti job
     private Map<String, Long> actionList = new HashMap<String, Long>();
-
+    private Integer traveledTime = 0;
+    
     public Sim(String name, Job job, Integer satiety, Integer money, Integer mood, Integer health, String status,
             Home home) {
         this.name = name;
@@ -61,6 +62,12 @@ public class Sim {
         sleepCheck();
     }
 
+    public Integer getTraveledTime(){
+        return traveledTime;
+    }
+    public void setTraveledTime(Integer traveledTime){
+        this.traveledTime = traveledTime;
+    }
     public Integer getSatiety() {
         return satiety;
     }
@@ -173,6 +180,30 @@ public class Sim {
         actionList.remove(action);
     }
 
+    public void eat(){
+        setStatus("Eating");
+        Thread eatThread = new Thread(){
+            public void run(){
+                long finalTime = Main.timeNow + 30;
+                while (Main.timeNow < finalTime) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        eatThread.start();
+        try{
+            eatThread.join();
+            setStatus("Idle");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void exercise(Integer time) {
         if (time % 20 != 0)
             return;
@@ -200,6 +231,35 @@ public class Sim {
             System.out.println("Exercise done");
             setStatus("Idle");
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void visit(long time){
+        setStatus("Visiting to other's home...");
+        Thread visitThread = new Thread(){
+            public void run(){
+                long finalTime = Main.timeNow + time;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }catch(InterruptedException e){
+                        System.out.println("Error");
+                    }
+                    traveledTime += 1;
+                    if(traveledTime == 30){
+                        setMood(mood+10);
+                        setSatiety(satiety-10);
+                        traveledTime = 0;
+                    }
+                }
+            }
+        };
+        visitThread.start();
+        try{
+            visitThread.join();
+            setStatus("Idle");
+        }catch(InterruptedException e){
             e.printStackTrace();
         }
     }
@@ -325,38 +385,6 @@ public class Sim {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    public void berkunjung(Home otherHome) {
-        Thread visitThread = new Thread() {
-            public void run() {
-                try {
-                    setStatus("Visiting another house...");
-                    double time = getHome().getLocation().distance(otherHome.getLocation());
-                    Thread.sleep((long) (time * 1000));
-                    setCurrentHome(otherHome);
-                    setStatus("Idle");
-                    long startTime = Main.timeNow;
-                    boolean start = false;
-                    while (!getStatus().equals("Going back home...")) {
-                        if ((Main.timeNow - startTime) % 30 == 0) {
-                            if (start) { // buat pastiin ga langsung ngeubah pas baru sampe
-                                setMood(getMood() + 10);
-                                setSatiety(getSatiety() - 10);
-                            } else {
-                                start = true;
-                            }
-                        }
-                    }
-                    Thread.sleep((long) (time * 1000));
-                    setCurrentHome(getHome());
-                    setStatus("Idle");
-                } catch (Exception e) {
-
-                }
-            }
-        };
-        visitThread.start();
     }
 
     public void kembali() {

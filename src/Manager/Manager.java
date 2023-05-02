@@ -813,7 +813,7 @@ public class Manager {
             return;
         }
         currentSim.getRoom().adjustSimMap(currentSim, point);
-        System.out.println("You are now in front of " + objectName);
+        System.out.println("You are now in top of " + objectName);
     }
 
     public static void doQuery() {
@@ -886,7 +886,7 @@ public class Manager {
                 if (currentSim.getRoom().checkTableAndChair(currentSim)) {
                     currentSim.getInventory().showEdibleOnly();
                     chooseFood();
-
+                    
                 } else {
                     System.out.println(
                             "you know that you actually couldn't eat because your sim are not sitting on top of a Table and Chair.\nPlease do not do this again!");
@@ -954,13 +954,22 @@ public class Manager {
                 break;
             case "Change Sim":
                 changeSim();
+                clickEnter();
                 break;
             case "List Object":
                 currentSim.getRoom().showFurniture();
+                clickEnter();
                 break;
             case "Go To Object":
+                clearScreen();
+                goToObject();
+                clickEnter();
                 break;
             case "Visit Other's Houses":
+                clearScreen();
+                listHome();
+                doQueryVisitHome();
+                clickEnter();
                 break;
             case "Exit":
                 exitTheGame();
@@ -969,6 +978,60 @@ public class Manager {
             // add more action
 
         }
+    }
+
+    public static void listHome(){
+        System.out.println("This is the list of home in this world");
+        for(Sim sim : simList){
+            System.out.println("- " + sim.getName() +"'s house in coordinate of (" + (sim.getHome().getLocation().x) + "," + (sim.getHome().getLocation().y)+")");
+        }
+    }
+
+    public static void doQueryVisitHome(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("Please type your sim name's that whose  you will visit or Quit if you want to cancel");
+        String name = in.nextLine();
+        while((!isThereSimNamed(name) && !name.equals("Quit")) || currentSim.getName().equals(name)){
+            if(currentSim.getName().equals(name)){
+                System.out.println("That is your own home, dumbass");
+            }else System.out.println("There is no sim named " + name);
+            System.out.println("Please type the correct one");
+            name = in.nextLine();
+        }
+
+        if(name.equals("Quit")){
+            return;
+        }
+
+        for(Sim sim : simList){
+            if(sim.getName().equals(name)){
+                //currentSim.visit(Math.round(Math.sqrt(((Integer)currentSim.getCurrentHome().getLocation().x - (Integer)sim.getCurrentHome().getLocation().x)*((Integer)currentSim.getCurrentHome().getLocation().x - (Integer)sim.getCurrentHome().getLocation().x)+((Integer)currentSim.getCurrentHome().getLocation().y - (Integer)sim.getCurrentHome().getLocation().y)*((Integer)currentSim.getCurrentHome().getLocation().y - (Integer)sim.getCurrentHome().getLocation().y))));
+                currentSim.visit(calculateTime(currentSim,sim));
+                currentSim.getRoom().removeSimMap(currentSim);
+                currentSim.setCurrentHome(sim.getHome());
+                currentSim.setRoom(sim.getHome().getListRuangan().get(0));
+                currentSim.getRoom().addSim(currentSim);
+                System.out.println(currentSim.getName() + " has moved to " + name + "'s home!");
+                break;
+            }
+        }
+    }
+
+    public static Long calculateTime(Sim a, Sim b){
+        Point loca = a.getCurrentHome().getLocation();
+        Point locb = b.getCurrentHome().getLocation();
+        Integer x = loca.x - locb.x;
+        Integer y = loca.y -  locb.y;
+        return Math.round(Math.sqrt((Integer)(x*x +y*y)));
+    }
+
+    public static boolean isThereSimNamed(String name){
+        for(Sim sim : simList){
+            if(sim.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void doQueryCook() {
@@ -1059,6 +1122,7 @@ public class Manager {
         if (food.equals("Quit")) {
 
         } else {
+            currentSim.eat();
             currentSim.setSatiety(currentSim.getSatiety()
                     + (Integer) ((Edible) currentSim.getInventory().getItemByName(food)).getKekenyangan());
             System.out.println("You has eaten " + currentSim.getInventory().getItemByName(food).getName()
