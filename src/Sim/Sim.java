@@ -228,6 +228,31 @@ public class Sim {
         }
     }
 
+    public void sholat() {
+        setStatus("Sholat");
+        Thread sholatThread = new Thread() {
+            public void run() {
+                long finalTime = Main.timeNow + 10;
+                while (Main.timeNow < finalTime) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        sholatThread.start();
+        try {
+            sholatThread.join();
+            setMood(mood + 20);
+            System.out.println("Sholat done");
+            setStatus("Idle");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void exercise(Integer time) {
         if (time % 20 != 0)
             return;

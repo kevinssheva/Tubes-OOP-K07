@@ -26,8 +26,8 @@ public class Manager {
     private static boolean gameStarted = false;
     private static World world = new World();
     private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
-            "Electric Stove", "Gas Stove", "Table and Chair", "Clock","TV", "Rice", "Potato", "Chicken", "Beef", "Carrot",
-            "Spinach", "Peanut", "Milk" };
+            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Sajadah", "Rice", "Potato", "Chicken", "Beef", "Carrot",
+            "Spinach", "Peanut", "Milk"};
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
     public static void buyThings(String thing) {
@@ -69,6 +69,10 @@ public class Manager {
             case "TV":
                 TV tv = new TV();
                 putIntoInventory = tv;
+                break;
+            case "Sajadah" :
+                Sajadah sajadah = new Sajadah();
+                putIntoInventory = sajadah;
                 break;
             case "Rice":
                 Ingredients rice = new Ingredients("Rice", 5, 5);
@@ -141,6 +145,7 @@ public class Manager {
         System.out.println("- Table and Chair\nPrice : 50\nDimension : 3 x 3\n");
         System.out.println("- Clock\nPrice : 10\nDimension : 1 x 1\n");
         System.out.println("- TV\nPrice : 30\nDimension : 1x1\n");
+        System.out.println("- Sajadah\nPrice : 10\nDimension : 2x1\n");
 
 
         System.out.println("- Rice\nPrice : 5\nSatiety : 5\n");
@@ -214,6 +219,7 @@ public class Manager {
             System.out.println("- Cook");
             System.out.println("- View Clock");
             System.out.println("- Watch TV");
+            System.out.println("- Sholat");
             System.out.println("- Buy Things");
             System.out.println("- View Sim Info");
             System.out.println("- View Current Location");
@@ -301,6 +307,11 @@ public class Manager {
                     clearScreen();
                     clickEnter();
                     break;
+                case "Sholat" :
+                    clearScreen();
+                    System.out.println("Lets your sim pray to Allah");
+                    System.out.println("Effects:\n+10 mood");
+                    clickEnter();
                 case "Buy Things":
                     clearScreen();
                     System.out.println("Lets your sim buy things from the shop.");
@@ -468,6 +479,9 @@ public class Manager {
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, TV.class)){
             System.out.println("- Watch TV");
+        }
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
+            System.out.println("- Sholat");
         }
         System.out.println("- Buy Things");
         System.out.println("- View Sim Info");
@@ -969,6 +983,16 @@ public class Manager {
                 }
                 clickEnter();                 
                 break;
+            case "Sholat":
+                clearScreen();
+                if(currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
+                    System.out.println("You will sholat for 10 seconds\nPlease take a moment to calm yourself");
+                    currentSim.sholat();
+                }
+                else {
+                    System.out.println(
+                            "you know that you actually couldn't sholat because your sim are not near a sajadah.\nPlease do not do this again!");
+                }
             case "Buy Things":
                 clearScreen();
                 queryBuyThings();
