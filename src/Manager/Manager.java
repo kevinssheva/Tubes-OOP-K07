@@ -1122,6 +1122,7 @@ public class Manager {
         if (food.equals("Quit")) {
 
         } else {
+            currentSim.eat();
             currentSim.setSatiety(currentSim.getSatiety()
                     + (Integer) ((Edible) currentSim.getInventory().getItemByName(food)).getKekenyangan());
             System.out.println("You has eaten " + currentSim.getInventory().getItemByName(food).getName()

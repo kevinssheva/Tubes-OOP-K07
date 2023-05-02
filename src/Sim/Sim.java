@@ -180,6 +180,30 @@ public class Sim {
         actionList.remove(action);
     }
 
+    public void eat(){
+        setStatus("Eating");
+        Thread eatThread = new Thread(){
+            public void run(){
+                long finalTime = Main.timeNow + 30;
+                while (Main.timeNow < finalTime) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        eatThread.start();
+        try{
+            eatThread.join();
+            setStatus("Idle");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void exercise(Integer time) {
         if (time % 20 != 0)
             return;
