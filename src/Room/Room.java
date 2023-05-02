@@ -152,20 +152,20 @@ public class Room {
             }
         }
         if (furniture == null) {
-            System.out.println("Furniture tidak ditemukan");
+            System.out.println("Furniture doesn't exist");
             return;
         }
         Dimension furnitureDimension = furniture.getDimensi();
         //choose furniture if there are more than one
         if (points.size() > 1) {
-            System.out.println("Pilih lokasi furniture yang ingin dihapus : ");
+            System.out.println("Select the location of the furniture that you want to remove : ");
             for (int i = 0; i < points.size(); i++) {
                 System.out.println(i + 1 + ". (" + points.get(i).x + ", " + points.get(i).y + ")");
             }
             Scanner scanRoom = new Scanner(System.in);
             int input = scanRoom.nextInt();
             while (input < 1 || input > points.size()) {
-                System.out.println("Input salah, masukkan ulang : ");
+                System.out.println("Your input is wrong. Please type your input again : ");
                 input = scanRoom.nextInt();
             }
             Point location = points.get(input - 1);
@@ -176,7 +176,7 @@ public class Room {
             }
             points.remove(input - 1);
             furnitureList.put(furniture, points);
-            System.out.println("Furniture berhasil dihapus");
+            System.out.println("The furniture has been removed successfully");
         } else {
             Point location = points.get(0);
             for (int i = 0; i < furnitureDimension.height; i++) {
@@ -185,7 +185,7 @@ public class Room {
                 }
             }
             furnitureList.remove(furniture);
-            System.out.println("Furniture berhasil dihapus");
+            System.out.println("The furniture has been removed successfully");
         }
         Manager.getCurrentSim().getInventory().addItem(furniture);
     }
@@ -203,7 +203,7 @@ public class Room {
                             isAvailable = false;
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("Furniture melebihi batas ruangan");
+                        System.out.println("The furniture cannot be placed since it's gonna be outside of the room");
                         isAvailable = false;
                     }
                 }
@@ -222,10 +222,10 @@ public class Room {
                 }
                 points.add(location);
                 furnitureList.put(furniture, points);
-                System.out.println("Furniture berhasil ditempatkan");
+                System.out.println("The furniture has been successfully placed");
             }
         } else {
-            throw new IllegalArgumentException("Furniture tidak dapat ditempatkan");
+            throw new IllegalArgumentException("Furniture cannot be placed");
         }
     }
 
@@ -233,7 +233,7 @@ public class Room {
         for (Map.Entry<Furniture, List<Point>> entry : furnitureList.entrySet()) {
             if (entry.getKey().getName().equals(name)) {
                 if (entry.getValue().size() > 1) {
-                    System.out.println("Pilih lokasi furniture yang ingin dituju : ");
+                    System.out.println("Select the location of furniture that you want to g : ");
                     for (int i = 0; i < entry.getValue().size(); i++) {
                         System.out.println(i + 1 + ". (" + entry.getValue().get(i).x + ", "
                                 + entry.getValue().get(i).y + ")");
@@ -241,7 +241,7 @@ public class Room {
                     Scanner scanRoom = new Scanner(System.in);
                     int input = scanRoom.nextInt();
                     while (input < 1 || input > entry.getValue().size()) {
-                        System.out.println("Input salah, masukkan ulang: ");
+                        System.out.println("Your input is wrong. Please type your input again : ");
                         input = scanRoom.nextInt();
                     }
                     return entry.getValue().get(input - 1);

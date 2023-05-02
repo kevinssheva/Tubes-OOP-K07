@@ -26,7 +26,7 @@ public class Manager {
     private static boolean gameStarted = false;
     private static World world = new World();
     private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
-            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "Rice", "Potato", "Chicken", "Beef", "Carrot",
+            "Electric Stove", "Gas Stove", "Table and Chair", "Clock","TV", "Rice", "Potato", "Chicken", "Beef", "Carrot",
             "Spinach", "Peanut", "Milk" };
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
@@ -65,6 +65,10 @@ public class Manager {
             case "Clock":
                 Clock clock = new Clock();
                 putIntoInventory = clock;
+                break;
+            case "TV":
+                TV tv = new TV();
+                putIntoInventory = tv;
                 break;
             case "Rice":
                 Ingredients rice = new Ingredients("Rice", 5, 5);
@@ -135,7 +139,9 @@ public class Manager {
         System.out.println("- Gas Stove\nPrice : 100\nDimension : 2 x 1\n");
         System.out.println("- Electric Stove\nPrice : 200\nDimension : 1 x 1\n");
         System.out.println("- Table and Chair\nPrice : 50\nDimension : 3 x 3\n");
-        System.out.println("- Jam\nPrice : 10\nDimension : 1 x 1\n");
+        System.out.println("- Clock\nPrice : 10\nDimension : 1 x 1\n");
+        System.out.println("- TV\nPrice : 30\nDimension : 1x1\n");
+
 
         System.out.println("- Rice\nPrice : 5\nSatiety : 5\n");
         System.out.println("- Potato\nPrice : 3\nSatiety : 4\n");
@@ -206,6 +212,8 @@ public class Manager {
             System.out.println("- Sleep");
             System.out.println("- Eat");
             System.out.println("- Cook");
+            System.out.println("- View Clock");
+            System.out.println("- Watch TV");
             System.out.println("- Buy Things");
             System.out.println("- View Sim Info");
             System.out.println("- View Current Location");
@@ -283,6 +291,14 @@ public class Manager {
                             "\nCooking will require your sim to be near a Stove\nand takes (1.5 x dish satiety level) seconds to finish");
                     System.out.println(
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "View Clock":
+                    clearScreen();
+                    clickEnter();
+                    break;
+                case "Watch TV":
+                    clearScreen();
                     clickEnter();
                     break;
                 case "Buy Things":
@@ -449,6 +465,9 @@ public class Manager {
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Clock.class)) {
             System.out.println("- View Clock");
+        }
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, TV.class)){
+            System.out.println("- Watch TV");
         }
         System.out.println("- Buy Things");
         System.out.println("- View Sim Info");
@@ -940,6 +959,16 @@ public class Manager {
                 clickEnter();
                 break;
             }
+            case "Watch TV":
+                clearScreen();
+                if(currentSim.getRoom().isSimOnFurniture(currentSim,TV.class)){
+                    doQueryWatchTV();
+                }else {
+                    System.out.println(
+                            "you know that you actually couldn't watch the TV because your sim are not near a TV.\nPlease do not do this again!");
+                }
+                clickEnter();                 
+                break;
             case "Buy Things":
                 clearScreen();
                 queryBuyThings();
@@ -1010,6 +1039,22 @@ public class Manager {
         for(Sim sim : simList){
             System.out.println("- " + sim.getName() +"'s house in coordinate of (" + (sim.getHome().getLocation().x) + "," + (sim.getHome().getLocation().y)+")");
         }
+    }
+
+    public static void doQueryWatchTV(){
+        System.out.println("Please insert how long do you want your sim to watch TV. Please type in the multiples of 30 or -1 if you want to cancel");
+        Scanner in = new Scanner(System.in);
+        Integer time = in.nextInt();
+        while(time< 0 || time%30 != 0){
+            System.out.println("You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
+            time = in.nextInt();
+        }
+
+        if(time == -1){
+            return;
+        }
+
+        currentSim.watchTV(time);
     }
 
     public static void doQueryVisitHome(){

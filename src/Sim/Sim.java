@@ -203,6 +203,30 @@ public class Sim {
             e.printStackTrace();
         }
     }
+    public void watchTV(Integer time){
+        setStatus("Watching TV");
+        Thread watchTVThread = new Thread(){
+            public void run(){
+                long finalTime = Main.timeNow + time;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        watchTVThread.start();
+        try{
+            watchTVThread.join();
+            setMood(mood + (time/30)*20);
+            System.out.println("Watch TV done");
+            setStatus("Idle");
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
 
     public void exercise(Integer time) {
         if (time % 20 != 0)
