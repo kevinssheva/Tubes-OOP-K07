@@ -245,7 +245,7 @@ public class Sim {
         sholatThread.start();
         try {
             sholatThread.join();
-            setMood(mood + 20);
+            setMood(mood + 10);
             System.out.println("Sholat done");
             setStatus("Idle");
         } catch (InterruptedException e) {
