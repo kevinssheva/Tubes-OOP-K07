@@ -109,7 +109,7 @@ public class Manager {
             public void run() {
                 Random rand = new Random();
                 long finalTime = Main.timeNow + rand.nextInt(45) + 1;
-                Manager.currentSim.addAction("Buy " + things, finalTime);
+                Manager.currentSim.addAction("Buy " + thing, finalTime);
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
