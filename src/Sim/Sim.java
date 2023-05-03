@@ -228,6 +228,35 @@ public class Sim {
         }
     }
 
+    public void playGame(Integer time){
+        setStatus("Playing Game");
+        Thread playGameThread = new Thread(){
+            @Override
+            public void run(){
+                long finalTime = Main.timeNow + time;
+                while (Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }
+                    catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        playGameThread.start();
+        try{
+            playGameThread.join();
+            setMood(mood + ((time/30)*20));
+            setSatiety(satiety - ((time/30)*5));
+            System.out.println("Play Game done");
+            setStatus("Idle");
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+    
     public void sholat() {
         setStatus("Sholat");
         Thread sholatThread = new Thread() {
