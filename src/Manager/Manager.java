@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.*;
+
+import Sim.Sim;
 import src.Sim.*;
 import src.Main;
 import src.Home.Home;
@@ -26,7 +28,7 @@ public class Manager {
     private static boolean gameStarted = false;
     private static World world = new World();
     private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
-            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Sajadah", "Shower", "Rice", "Potato", "Chicken", "Beef", "Carrot",
+            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Komputer", "Sajadah", "Shower", "Rice", "Potato", "Chicken", "Beef", "Carrot",
             "Spinach", "Peanut", "Milk"};
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
@@ -69,6 +71,10 @@ public class Manager {
             case "TV":
                 TV tv = new TV();
                 putIntoInventory = tv;
+                break;
+            case "Komputer":
+                Komputer komputer = new Komputer();
+                putIntoInventory = komputer;
                 break;
             case "Sajadah" :
                 Sajadah sajadah = new Sajadah();
@@ -149,6 +155,7 @@ public class Manager {
         System.out.println("- Table and Chair\nPrice : 50\nDimension : 3 x 3\n");
         System.out.println("- Clock\nPrice : 10\nDimension : 1 x 1\n");
         System.out.println("- TV\nPrice : 30\nDimension : 1x1\n");
+        System.out.println("- Komputer\nPrice : 20\nDimension : 1 x 1\n");
         System.out.println("- Sajadah\nPrice : 10\nDimension : 2x1\n");
 
 
@@ -223,6 +230,7 @@ public class Manager {
             System.out.println("- Cook");
             System.out.println("- View Clock");
             System.out.println("- Watch TV");
+            System.out.println("- Play Game");
             System.out.println("- Sholat");
             System.out.println("- Take a Shower");
             System.out.println("- Use the Toilet");
@@ -317,6 +325,16 @@ public class Manager {
                     System.out.println("Watching TV will require your sim to be near a TV");
                     System.out.println(
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Play Game":
+                    clearScreen();
+                    System.out.println("Lets your sim play a game for the amount of time given");
+                    System.out.println("Effects:\n+20 mood\n-5 satiety\nfor every 30 seconds");
+                    System.out.println("Playing game will require your sim to be near a Komputer");
+                    System.out.println(
+                        "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions."
+                    );
                     clickEnter();
                     break;
                 case "Sholat" :
@@ -520,6 +538,9 @@ public class Manager {
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, TV.class)){
             System.out.println("- Watch TV");
+        }
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)){
+            System.out.println("- Play Game");
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
             System.out.println("- Sholat");
@@ -1029,6 +1050,16 @@ public class Manager {
                             "you know that you actually couldn't watch the TV because your sim are not near a TV.\nPlease do not do this again!");
                 }
                 clickEnter();                 
+                break;
+            case "Play Game":
+                clearScreen();
+                if(currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)){
+                    currentSim.playGame();
+                }
+                else{
+                    System.out.println("You know that you actually couldn't play game because your sim is nor near a Komputer.\nPlease do not do this again!");
+                }
+                clickEnter();
                 break;
             case "Sholat":
                 clearScreen();
