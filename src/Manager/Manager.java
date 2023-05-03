@@ -228,6 +228,7 @@ public class Manager {
             System.out.println("- View Clock");
             System.out.println("- Watch TV");
             System.out.println("- Sholat");
+            System.out.println("- Play Piano");
             System.out.println("- Take a Shower");
             System.out.println("- Use the Toilet");
             System.out.println("- Buy Things");
@@ -335,7 +336,7 @@ public class Manager {
                     break;
                 case "Play Piano" :
                     clearScreen();
-                    System.out.println("Lets your play the piano);
+                    System.out.println("Lets your sim play the piano. ");
                     System.out.println("Effects:\n+10 mood & -5 satiety/30 seconds\n");
                     System.out.println(
                             "\Your sim must be near a Piano to play it");
