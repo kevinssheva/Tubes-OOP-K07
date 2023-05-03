@@ -26,7 +26,7 @@ public class Manager {
     private static boolean gameStarted = false;
     private static World world = new World();
     private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
-            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Sajadah", "Rice", "Potato", "Chicken", "Beef", "Carrot",
+            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Sajadah", "Shower", "Rice", "Potato", "Chicken", "Beef", "Carrot",
             "Spinach", "Peanut", "Milk"};
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
@@ -73,6 +73,10 @@ public class Manager {
             case "Sajadah" :
                 Sajadah sajadah = new Sajadah();
                 putIntoInventory = sajadah;
+                break;
+            case "Shower" :
+                Shower shower = new Shower();
+                putIntoInventory = shower;
                 break;
             case "Rice":
                 Ingredients rice = new Ingredients("Rice", 5, 5);
@@ -220,6 +224,8 @@ public class Manager {
             System.out.println("- View Clock");
             System.out.println("- Watch TV");
             System.out.println("- Sholat");
+            System.out.println("- Take a Shower");
+            System.out.println("- Use the Toilet");
             System.out.println("- Buy Things");
             System.out.println("- View Sim Info");
             System.out.println("- View Current Location");
@@ -273,7 +279,7 @@ public class Manager {
                     System.out.println("Sims can choose to sleep for any time length with a multiple of 20 seconds.");
                     System.out.println(
                             "Not sleeping for too long will decrease mood and health by -5 for every 10 minutes without sleep.");
-                    System.out.println("\nSleeping will require your sim to be near Bed");
+                    System.out.println("\nSleeping will require your sim to be near a Bed");
                     System.out.println(
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
@@ -301,17 +307,52 @@ public class Manager {
                     break;
                 case "View Clock":
                     clearScreen();
+                    System.out.println("Shows the current ingame time.");
                     clickEnter();
                     break;
                 case "Watch TV":
                     clearScreen();
+                    System.out.println("Lets your sim watch TV for the amount of time given");
+                    System.out.println("Effects:\n+20 mood / 30 seconds\n");
+                    System.out.println("Watching TV will require your sim to be near a TV");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
                 case "Sholat" :
                     clearScreen();
                     System.out.println("Lets your sim pray to Allah");
-                    System.out.println("Effects:\n+10 mood");
+                    System.out.println("Effects:\n+10 mood\n");
+                    System.out.println(
+                            "\nSholat will require your sim to be near a Sajadah\nand takes 10 seconds to finish");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
+                    break;
+                case "Take a Shower":
+                    clearScreen();
+                    System.out.println("Lets your sim take a shower");
+                    System.out.println("Effects:\n+5 mood\n+5 health\n");
+                    System.out.println(
+                            "\nTaking a shower will require your sim to be near a Shower\nand takes 10 seconds to finish");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Use the Toilet":
+                    clearScreen();
+                    System.out.println("Lets your sim use the toilet");
+                    System.out.println("Effects:\n-20 satiety\n+10 mood\n");
+                    System.out.println(
+                            "Sims need to use the toilet once for each time they have eaten food.");
+                    System.out.println(
+                            "Not using the toilet for 4 minutes after eating will decrease their mood and health by -5.");
+                    System.out.println(
+                            "\nUsing the toilet will require your sim to be near a Toilet\nand takes 10 seconds to finish");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
                 case "Buy Things":
                     clearScreen();
                     System.out.println("Lets your sim buy things from the shop.");
@@ -482,6 +523,12 @@ public class Manager {
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
             System.out.println("- Sholat");
+        }
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Shower.class)) {
+            System.out.println("- Take a Shower");
+        }
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Toilet.class)) {
+            System.out.println("- Use the Toilet");
         }
         System.out.println("- Buy Things");
         System.out.println("- View Sim Info");
@@ -993,6 +1040,30 @@ public class Manager {
                     System.out.println(
                             "you know that you actually couldn't sholat because your sim are not near a sajadah.\nPlease do not do this again!");
                 }
+                clickEnter();
+                break;
+            case "Take a Shower":
+                clearScreen();
+                if(currentSim.getRoom().isSimOnFurniture(currentSim, Shower.class)) {
+                    currentSim.shower();
+                }
+                else {
+                    System.out.println(
+                            "you know that you actually couldn't take a Shower because your sim are not near a shower.\nPlease do not do this again!");
+                }
+                clickEnter();
+                break;
+            case "Use the Toilet":
+                clearScreen();
+                if(currentSim.getRoom().isSimOnFurniture(currentSim, Toilet.class)) {
+                    currentSim.toilet();
+                }
+                else {
+                    System.out.println(
+                            "you know that you actually couldn't use a Toilet because your sim are not near a toilet.\nPlease do not do this again!");
+                }
+                clickEnter();
+                break;
             case "Buy Things":
                 clearScreen();
                 queryBuyThings();

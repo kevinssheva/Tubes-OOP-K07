@@ -253,6 +253,58 @@ public class Sim {
         }
     }
 
+    public void mandi() {
+        setStatus("Taking a shower");
+        Thread mandiThread = new Thread() {
+            public void run() {
+                long finalTime = Main.timeNow + 10;
+                while (Main.timeNow < finalTime) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        mandiThread.start();
+        try {
+            mandiThread.join();
+            setMood(mood + 5);
+            setHealth(health + 5);
+            System.out.println("Shower done");
+            setStatus("Idle");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void poop(){
+        setStatus("Using the toilet");
+        Thread poopThread = new Thread(){
+            public void run(){
+                long finalTime = Main.timeNow + 10;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        poopThread.start();
+        try{
+            poopThread.join();
+            setSatiety(satiety - 20);
+            setMood(mood + 10);
+            System.out.println("Using toilet done");
+            setStatus("Idle");
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+
     public void exercise(Integer time) {
         if (time % 20 != 0)
             return;
@@ -434,10 +486,6 @@ public class Sim {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    public void kembali() {
-        setStatus("Going back home...");
     }
 
     public void showTime() {
