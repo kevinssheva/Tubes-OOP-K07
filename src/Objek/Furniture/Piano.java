@@ -6,6 +6,6 @@ import src.Sim.Sim;
 
 public class Piano extends Furniture {
     public Piano() {
-        super("Piano", "Play piano", 30, new Dimension(2, 1));
+        super("Piano", "Play piano", 50, new Dimension(2, 1));
     }
 }
