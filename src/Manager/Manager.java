@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.*;
+
+import Sim.Sim;
 import src.Sim.*;
 import src.Main;
 import src.Home.Home;
@@ -26,8 +28,8 @@ public class Manager {
     private static boolean gameStarted = false;
     private static World world = new World();
     private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
-            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Sajadah", "Shower", "Rice", "Potato", "Chicken", "Beef", "Carrot",
-            "Spinach", "Peanut", "Milk", "Piano"};
+            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Komputer", "Sajadah", "Shower", "Telescope", "Piano", "Rice", "Potato", "Chicken", "Beef", "Carrot",
+            "Spinach", "Peanut", "Milk"};
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
     public static void buyThings(String thing) {
@@ -70,6 +72,10 @@ public class Manager {
                 TV tv = new TV();
                 putIntoInventory = tv;
                 break;
+            case "Komputer":
+                Komputer komputer = new Komputer();
+                putIntoInventory = komputer;
+                break;
             case "Sajadah" :
                 Sajadah sajadah = new Sajadah();
                 putIntoInventory = sajadah;
@@ -77,6 +83,10 @@ public class Manager {
             case "Shower" :
                 Shower shower = new Shower();
                 putIntoInventory = shower;
+                break;
+            case "Telescope":
+                Telescope telescope = new Telescope();
+                putIntoInventory = telescope;
                 break;
             case "Rice":
                 Ingredients rice = new Ingredients("Rice", 5, 5);
@@ -152,9 +162,10 @@ public class Manager {
         System.out.println("- Table and Chair\nPrice : 50\nDimension : 3 x 3\n");
         System.out.println("- Clock\nPrice : 10\nDimension : 1 x 1\n");
         System.out.println("- TV\nPrice : 30\nDimension : 1x1\n");
-        System.out.println("- Sajadah\nPrice : 30\nDimension : 2x1\n");
+        System.out.println("- Komputer\nPrice : 20\nDimension : 1 x 1\n");
+        System.out.println("- Sajadah\nPrice : 10\nDimension : 2x1\n");
+        System.out.println("- Telescope\nPrice : 70\nDimension : 1x1\n");
         System.out.println("- Piano\nPrice : 50\nDimension : 2x1\n");
-
 
         System.out.println("- Rice\nPrice : 5\nSatiety : 5\n");
         System.out.println("- Potato\nPrice : 3\nSatiety : 4\n");
@@ -227,10 +238,12 @@ public class Manager {
             System.out.println("- Cook");
             System.out.println("- View Clock");
             System.out.println("- Watch TV");
+            System.out.println("- Play Game");
             System.out.println("- Sholat");
             System.out.println("- Play Piano");
             System.out.println("- Take a Shower");
             System.out.println("- Use the Toilet");
+            System.out.println("- Use the Telescope");
             System.out.println("- Buy Things");
             System.out.println("- View Sim Info");
             System.out.println("- View Current Location");
@@ -324,6 +337,16 @@ public class Manager {
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
+                case "Play Game":
+                    clearScreen();
+                    System.out.println("Lets your sim play a game for the amount of time given");
+                    System.out.println("Effects:\n+20 mood\n-5 satiety\nfor every 30 seconds");
+                    System.out.println("Playing game will require your sim to be near a Komputer");
+                    System.out.println(
+                        "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions."
+                    );
+                    clickEnter();
+                    break;
                 case "Sholat" :
                     clearScreen();
                     System.out.println("Lets your sim pray to Allah");
@@ -366,6 +389,15 @@ public class Manager {
                             "\nUsing the toilet will require your sim to be near a Toilet\nand takes 10 seconds to finish");
                     System.out.println(
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Use the Telescope":
+                    clearScreen();
+                    System.out.println("Lets your sim use the telescope and stargaze at the stars");
+                    System.out.println("Effects:\n-30 health \n+70 mood if it is done in the night");
+                    System.out.println("Using the telescope will require your sim to be near s Telescope\nand takes 30 seconds to finish");
+                    System.out.println(
+                        "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
                 case "Buy Things":
@@ -536,6 +568,9 @@ public class Manager {
         if (currentSim.getRoom().isSimOnFurniture(currentSim, TV.class)){
             System.out.println("- Watch TV");
         }
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)){
+            System.out.println("- Play Game");
+        }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
             System.out.println("- Sholat");
         }
@@ -547,6 +582,9 @@ public class Manager {
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Toilet.class)) {
             System.out.println("- Use the Toilet");
+        }
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Telescope.class)){
+            System.out.println("- Use the telescope");
         }
         System.out.println("- Buy Things");
         System.out.println("- View Sim Info");
@@ -1048,6 +1086,7 @@ public class Manager {
                 }
                 clickEnter();                 
                 break;
+
             case "Play Piano":
                 clearScreen();
                 if(currentSim.getRoom().isSimOnFurniture(currentSim,Piano.class)){
@@ -1056,8 +1095,20 @@ public class Manager {
                     System.out.println(
                             "you can't play the piano because you're not near one.\nPlease do not do this again!");
                 }
-                clickEnter();                 
+                clickEnter();   
                 break;
+
+            case "Play Game":
+                clearScreen();
+                if(currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)){
+                    currentSim.playGame();
+                }
+                else{
+                    System.out.println("You know that you actually couldn't play game because your sim is nor near a Komputer.\nPlease do not do this again!");
+                }
+                clickEnter();
+                break;
+                
             case "Sholat":
                 clearScreen();
                 if(currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
@@ -1073,7 +1124,7 @@ public class Manager {
             case "Take a Shower":
                 clearScreen();
                 if(currentSim.getRoom().isSimOnFurniture(currentSim, Shower.class)) {
-                    currentSim.shower();
+                    currentSim.mandi();
                 }
                 else {
                     System.out.println(
@@ -1084,11 +1135,21 @@ public class Manager {
             case "Use the Toilet":
                 clearScreen();
                 if(currentSim.getRoom().isSimOnFurniture(currentSim, Toilet.class)) {
-                    currentSim.toilet();
+                    currentSim.poop();
                 }
                 else {
                     System.out.println(
                             "you know that you actually couldn't use a Toilet because your sim are not near a toilet.\nPlease do not do this again!");
+                }
+                clickEnter();
+                break;
+            case "Use the Telescope":
+                clearScreen();
+                if(currentSim.getRoom().isSimOnFurniture(currentSim, Telescope.class)){
+                    currentSim.stargaze(isNight());
+                }else{
+                    System.out.println(
+                            "you know that you actually couldn't use a Telescope because your sim are not near a Telescope.\nPlease do not do this again!");
                 }
                 clickEnter();
                 break;
@@ -1155,6 +1216,10 @@ public class Manager {
             // add more action
 
         }
+    }
+
+    public static boolean isNight(){
+        return (Main.timeNow-180)%720 < 6;
     }
 
     public static void listHome(){

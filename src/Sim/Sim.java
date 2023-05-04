@@ -228,6 +228,64 @@ public class Sim {
         }
     }
 
+    public void stargaze(boolean isNight){
+        setStatus("Stargazing");
+        Thread stargazeThread = new Thread(){
+            public void run(){
+                long finalTime = Main.timeNow + 30;
+                while(Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        stargazeThread.start();
+        try{
+            stargazeThread.join();
+            if(isNight){
+                setMood(mood+70);
+            }else{
+                // since it's noon, your sim are only wasting his or her health.
+            }
+            setHealth(health-30);
+            setStatus("Idle");
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void playGame(Integer time){
+        setStatus("Playing Game");
+        Thread playGameThread = new Thread(){
+            @Override
+            public void run(){
+                long finalTime = Main.timeNow + time;
+                while (Main.timeNow < finalTime){
+                    try{
+                        Thread.sleep(1000);
+                    }
+                    catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        playGameThread.start();
+        try{
+            playGameThread.join();
+            setMood(mood + ((time/30)*20));
+            setSatiety(satiety - ((time/30)*5));
+            System.out.println("Play Game done");
+            setStatus("Idle");
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+    }
+    
     public void sholat() {
         setStatus("Sholat");
         Thread sholatThread = new Thread() {
@@ -334,7 +392,7 @@ public class Sim {
     public void exercise(Integer time) {
         if (time % 20 != 0)
             return;
-        setStatus("Exercise");
+        setStatus("Exercising");
 
         Thread exerciseThread = new Thread() {
             public void run() {
@@ -519,7 +577,8 @@ public class Sim {
         System.out.println("Your ongoing action : ");
         for (Map.Entry<String, Long> entry : actionList.entrySet()) {
             Long timeLeft = entry.getValue() - Main.timeNow;
-            System.out.println(entry.getKey() + " : " + timeLeft + " seconds left");
+            if(timeLeft > 0 ) System.out.println(entry.getKey() + " : " + timeLeft + " seconds left");
+            else System.out.println(entry.getKey() + " has been arrived");
         }
     }
 
