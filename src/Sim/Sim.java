@@ -3,9 +3,13 @@ package src.Sim;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import src.Inventory.*;
 import src.Job.*;
+import src.Manager.Manager;
 import src.Objek.Objek;
 import src.Objek.Furniture.Clock;
 import src.Objek.Furniture.Furniture;
@@ -205,9 +209,20 @@ public class Sim {
             public void run(){
                 long finalTime = Main.timeNow + time;
                 while(Main.timeNow < finalTime){
-                    try{
+                    try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e){
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip watching TV");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -216,6 +231,7 @@ public class Sim {
         watchTVThread.start();
         try{
             watchTVThread.join();
+            Manager.clearScreen();
             setMood(mood + (time/30)*20);
             System.out.println("Watch TV done");
             setStatus("Idle");
@@ -230,9 +246,20 @@ public class Sim {
             public void run(){
                 long finalTime = Main.timeNow + 30;
                 while(Main.timeNow < finalTime){
-                    try{
+                    try {
                         Thread.sleep(1000);
-                    }catch (InterruptedException e){
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip stargaze");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -246,6 +273,7 @@ public class Sim {
             }else{
                 // since it's noon, your sim are only wasting his or her health.
             }
+            Manager.clearScreen();
             setHealth(health-30);
             setStatus("Idle");
         }catch(InterruptedException e){
@@ -260,10 +288,20 @@ public class Sim {
             public void run(){
                 long finalTime = Main.timeNow + time;
                 while (Main.timeNow < finalTime){
-                    try{
+                    try {
                         Thread.sleep(1000);
-                    }
-                    catch(InterruptedException e){
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip playing game");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -272,6 +310,7 @@ public class Sim {
         playGameThread.start();
         try{
             playGameThread.join();
+            Manager.clearScreen();
             setMood(mood + ((time/30)*20));
             setSatiety(satiety - ((time/30)*5));
             System.out.println("Play Game done");
@@ -290,7 +329,18 @@ public class Sim {
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e) {
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip sholat");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -299,6 +349,7 @@ public class Sim {
         sholatThread.start();
         try {
             sholatThread.join();
+            Manager.clearScreen();
             setMood(mood + 10);
             System.out.println("Sholat done");
             setStatus("Idle");
@@ -315,7 +366,18 @@ public class Sim {
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e) {
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip play piano");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -324,6 +386,7 @@ public class Sim {
         pianoThread.start();
         try {
             pianoThread.join();
+            Manager.clearScreen();
             setMood(mood + (time/30)*10);
             setSatiety(satiety - (time/30)*5);
             System.out.println("Ah, that was great. It'd be better if there's another person playing a violin....");
@@ -341,7 +404,18 @@ public class Sim {
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e) {
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip shower");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -350,6 +424,7 @@ public class Sim {
         mandiThread.start();
         try {
             mandiThread.join();
+            Manager.clearScreen();
             setMood(mood + 5);
             setHealth(health + 5);
             System.out.println("Shower done");
@@ -365,9 +440,20 @@ public class Sim {
             public void run(){
                 long finalTime = Main.timeNow + 10;
                 while(Main.timeNow < finalTime){
-                    try{
+                    try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e){
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip poop");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -376,6 +462,7 @@ public class Sim {
         poopThread.start();
         try{
             poopThread.join();
+            Manager.clearScreen();
             setSatiety(satiety - 20);
             setMood(mood + 10);
             System.out.println("Using toilet done");
@@ -383,6 +470,32 @@ public class Sim {
         }catch(InterruptedException e){
             e.printStackTrace();
         }
+    }
+
+    public void readBook(Integer time) {
+        setStatus("Reading book");
+        Thread readBookThread = new Thread() {
+            public void run() {
+                long finalTime = Main.timeNow + time;
+                while (Main.timeNow < finalTime) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        readBookThread.start();
+        try {
+            readBookThread.join();
+            setMood(mood + (time/30)*10);
+            setSatiety(satiety - (time/30)*5);
+            System.out.println("Reading book done");
+            setStatus("Idle");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }        
     }
 
     public void exercise(Integer time) {
@@ -396,7 +509,18 @@ public class Sim {
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e) {
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip exercise");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -406,6 +530,7 @@ public class Sim {
 
         try {
             exerciseThread.join();
+            Manager.clearScreen();
             setHealth(health + (time/20)*5);
             setSatiety(satiety - (time/20)*5);
             setMood(mood + (time/20)*10);
@@ -422,10 +547,21 @@ public class Sim {
             public void run(){
                 long finalTime = Main.timeNow + time;
                 while(Main.timeNow < finalTime){
-                    try{
+                    try {
                         Thread.sleep(1000);
-                    }catch(InterruptedException e){
-                        System.out.println("Error");
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip exercise");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
                     }
                     traveledTime += 1;
                     if(traveledTime == 30){
@@ -439,6 +575,7 @@ public class Sim {
         visitThread.start();
         try{
             visitThread.join();
+            Manager.clearScreen();
             setStatus("Idle");
         }catch(InterruptedException e){
             e.printStackTrace();
@@ -454,8 +591,19 @@ public class Sim {
                     while (Main.timeNow < finalTime) {
                         try {
                             Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            System.out.println("Error");
+                            // Check for user input every second
+                            if (System.in.available() > 0) {
+                                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                                String input = br.readLine();
+                                if (!input.isEmpty()) {
+                                    // User has input, stop the exercise thread and return
+                                    System.out.println("Skip sleeping");
+                                    Main.timeNow = finalTime;
+                                    return;
+                                }
+                            }
+                        } catch (IOException | InterruptedException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -463,6 +611,7 @@ public class Sim {
             sleepThread.start();
             try {
                 sleepThread.join();
+                Manager.clearScreen();
                 setMood(getMood() + (time / 240) * 30);
                 setHealth(getHealth() + (time / 240) * 20);
                 System.out.println("Sleeping done");
@@ -482,8 +631,19 @@ public class Sim {
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        System.out.println("Error");
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip working");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
                 // System.out.println(getMoney());
@@ -494,6 +654,7 @@ public class Sim {
 
         try {
             workThread.join();
+            Manager.clearScreen();
             setSatiety(getSatiety() - (10 * (time / 30)));
             setMood(getMood() - (10 * (time / 30)));
             setWorkToday(getWorkToday() + (time / 60));
@@ -550,8 +711,19 @@ public class Sim {
                 while (Main.timeNow < finalTime) {
                     try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        System.out.println("Error");
+                        // Check for user input every second
+                        if (System.in.available() > 0) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                            String input = br.readLine();
+                            if (!input.isEmpty()) {
+                                // User has input, stop the exercise thread and return
+                                System.out.println("Skip cook");
+                                Main.timeNow = finalTime;
+                                return;
+                            }
+                        }
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -560,6 +732,7 @@ public class Sim {
         cookThread.start();
         try {
             cookThread.join();
+            Manager.clearScreen();
             inventory.addItem(dish);
             System.out.println("Your sim has just finished cooking " + dish.getName());
             setStatus("Idle");
