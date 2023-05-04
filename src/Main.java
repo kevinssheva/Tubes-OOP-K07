@@ -23,6 +23,9 @@ public class Main {
                             System.out.println("...");
                         }
                         System.out.println("Time : " + timeNow);
+                        if (timeNow % 720 == 0) {
+                            Manager.resetWork();
+                        }
                     }
                     try {
                         Thread.sleep(1000);
@@ -34,23 +37,6 @@ public class Main {
         };
         temp.start();
     }
-
-    // public static void trackDays(){ // to know when it changes days
-    //     Thread day = new Thread() {
-    //         public void run() {
-    //             while (true) {
-    //                 if (timeNow % 720 == 0) {
-    //                     Manager.dailyReset();
-    //                 }
-    //                 try {
-    //                     Thread.sleep(1000);
-    //                 } catch (InterruptedException e) {
-    //                     e.printStackTrace();
-    //                 }
-    //             }
-    //         }
-    //     };
-    // }
 
     public static void main(String args[]) {
         runTheTime();

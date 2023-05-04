@@ -71,11 +71,7 @@ public class Sim {
     public Integer getSatiety() {
         return satiety;
     }
-
-    public void setSatiety(Integer satiety) {
-        this.satiety = Math.min(satiety, 100);
-    }
-
+    
     public Integer getHealth() {
         return health;
     }
@@ -95,7 +91,7 @@ public class Sim {
     public String getName() {
         return name;
     }
-
+    
     public String getStatus() {
         return status;
     }
@@ -124,8 +120,20 @@ public class Sim {
         return currentWorkTotal;
     }
 
+    public void setSatiety(Integer satiety) {
+        this.satiety = Math.min(satiety, 100);
+        if(satiety<=0){
+            System.out.println(name +" has died of hunger");
+            Manager.killSim(this);
+        }
+    }
+
     public void setHealth(Integer health) {
         this.health = Math.min(100, health);
+        if(health<=0){
+            System.out.println(name +" has died of sickness");
+            Manager.killSim(this);
+        }
     }
 
     public void setJob(Job job) {
@@ -138,6 +146,10 @@ public class Sim {
 
     public void setMood(Integer mood) {
         this.mood = Math.min(100, mood);
+        if(mood<=0){
+            System.out.println(name +" has died of depression");
+            Manager.killSim(this);
+        }
     }
 
     public void setName(String name) {
