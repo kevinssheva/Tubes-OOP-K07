@@ -23,7 +23,7 @@ public class Manager {
     private static boolean gameStarted = false;
     private static World world = new World();
     private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
-            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Komputer", "Sajadah", "Shower",
+            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Komputer", "Bookshelf", "Sajadah", "Shower",
             "Telescope", "Piano", "Rice", "Potato", "Chicken", "Beef", "Carrot",
             "Spinach", "Peanut", "Milk" };
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
@@ -71,6 +71,9 @@ public class Manager {
             case "Komputer":
                 Komputer komputer = new Komputer();
                 putIntoInventory = komputer;
+                break;
+            case "Bookshelf":
+                putIntoInventory = new Bookshelf();
                 break;
             case "Sajadah":
                 Sajadah sajadah = new Sajadah();
@@ -159,11 +162,11 @@ public class Manager {
         System.out.println("- Clock\nPrice : 10\nDimension : 1 x 1\n");
         System.out.println("- TV\nPrice : 30\nDimension : 1x1\n");
         System.out.println("- Komputer\nPrice : 20\nDimension : 1 x 1\n");
-        System.out.println("- Sajadah\nPrice : 10\nDimension : 2x1\n");
+        System.out.println("- Bookshelf\nPrice : 25\nDimension : 3 x 1\n");
+        System.out.println("- Sajadah\nPrice : 30\nDimension : 2 x 1\n");
         System.out.println("- Shower\nPrice : 75\nDimension : 1 x 1\n");
-        System.out.println("- Telescope\nPrice : 70\nDimension : 1x1\n");
-        System.out.println("- Piano\nPrice : 50\nDimension : 2x1\n");
-
+        System.out.println("- Telescope\nPrice : 70\nDimension : 1 x 1\n");
+        System.out.println("- Piano\nPrice : 50\nDimension : 2 x 1\n");
         System.out.println("- Rice\nPrice : 5\nSatiety : 5\n");
         System.out.println("- Potato\nPrice : 3\nSatiety : 4\n");
         System.out.println("- Chicken\nPrice : 10\nSatiety : 8\n");
@@ -236,6 +239,7 @@ public class Manager {
             System.out.println("- View Clock");
             System.out.println("- Watch TV");
             System.out.println("- Play Game");
+            System.out.println("- Read Book");
             System.out.println("- Sholat");
             System.out.println("- Play Piano");
             System.out.println("- Take a Shower");
@@ -339,6 +343,16 @@ public class Manager {
                     System.out.println("Lets your sim play a game for the amount of time given");
                     System.out.println("Effects:\n+20 mood\n-5 satiety\nfor every 30 seconds");
                     System.out.println("Playing game will require your sim to be near a Komputer");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Read Book":
+                    clearScreen();
+                    System.out.println("Lets your sim read books ");
+                    System.out.println("Effects:\n+10 mood & -5 satiety/30 seconds\n");
+                    System.out.println(
+                            "Your sim must be near a Bookshelf to read books");
                     System.out.println(
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
@@ -567,6 +581,9 @@ public class Manager {
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)) {
             System.out.println("- Play Game");
+        }
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Bookshelf.class)) {
+            System.out.println("- Read Book");
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
             System.out.println("- Sholat");
@@ -1107,6 +1124,17 @@ public class Manager {
                 clickEnter();
                 break;
 
+            case "Read Book":
+                clearScreen();
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Bookshelf.class)) {
+                    doQueryReadBook();
+                } else {
+                    System.out.println(
+                            "you can't read books because you're not near a bookshelf.\nPlease do not do this again!");
+                }
+                clickEnter();
+                break;
+            
             case "Sholat":
                 clearScreen();
                 if (currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
@@ -1243,6 +1271,24 @@ public class Manager {
         }
     }
 
+    public static void doQueryReadBook() {
+        System.out.println(
+                "Please insert how long do you want your sim to read books. Please type in the multiples of 30 or -1 if you want to cancel");
+        Scanner in = new Scanner(System.in);
+        Integer time = in.nextInt();
+        while (time < 0 || time % 30 != 0) {
+            System.out.println(
+                    "You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
+            time = in.nextInt();
+        }
+
+        if (time == -1) {
+            return;
+        }
+
+        currentSim.readBook(time);
+    }
+    
     public static void doQueryWatchTV() {
         System.out.println(
                 "Please insert how long do you want your sim to watch TV. Please type in the multiples of 30 or -1 if you want to cancel");
