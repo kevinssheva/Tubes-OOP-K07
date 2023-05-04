@@ -1513,8 +1513,5 @@ public class Manager {
 
     public static void killSim(Sim sim) {
         simList.remove(sim);
-        if(sim.equals(currentSim)){
-            changeSim();
-        }
     }
 }

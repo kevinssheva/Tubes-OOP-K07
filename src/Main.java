@@ -54,8 +54,12 @@ public class Main {
             }else{
                 Manager.listCanDo();
                 Manager.doQuery();
+                if(!Manager.getCurrentSim().stillAlive()){
+                    if(Manager.canGameContinue()){
+                        Manager.changeSim();
+                    }
+                }
             }
-
         }
 
         System.exit(0);
