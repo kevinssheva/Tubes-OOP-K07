@@ -310,6 +310,32 @@ public class Sim {
             e.printStackTrace();
         }
     }
+    
+    public void playPiano(Integer time) {
+        setStatus("Playing piano");
+        Thread pianoThread = new Thread() {
+            public void run() {
+                long finalTime = Main.timeNow + time;
+                while (Main.timeNow < finalTime) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        pianoThread.start();
+        try {
+            pianoThread.join();
+            setMood(mood + (time/30)*10);
+            setSatiety(satiety - (time/30)*5)
+            System.out.println("Ah, that was great. It'd be better if there's another person playing a violin....");
+            setStatus("Idle");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void mandi() {
         setStatus("Taking a shower");

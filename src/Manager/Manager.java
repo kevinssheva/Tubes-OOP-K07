@@ -28,7 +28,7 @@ public class Manager {
     private static boolean gameStarted = false;
     private static World world = new World();
     private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
-            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Komputer", "Sajadah", "Shower", "Telescope", "Rice", "Potato", "Chicken", "Beef", "Carrot",
+            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Komputer", "Sajadah", "Shower", "Telescope", "Piano", "Rice", "Potato", "Chicken", "Beef", "Carrot",
             "Spinach", "Peanut", "Milk"};
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
@@ -120,6 +120,9 @@ public class Manager {
                 Ingredients milk = new Ingredients("Milk", 2, 2);
                 putIntoInventory = milk;
                 break;
+            case "Piano":
+                putIntoInventory = new Piano();
+                break;
         }
         if (((Buyable) putIntoInventory).getPrice() > currentSim.getMoney()) {
             System.out.println("Your money is not sufficient");
@@ -162,7 +165,7 @@ public class Manager {
         System.out.println("- Komputer\nPrice : 20\nDimension : 1 x 1\n");
         System.out.println("- Sajadah\nPrice : 10\nDimension : 2x1\n");
         System.out.println("- Telescope\nPrice : 70\nDimension : 1x1\n");
-
+        System.out.println("- Piano\nPrice : 50\nDimension : 2x1\n");
 
         System.out.println("- Rice\nPrice : 5\nSatiety : 5\n");
         System.out.println("- Potato\nPrice : 3\nSatiety : 4\n");
@@ -237,6 +240,7 @@ public class Manager {
             System.out.println("- Watch TV");
             System.out.println("- Play Game");
             System.out.println("- Sholat");
+            System.out.println("- Play Piano");
             System.out.println("- Take a Shower");
             System.out.println("- Use the Toilet");
             System.out.println("- Use the Telescope");
@@ -349,6 +353,16 @@ public class Manager {
                     System.out.println("Effects:\n+10 mood\n");
                     System.out.println(
                             "\nSholat will require your sim to be near a Sajadah\nand takes 10 seconds to finish");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    clickEnter();
+                    break;
+                case "Play Piano" :
+                    clearScreen();
+                    System.out.println("Lets your sim play the piano. ");
+                    System.out.println("Effects:\n+10 mood & -5 satiety/30 seconds\n");
+                    System.out.println(
+                            "\Your sim must be near a Piano to play it");
                     System.out.println(
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
@@ -559,6 +573,9 @@ public class Manager {
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
             System.out.println("- Sholat");
+        }
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Piano.class)) {
+            System.out.println("- Play Piano");
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Shower.class)) {
             System.out.println("- Take a Shower");
@@ -1069,6 +1086,18 @@ public class Manager {
                 }
                 clickEnter();                 
                 break;
+
+            case "Play Piano":
+                clearScreen();
+                if(currentSim.getRoom().isSimOnFurniture(currentSim,Piano.class)){
+                    doQueryPlayPiano();
+                }else {
+                    System.out.println(
+                            "you can't play the piano because you're not near one.\nPlease do not do this again!");
+                }
+                clickEnter();   
+                break;
+
             case "Play Game":
                 clearScreen();
                 if(currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)){
@@ -1079,6 +1108,7 @@ public class Manager {
                 }
                 clickEnter();
                 break;
+                
             case "Sholat":
                 clearScreen();
                 if(currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
@@ -1213,6 +1243,22 @@ public class Manager {
         }
 
         currentSim.watchTV(time);
+    }
+    
+    public static void doQueryPlayPiano(){
+        System.out.println("Please insert how long do you want your sim to play piano. Please type in the multiples of 30 or -1 if you want to cancel");
+        Scanner in = new Scanner(System.in);
+        Integer time = in.nextInt();
+        while(time< 0 || time%30 != 0){
+            System.out.println("You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
+            time = in.nextInt();
+        }
+
+        if(time == -1){
+            return;
+        }
+
+        currentSim.playPiano(time);
     }
 
     public static void doQueryVisitHome(){
