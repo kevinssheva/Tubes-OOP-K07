@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.*;
 
-import Sim.Sim;
 import src.Sim.*;
 import src.Main;
 import src.Home.Home;
@@ -164,6 +163,7 @@ public class Manager {
         System.out.println("- TV\nPrice : 30\nDimension : 1x1\n");
         System.out.println("- Komputer\nPrice : 20\nDimension : 1 x 1\n");
         System.out.println("- Sajadah\nPrice : 10\nDimension : 2x1\n");
+        System.out.println("- Shower\nPrice : 75\nDimension : 1 x 1\n");
         System.out.println("- Telescope\nPrice : 70\nDimension : 1x1\n");
         System.out.println("- Piano\nPrice : 50\nDimension : 2x1\n");
 
@@ -1101,7 +1101,7 @@ public class Manager {
             case "Play Game":
                 clearScreen();
                 if(currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)){
-                    currentSim.playGame();
+                    doQueryPlayGame();
                 }
                 else{
                     System.out.println("You know that you actually couldn't play game because your sim is nor near a Komputer.\nPlease do not do this again!");
@@ -1218,6 +1218,22 @@ public class Manager {
         }
     }
 
+    public static void doQueryPlayGame(){
+        System.out.println("Please insert how long do you want your sim to play game. Please type in the multiples of 30 or -1 if you want to cancel");
+        Scanner in = new Scanner(System.in);
+        Integer time = in.nextInt();
+        while(time< 0 || time%30 != 0){
+            System.out.println("You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
+            time = in.nextInt();
+        }
+
+        if(time == -1){
+            return;
+        }
+
+        currentSim.playGame(time);
+    }
+    
     public static boolean isNight(){
         return (Main.timeNow-180)%720 < 6;
     }

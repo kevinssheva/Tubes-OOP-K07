@@ -619,10 +619,10 @@ public class Sim {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (status == "Makan") {
+                    if (status.equals("Eating")) {
                         eating = true;
                     }
-                    if (eating && status == "Idle") {
+                    if (eating && status.equals("Idle")) {
                         eating = false;
                         Thread th = new Thread() {
                             public void run() {
@@ -634,7 +634,7 @@ public class Sim {
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
-                                    if (status == "Buang Air")
+                                    if (status.equals("Using the toilet"))
                                         havePooped = true;
                                 }
                                 if (!(havePooped)) {
