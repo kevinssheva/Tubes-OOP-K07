@@ -7,11 +7,15 @@ import java.util.Map;
 import src.Inventory.*;
 import src.Job.*;
 import src.Objek.Objek;
+import src.Objek.Furniture.Clock;
 import src.Objek.Furniture.Furniture;
+import src.Objek.Furniture.MejaKursi;
+import src.Objek.Furniture.Toilet;
+import src.Objek.Furniture.Bed.SingleBed;
+import src.Objek.Furniture.Stove.GasStove;
 import src.Room.*;
 import src.Main;
 import src.Home.*;
-import src.Manager.*;
 import src.Objek.Dish.*;
 
 public class Sim {
@@ -41,23 +45,15 @@ public class Sim {
         this.status = status;
         this.satiety = satiety;
         this.inventory = new Inventory<>();
+        inventory.addItem(new Toilet());
+        inventory.addItem(new GasStove());
+        inventory.addItem(new SingleBed());
+        inventory.addItem(new MejaKursi());
+        inventory.addItem(new Clock());
         this.home = home;
         currentRoom = home.getListRuangan().get(0);
         currentRoom.adjustSimMap(this, new Point(0, 0));
         this.currentHome = home;
-        eatCheck();
-        sleepCheck();
-    }
-
-    public Sim(String name, Job job, Integer money, String status) {
-        this.name = name;
-        this.job = job;
-        this.money = 80;
-        this.mood = 80;
-        this.health = 80;
-        this.status = status;
-        this.satiety = 80;
-        this.inventory = new Inventory<>();
         eatCheck();
         sleepCheck();
     }
@@ -329,7 +325,7 @@ public class Sim {
         try {
             pianoThread.join();
             setMood(mood + (time/30)*10);
-            setSatiety(satiety - (time/30)*5)
+            setSatiety(satiety - (time/30)*5);
             System.out.println("Ah, that was great. It'd be better if there's another person playing a violin....");
             setStatus("Idle");
         } catch (InterruptedException e) {
@@ -654,7 +650,6 @@ public class Sim {
     private void sleepCheck() {
         Thread t = new Thread() {
             public void run() {
-                long targetTime;
                 long lastSleep = Main.timeNow;
                 while (true) {
                     try {

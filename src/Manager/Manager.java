@@ -1,15 +1,12 @@
 package src.Manager;
 
 import java.awt.Point;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.*;
 
 import src.Sim.*;
 import src.Main;
 import src.Home.Home;
 import src.Objek.Objek;
-import src.Objek.Dish.Dish;
 import src.Objek.Furniture.*;
 import src.Objek.Furniture.Bed.Bed;
 import src.Objek.Furniture.Bed.*;
@@ -19,7 +16,6 @@ import src.Room.Room;
 import src.Job.*;
 import src.World.*;
 import src.Objek.*;
-import src.Objek.Dish.*;
 
 public class Manager {
     private static Sim currentSim = null;
@@ -27,8 +23,9 @@ public class Manager {
     private static boolean gameStarted = false;
     private static World world = new World();
     private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
-            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Komputer", "Sajadah", "Shower", "Telescope", "Piano", "Rice", "Potato", "Chicken", "Beef", "Carrot",
-            "Spinach", "Peanut", "Milk"};
+            "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Komputer", "Sajadah", "Shower",
+            "Telescope", "Piano", "Rice", "Potato", "Chicken", "Beef", "Carrot",
+            "Spinach", "Peanut", "Milk" };
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
 
     public static void buyThings(String thing) {
@@ -75,11 +72,11 @@ public class Manager {
                 Komputer komputer = new Komputer();
                 putIntoInventory = komputer;
                 break;
-            case "Sajadah" :
+            case "Sajadah":
                 Sajadah sajadah = new Sajadah();
                 putIntoInventory = sajadah;
                 break;
-            case "Shower" :
+            case "Shower":
                 Shower shower = new Shower();
                 putIntoInventory = shower;
                 break;
@@ -343,11 +340,10 @@ public class Manager {
                     System.out.println("Effects:\n+20 mood\n-5 satiety\nfor every 30 seconds");
                     System.out.println("Playing game will require your sim to be near a Komputer");
                     System.out.println(
-                        "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions."
-                    );
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
-                case "Sholat" :
+                case "Sholat":
                     clearScreen();
                     System.out.println("Lets your sim pray to Allah");
                     System.out.println("Effects:\n+10 mood\n");
@@ -357,12 +353,12 @@ public class Manager {
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
-                case "Play Piano" :
+                case "Play Piano":
                     clearScreen();
                     System.out.println("Lets your sim play the piano. ");
                     System.out.println("Effects:\n+10 mood & -5 satiety/30 seconds\n");
                     System.out.println(
-                            "\Your sim must be near a Piano to play it");
+                            "Your sim must be near a Piano to play it");
                     System.out.println(
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
@@ -395,9 +391,10 @@ public class Manager {
                     clearScreen();
                     System.out.println("Lets your sim use the telescope and stargaze at the stars");
                     System.out.println("Effects:\n-30 health \n+70 mood if it is done in the night");
-                    System.out.println("Using the telescope will require your sim to be near s Telescope\nand takes 30 seconds to finish");
                     System.out.println(
-                        "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                            "Using the telescope will require your sim to be near s Telescope\nand takes 30 seconds to finish");
+                    System.out.println(
+                            "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
                     break;
                 case "Buy Things":
@@ -565,10 +562,10 @@ public class Manager {
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Clock.class)) {
             System.out.println("- View Clock");
         }
-        if (currentSim.getRoom().isSimOnFurniture(currentSim, TV.class)){
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, TV.class)) {
             System.out.println("- Watch TV");
         }
-        if (currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)){
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)) {
             System.out.println("- Play Game");
         }
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
@@ -583,7 +580,7 @@ public class Manager {
         if (currentSim.getRoom().isSimOnFurniture(currentSim, Toilet.class)) {
             System.out.println("- Use the Toilet");
         }
-        if (currentSim.getRoom().isSimOnFurniture(currentSim, Telescope.class)){
+        if (currentSim.getRoom().isSimOnFurniture(currentSim, Telescope.class)) {
             System.out.println("- Use the telescope");
         }
         System.out.println("- Buy Things");
@@ -830,6 +827,7 @@ public class Manager {
         }
         clickEnter();
     }
+
     public static void putFurniture() {
         clearScreen();
         Scanner in = new Scanner(System.in);
@@ -1047,7 +1045,7 @@ public class Manager {
                 if (currentSim.getRoom().isSimOnFurniture(currentSim, MejaKursi.class)) {
                     currentSim.getInventory().showEdibleOnly();
                     chooseFood();
-                    
+
                 } else {
                     System.out.println(
                             "you know that you actually couldn't eat because your sim are not sitting on top of a Table and Chair.\nPlease do not do this again!");
@@ -1078,44 +1076,43 @@ public class Manager {
             }
             case "Watch TV":
                 clearScreen();
-                if(currentSim.getRoom().isSimOnFurniture(currentSim,TV.class)){
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, TV.class)) {
                     doQueryWatchTV();
-                }else {
+                } else {
                     System.out.println(
                             "you know that you actually couldn't watch the TV because your sim are not near a TV.\nPlease do not do this again!");
                 }
-                clickEnter();                 
+                clickEnter();
                 break;
 
             case "Play Piano":
                 clearScreen();
-                if(currentSim.getRoom().isSimOnFurniture(currentSim,Piano.class)){
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Piano.class)) {
                     doQueryPlayPiano();
-                }else {
+                } else {
                     System.out.println(
                             "you can't play the piano because you're not near one.\nPlease do not do this again!");
                 }
-                clickEnter();   
+                clickEnter();
                 break;
 
             case "Play Game":
                 clearScreen();
-                if(currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)){
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Komputer.class)) {
                     doQueryPlayGame();
-                }
-                else{
-                    System.out.println("You know that you actually couldn't play game because your sim is nor near a Komputer.\nPlease do not do this again!");
+                } else {
+                    System.out.println(
+                            "You know that you actually couldn't play game because your sim is nor near a Komputer.\nPlease do not do this again!");
                 }
                 clickEnter();
                 break;
-                
+
             case "Sholat":
                 clearScreen();
-                if(currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Sajadah.class)) {
                     System.out.println("You will sholat for 10 seconds\nPlease take a moment to calm yourself");
                     currentSim.sholat();
-                }
-                else {
+                } else {
                     System.out.println(
                             "you know that you actually couldn't sholat because your sim are not near a sajadah.\nPlease do not do this again!");
                 }
@@ -1123,10 +1120,9 @@ public class Manager {
                 break;
             case "Take a Shower":
                 clearScreen();
-                if(currentSim.getRoom().isSimOnFurniture(currentSim, Shower.class)) {
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Shower.class)) {
                     currentSim.mandi();
-                }
-                else {
+                } else {
                     System.out.println(
                             "you know that you actually couldn't take a Shower because your sim are not near a shower.\nPlease do not do this again!");
                 }
@@ -1134,10 +1130,9 @@ public class Manager {
                 break;
             case "Use the Toilet":
                 clearScreen();
-                if(currentSim.getRoom().isSimOnFurniture(currentSim, Toilet.class)) {
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Toilet.class)) {
                     currentSim.poop();
-                }
-                else {
+                } else {
                     System.out.println(
                             "you know that you actually couldn't use a Toilet because your sim are not near a toilet.\nPlease do not do this again!");
                 }
@@ -1145,9 +1140,9 @@ public class Manager {
                 break;
             case "Use the Telescope":
                 clearScreen();
-                if(currentSim.getRoom().isSimOnFurniture(currentSim, Telescope.class)){
+                if (currentSim.getRoom().isSimOnFurniture(currentSim, Telescope.class)) {
                     currentSim.stargaze(isNight());
-                }else{
+                } else {
                     System.out.println(
                             "you know that you actually couldn't use a Telescope because your sim are not near a Telescope.\nPlease do not do this again!");
                 }
@@ -1218,85 +1213,100 @@ public class Manager {
         }
     }
 
-    public static void doQueryPlayGame(){
-        System.out.println("Please insert how long do you want your sim to play game. Please type in the multiples of 30 or -1 if you want to cancel");
+    public static void doQueryPlayGame() {
+        System.out.println(
+                "Please insert how long do you want your sim to play game. Please type in the multiples of 30 or -1 if you want to cancel");
         Scanner in = new Scanner(System.in);
         Integer time = in.nextInt();
-        while(time< 0 || time%30 != 0){
-            System.out.println("You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
+        while (time < 0 || time % 30 != 0) {
+            System.out.println(
+                    "You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
             time = in.nextInt();
         }
 
-        if(time == -1){
+        if (time == -1) {
             return;
         }
 
         currentSim.playGame(time);
     }
-    
-    public static boolean isNight(){
-        return (Main.timeNow-180)%720 < 6;
+
+    public static boolean isNight() {
+        return (Main.timeNow - 180) % 720 < 6;
     }
 
-    public static void listHome(){
+    public static void listHome() {
         System.out.println("This is the list of home in this world");
-        for(Sim sim : simList){
-            System.out.println("- " + sim.getName() +"'s house in coordinate of (" + (sim.getHome().getLocation().x) + "," + (sim.getHome().getLocation().y)+")");
+        for (Sim sim : simList) {
+            System.out.println("- " + sim.getName() + "'s house in coordinate of (" + (sim.getHome().getLocation().x)
+                    + "," + (sim.getHome().getLocation().y) + ")");
         }
     }
 
-    public static void doQueryWatchTV(){
-        System.out.println("Please insert how long do you want your sim to watch TV. Please type in the multiples of 30 or -1 if you want to cancel");
+    public static void doQueryWatchTV() {
+        System.out.println(
+                "Please insert how long do you want your sim to watch TV. Please type in the multiples of 30 or -1 if you want to cancel");
         Scanner in = new Scanner(System.in);
         Integer time = in.nextInt();
-        while(time< 0 || time%30 != 0){
-            System.out.println("You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
+        while (time < 0 || time % 30 != 0) {
+            System.out.println(
+                    "You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
             time = in.nextInt();
         }
 
-        if(time == -1){
+        if (time == -1) {
             return;
         }
 
         currentSim.watchTV(time);
     }
-    
-    public static void doQueryPlayPiano(){
-        System.out.println("Please insert how long do you want your sim to play piano. Please type in the multiples of 30 or -1 if you want to cancel");
+
+    public static void doQueryPlayPiano() {
+        System.out.println(
+                "Please insert how long do you want your sim to play piano. Please type in the multiples of 30 or -1 if you want to cancel");
         Scanner in = new Scanner(System.in);
         Integer time = in.nextInt();
-        while(time< 0 || time%30 != 0){
-            System.out.println("You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
+        while (time < 0 || time % 30 != 0) {
+            System.out.println(
+                    "You print the wrong input. Please type in the multiples of 30 or -1 if you want to cancel");
             time = in.nextInt();
         }
 
-        if(time == -1){
+        if (time == -1) {
             return;
         }
 
         currentSim.playPiano(time);
     }
 
-    public static void doQueryVisitHome(){
+    public static void doQueryVisitHome() {
         Scanner in = new Scanner(System.in);
         System.out.println("Please type your sim name's that whose  you will visit or Quit if you want to cancel");
         String name = in.nextLine();
-        while((!isThereSimNamed(name) && !name.equals("Quit")) || currentSim.getName().equals(name)){
-            if(currentSim.getName().equals(name)){
+        while ((!isThereSimNamed(name) && !name.equals("Quit")) || currentSim.getName().equals(name)) {
+            if (currentSim.getName().equals(name)) {
                 System.out.println("That is your own home, dumbass");
-            }else System.out.println("There is no sim named " + name);
+            } else
+                System.out.println("There is no sim named " + name);
             System.out.println("Please type the correct one");
             name = in.nextLine();
         }
 
-        if(name.equals("Quit")){
+        if (name.equals("Quit")) {
             return;
         }
 
-        for(Sim sim : simList){
-            if(sim.getName().equals(name)){
-                //currentSim.visit(Math.round(Math.sqrt(((Integer)currentSim.getCurrentHome().getLocation().x - (Integer)sim.getCurrentHome().getLocation().x)*((Integer)currentSim.getCurrentHome().getLocation().x - (Integer)sim.getCurrentHome().getLocation().x)+((Integer)currentSim.getCurrentHome().getLocation().y - (Integer)sim.getCurrentHome().getLocation().y)*((Integer)currentSim.getCurrentHome().getLocation().y - (Integer)sim.getCurrentHome().getLocation().y))));
-                currentSim.visit(calculateTime(currentSim,sim));
+        for (Sim sim : simList) {
+            if (sim.getName().equals(name)) {
+                // currentSim.visit(Math.round(Math.sqrt(((Integer)currentSim.getCurrentHome().getLocation().x
+                // -
+                // (Integer)sim.getCurrentHome().getLocation().x)*((Integer)currentSim.getCurrentHome().getLocation().x
+                // -
+                // (Integer)sim.getCurrentHome().getLocation().x)+((Integer)currentSim.getCurrentHome().getLocation().y
+                // -
+                // (Integer)sim.getCurrentHome().getLocation().y)*((Integer)currentSim.getCurrentHome().getLocation().y
+                // - (Integer)sim.getCurrentHome().getLocation().y))));
+                currentSim.visit(calculateTime(currentSim, sim));
                 currentSim.getRoom().removeSimMap(currentSim);
                 currentSim.setCurrentHome(sim.getHome());
                 currentSim.setRoom(sim.getHome().getListRuangan().get(0));
@@ -1307,17 +1317,17 @@ public class Manager {
         }
     }
 
-    public static Long calculateTime(Sim a, Sim b){
+    public static Long calculateTime(Sim a, Sim b) {
         Point loca = a.getCurrentHome().getLocation();
         Point locb = b.getCurrentHome().getLocation();
         Integer x = loca.x - locb.x;
-        Integer y = loca.y -  locb.y;
-        return Math.round(Math.sqrt((Integer)(x*x +y*y)));
+        Integer y = loca.y - locb.y;
+        return Math.round(Math.sqrt((Integer) (x * x + y * y)));
     }
 
-    public static boolean isThereSimNamed(String name){
-        for(Sim sim : simList){
-            if(sim.getName().equals(name)){
+    public static boolean isThereSimNamed(String name) {
+        for (Sim sim : simList) {
+            if (sim.getName().equals(name)) {
                 return true;
             }
         }

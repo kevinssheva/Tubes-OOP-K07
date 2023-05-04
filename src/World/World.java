@@ -3,7 +3,6 @@ package src.World;
 import java.awt.Point;
 import java.util.*;
 import src.Home.*;
-import src.Manager.*;
 
 public class World {
     private Home[][] petaWorld;

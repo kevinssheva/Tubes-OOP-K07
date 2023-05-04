@@ -3,12 +3,7 @@ package src.Inventory;
 import java.util.*;
 
 import src.Objek.Objek;
-import src.Objek.Furniture.Clock;
 import src.Objek.Furniture.Furniture;
-import src.Objek.Furniture.MejaKursi;
-import src.Objek.Furniture.Toilet;
-import src.Objek.Furniture.Bed.SingleBed;
-import src.Objek.Furniture.Stove.GasStove;
 import src.Objek.Dish.*;
 import src.Objek.Ingredients.*;
 
@@ -17,14 +12,6 @@ public class Inventory<T extends Objek> {
 
     public Inventory() {
         item = new HashMap<T, Integer>();
-
-        // add default item
-        addItem((T) new Toilet());
-        addItem((T) new Toilet());
-        addItem((T) new GasStove());
-        addItem((T) new SingleBed());
-        addItem((T) new MejaKursi());
-        addItem((T) new Clock());
     }
 
     public void addItem(T t) {

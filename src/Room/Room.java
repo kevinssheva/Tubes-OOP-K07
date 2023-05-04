@@ -3,11 +3,8 @@ package src.Room;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.*;
-import src.Objek.Furniture.Bed.*;
 import src.Objek.Furniture.Furniture;
 import src.Manager.Manager;
-import src.Objek.Furniture.*;
-import src.Objek.Furniture.Stove.*;
 import src.Sim.Sim;
 
 public class Room {
@@ -120,17 +117,17 @@ public class Room {
         simMap.put(sim, newLocation);
     }
 
-    public void addSim(Sim sim){
+    public void addSim(Sim sim) {
         Random rand = new Random();
         int x = rand.nextInt(6);
         int y = rand.nextInt(6);
-        Point temp = new Point(x,y);
-        while(simMap.containsValue(temp)){
+        Point temp = new Point(x, y);
+        while (simMap.containsValue(temp)) {
             x = rand.nextInt(6);
             y = rand.nextInt(6);
-            temp = new Point(x,y);
+            temp = new Point(x, y);
         }
-        adjustSimMap(sim,temp);
+        adjustSimMap(sim, temp);
     }
 
     public void removeSimMap(Sim sim) {
@@ -156,7 +153,7 @@ public class Room {
             return;
         }
         Dimension furnitureDimension = furniture.getDimensi();
-        //choose furniture if there are more than one
+        // choose furniture if there are more than one
         if (points.size() > 1) {
             System.out.println("Select the location of the furniture that you want to remove : ");
             for (int i = 0; i < points.size(); i++) {
@@ -189,7 +186,6 @@ public class Room {
         }
         Manager.getCurrentSim().getInventory().addItem(furniture);
     }
-
 
     public void addFurniture(Furniture furniture, Point location) {
         Furniture checkMap = roomMap[location.y][location.x];

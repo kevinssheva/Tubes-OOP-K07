@@ -3,7 +3,6 @@ package src.Home;
 import java.util.*;
 import java.awt.Point;
 import src.Room.*;
-import src.Sim.Sim;
 
 public class Home {
     private String name;

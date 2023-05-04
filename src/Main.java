@@ -1,9 +1,6 @@
 package src;
 
-import java.util.Scanner;
-import src.World.*;
 import src.Manager.*;
-import src.Home.*;
 
 public class Main {
     public static long timeNow = 0; // time is in second
@@ -38,22 +35,22 @@ public class Main {
         temp.start();
     }
 
-    public static void trackDays(){ // to know when it changes days
-        Thread day = new Thread() {
-            public void run() {
-                while (true) {
-                    if (timeNow % 720 == 0) {
-                        Manager.dailyReset();
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-    }
+    // public static void trackDays(){ // to know when it changes days
+    //     Thread day = new Thread() {
+    //         public void run() {
+    //             while (true) {
+    //                 if (timeNow % 720 == 0) {
+    //                     Manager.dailyReset();
+    //                 }
+    //                 try {
+    //                     Thread.sleep(1000);
+    //                 } catch (InterruptedException e) {
+    //                     e.printStackTrace();
+    //                 }
+    //             }
+    //         }
+    //     };
+    // }
 
     public static void main(String args[]) {
         runTheTime();
