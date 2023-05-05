@@ -14,7 +14,7 @@ import simplicity.Manager.Manager;
 
 public class Save {
     public static void save() {
-        String fileName = "data.json";
+        String fileName = "data/data.json";
         Path path = Paths.get(fileName);
         SavedData data = new SavedData(Manager.getCurrentSim(), Manager.getSimList(), Manager.getWorld());
 

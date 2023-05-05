@@ -535,7 +535,7 @@ public class Manager {
     }
 
     public static void loadGame() {
-        Load.load("data.json");
+        Load.load("data/data.json");
     }
 
     public static void exitTheGame() {
