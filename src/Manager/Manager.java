@@ -1375,7 +1375,7 @@ public class Manager {
 
         for (Sim sim : simList) {
             if (sim.getName().equals(name)) {
-                currentSim.visit(calculateTime(currentSim, sim));
+                currentSim.visit(calculateTime(currentSim.getHome(), sim.getHome()));
                 currentSim.getRoom().removeSimMap(currentSim);
                 currentSim.setCurrentHome(sim.getHome());
                 currentSim.setRoom(sim.getHome().getListRuangan().get(0));
@@ -1386,9 +1386,9 @@ public class Manager {
         }
     }
 
-    public static Long calculateTime(Sim a, Sim b) {
-        Point loca = a.getHome().getLocation();
-        Point locb = b.getHome().getLocation();
+    public static Long calculateTime(Home a, Home b) {
+        Point loca = a.getLocation();
+        Point locb = b.getLocation();
         Integer x = loca.x - locb.x;
         Integer y = loca.y - locb.y;
         return Math.round(Math.sqrt((Integer) (x * x + y * y)));

@@ -61,7 +61,7 @@ public class Main {
                 }
             }
         }
-
+        System.out.println("Every sim in the world has died.\nGame Over");
         System.exit(0);
     }
 }
