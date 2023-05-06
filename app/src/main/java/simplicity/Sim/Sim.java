@@ -860,13 +860,15 @@ public class Sim {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (status == "Tidur" || status == "Sleeping...") {
+                    if (status.equals("Tidur") || status.equals("Sleeping...")) {
                         lastSleep = App.timeNow;
                     }
                     if (lastSleep + 600 <= App.timeNow) {
                         lastSleep = App.timeNow;
-                        mood -= 5;
-                        health -= 5;
+                        if((App.timeNow - (lastSleep + 600))% 30 == 0){
+                            setSatiety(satiety-10);
+                            setMood(mood-30);
+                        }
                     }
                 }
             }
