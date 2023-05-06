@@ -8,4 +8,4 @@ build
 app/data/*.json
 
 # Ignore bin folders
-app/bin
+app/bin/

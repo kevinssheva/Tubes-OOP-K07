@@ -800,6 +800,11 @@ public class Manager {
     public static void upgradeHouse() {
         clearScreen();
         // Upgrade House
+        if(currentSim.getMoney() < 1500){
+            System.out.println("Your money is not sufficient enough to upgrade your house");
+            clickEnter();
+            return;
+        }
         if (currentSim.checkAction("Upgrade House")) {
             System.out.println("You have already upgraded your house");
             clickEnter();
@@ -833,7 +838,7 @@ public class Manager {
 
         Thread upgradeThread = new Thread() {
             public void run() {
-                long finalTime = App.timeNow + 20;
+                long finalTime = App.timeNow + 1080;
                 Manager.currentSim.addAction("Upgrade House", finalTime);
                 while (App.timeNow < finalTime) {
                     try {
