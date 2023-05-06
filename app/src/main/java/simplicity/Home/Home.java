@@ -106,8 +106,7 @@ public class Home {
     }
 
     public void addRuangan(String referenceRoom, String direction, String name) {
-        System.out.println(
-                "So you want to add a room to " + referenceRoom + " to the " + direction + " with name " + name);
+    
         Room room = null;
         for (Room r : listRuangan) {
             if (r.getName().equals(referenceRoom)) {

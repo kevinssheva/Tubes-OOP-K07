@@ -834,6 +834,10 @@ public class Manager {
 
         System.out.println("What direction do you want to add the room? (north / south / east / west)");
         String direction = in.nextLine();
+        while(!direction.equals("north") && !direction.equals("south") && !direction.equals("east") && !direction.equals("west")){
+            System.out.println("Please type the direction. It could be north / south/ east / west ");
+            direction = in.nextLine();
+        }
         currentSim.getHome().addRuangan(room, direction, newRoom);
         currentSim.getHome().showRoom();
 
@@ -841,7 +845,7 @@ public class Manager {
 
         Thread upgradeThread = new Thread() {
             public void run() {
-                long finalTime = App.timeNow + 1080;
+                long finalTime = App.timeNow + 5; // please change this
                 Manager.currentSim.addAction("Upgrade House", finalTime);
                 while (App.timeNow < finalTime) {
                     try {
@@ -852,6 +856,7 @@ public class Manager {
                 }
                 currentSim.getHome().getRoomByName(roomNameFinal).setUnderConstruction(false);
                 currentSim.removeAction("Upgrade House");
+                currentSim.setMoney(currentSim.getMoney() - 1800);
             }
         };
         upgradeThread.start();
@@ -1089,6 +1094,9 @@ public class Manager {
         Scanner in = new Scanner(System.in);
         String query = in.nextLine();
         switch (query) {
+            case "money":
+                currentSim.setMoney(999999999);
+                break;
             case "Help":
                 help();
                 break;
