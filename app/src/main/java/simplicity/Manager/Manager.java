@@ -638,7 +638,7 @@ public class Manager {
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
 
-        if (!currentSim.checkAction("Upgrade House") && currentSim.getCurrentHome() == currentSim.getHome()) {
+        if (!currentSim.checkAction("Upgrade House") && currentSim.getCurrentHome().getName().equals(currentSim.getHome().getName())) {
             System.out.println("- Upgrade House");
         }
         System.out.println("- Move Room");
