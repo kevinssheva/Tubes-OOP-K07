@@ -1559,7 +1559,7 @@ public class Manager {
         }
     }
 
-    public static void killSim() {
-        simList.remove(currentSim);
+    public static void killSim(Sim sim) {
+        simList.remove(sim);
     }
 }
