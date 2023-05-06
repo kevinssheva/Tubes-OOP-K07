@@ -20,7 +20,8 @@ gradle -v
 4. Open terminal on that folder
 5. Run this code
 ```
-gradle build
-java -jar build\libs\Tubes-OOP-K07.jar
+gradlew run -q --console=plain
+or 
+gradle run -q --console=plain
 ```
 6. By default, this will run the Main.java. If you want to change the file, you can go to the build.gradle and edit the configuration

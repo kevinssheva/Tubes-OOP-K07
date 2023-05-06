@@ -154,6 +154,7 @@ public class Manager {
 
     }
 
+
     public static void queryBuyThings() {
         System.out.println("Here is the list of things that you can buy\n");
         System.out.println("- Single Bed\nPrice : 50\nDimension : 4 x 1\n");
@@ -1021,12 +1022,17 @@ public class Manager {
         clearScreen();
         System.out.println("Here is the list of sim that you have");
         for (int i = 0; i < simList.size(); i++) {
-            System.out.println(i + 1 + ". " + simList.get(i).getName());
+            System.out.println(i + 1 + ". " + simList.get(i).getName() + (!simList.get(i).stillAlive() ? " ( Deceased ) "  : " ") + (simList.get(i).equals(currentSim) ? " ( Current Sim )" : " "));
         }
         System.out.println("Which sim do you want to choose?");
         Scanner in = new Scanner(System.in);
         int chooseSim = in.nextInt();
+        while(chooseSim < 0 || chooseSim > simList.size()){
+            System.out.println("There is no sim at that index. Please choose the other one");
+            chooseSim = in.nextInt();
+        }
         currentSim = simList.get(chooseSim - 1);
+
         System.out.println("You have changed your sim to " + currentSim.getName());
         clickEnter();
 

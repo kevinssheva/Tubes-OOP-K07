@@ -58,6 +58,8 @@ public class App {
         }
         // world will automatically generated in the manager
         while (Manager.canGameContinue()) {
+
+            if(Manager.getCurrentSim().stillAlive()){
             if (Manager.isCurrentSimWorking()) {
                 // can't do anything since the sim is still working
             } else {
@@ -67,10 +69,15 @@ public class App {
                     Manager.changeSim();
                 }
             }
+            }else{
+                // change the sim.
+                Manager.changeSim();
 
+            }
         }
 
-        System.exit(0);
+        System.out.println("All of your sim is dead.");
+        Manager.exitTheGame();
         // Manager.generateSim();
         // Save.save();
         // Sim sim = Load.load("data.json");
