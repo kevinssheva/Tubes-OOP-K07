@@ -23,11 +23,11 @@ public class Save {
             Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
             JsonElement tree = gson.toJsonTree(data);
             gson.toJson(tree, writer);
-            System.out.println("Berhasil melakukan save.");// Gson gson = new Gson();
+            System.out.println("Save Successful.");// Gson gson = new Gson();
             // gson.toJson(sim, writer);
             // System.out.println("Berhasil melakukan save.");
         } catch (Exception e) {
-            System.out.println("Gagal melakukan save. Pesan error: " + e.getMessage());
+            System.out.println("Save Failed.\nError message: " + e.getMessage());
         }
     }
 }

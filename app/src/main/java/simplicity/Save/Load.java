@@ -14,7 +14,7 @@ public class Load {
             Gson gson = new Gson();
             Reader reader = Files.newBufferedReader(Paths.get(path));
             SavedData saveData = gson.fromJson(reader, SavedData.class);
-            System.out.println("Berhasil melakukan load file " + path);
+            System.out.println("File load successful " + path);
             Manager.setCurrentSim(saveData.getCurrentSim());
             Manager.setSimList(saveData.getSimList());
             Manager.setWorld(saveData.getWorld());
@@ -22,7 +22,7 @@ public class Load {
             Manager.setGameLoaded(true);
         }
         catch (Exception e) {
-            System.out.println("Gagal melakukan load file " + path + ". Pesan error: " + e.getMessage());
+            System.out.println("Failed to load file " + path + ".\nError message: " + e.getMessage());
         }
     }
 }

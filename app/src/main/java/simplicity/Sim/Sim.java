@@ -764,6 +764,7 @@ public class Sim {
                 System.out.println(entry.getKey() + " : " + timeLeft + " seconds left");
             else
                 System.out.println(entry.getKey() + " has been arrived");
+                removeAction(entry.getKey());
         }
     }
 

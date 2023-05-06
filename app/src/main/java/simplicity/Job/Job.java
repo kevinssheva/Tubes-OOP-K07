@@ -7,19 +7,19 @@ public class Job {
     public Job(String name) {
         this.name = name;
         switch (name) {
-            case "Badut Sulap":
+            case "Clown":
                 dailyPay = 15;
                 break;
-            case "Koki":
+            case "Chef":
                 dailyPay = 30;
                 break;
-            case "Polisi":
+            case "Police":
                 dailyPay = 35;
                 break;
             case "Programmer":
                 dailyPay = 45;
                 break;
-            case "Dokter":
+            case "Doctor":
                 dailyPay = 50;
                 break;
             default:
