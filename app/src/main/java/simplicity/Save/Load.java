@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 
 import com.google.gson.Gson;
 
+import simplicity.App;
 import simplicity.Manager.Manager;
 import simplicity.Sim.Sim;
 
@@ -18,6 +19,8 @@ public class Load {
             System.out.println("Yeay! Berhasil melakukan load file " + path);
             Manager.setSimList(saveData.getSimList());
             Manager.setWorld(saveData.getWorld());
+            App.setTimeNow(saveData.getTimeNow());
+            // Manager.updateRoomFurniture();
             Manager.setGameStarted(true);
             Manager.setGameLoaded(true);
             Manager.updateSimInventory();

@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 
+import simplicity.App;
 import simplicity.Inventory.Inventory;
 import simplicity.Manager.Manager;
 
@@ -17,7 +18,7 @@ public class Save {
     public static void save() {
         String fileName = "data/data.json";
         Path path = Paths.get(fileName);
-        SavedData data = new SavedData(Manager.getCurrentSim(), Manager.getSimList(), Manager.getWorld());
+        SavedData data = new SavedData(Manager.getCurrentSim(), Manager.getSimList(), Manager.getWorld(), App.timeNow);
 
         try (Writer writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
             

@@ -47,6 +47,10 @@ public class App {
         return "Hello World!";
     }
 
+    public static void setTimeNow(long timeNow) {
+        App.timeNow = timeNow;
+    }
+
     public static void main(String args[]) {
         runTheTime();
         while (Manager.getGameStarted() == false) {
