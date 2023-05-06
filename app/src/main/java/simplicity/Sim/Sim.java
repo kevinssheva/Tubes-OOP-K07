@@ -11,12 +11,23 @@ import simplicity.Inventory.*;
 import simplicity.Job.*;
 import simplicity.Manager.Manager;
 import simplicity.Objek.Objek;
+import simplicity.Objek.Furniture.Bookshelf;
 import simplicity.Objek.Furniture.Clock;
 import simplicity.Objek.Furniture.Furniture;
+import simplicity.Objek.Furniture.Komputer;
 import simplicity.Objek.Furniture.MejaKursi;
+import simplicity.Objek.Furniture.Piano;
+import simplicity.Objek.Furniture.Sajadah;
+import simplicity.Objek.Furniture.Shower;
+import simplicity.Objek.Furniture.TV;
+import simplicity.Objek.Furniture.Telescope;
 import simplicity.Objek.Furniture.Toilet;
+import simplicity.Objek.Furniture.Bed.KingBed;
+import simplicity.Objek.Furniture.Bed.QueenBed;
 import simplicity.Objek.Furniture.Bed.SingleBed;
+import simplicity.Objek.Furniture.Stove.ElectricStove;
 import simplicity.Objek.Furniture.Stove.GasStove;
+import simplicity.Objek.Ingredients.Ingredients;
 import simplicity.Room.*;
 import simplicity.App;
 import simplicity.Home.*;
@@ -30,7 +41,7 @@ public class Sim {
     private Integer health;
     private String status;
     private Integer satiety;
-    private Inventory<Objek> inventory;
+    private Inventory inventory;
     private Room currentRoom;
     private Home currentHome; // misal kalo berkunjung currentHome nya yang ganti bukan home nya
     private Home home; // punya rumah sendiri
@@ -48,12 +59,14 @@ public class Sim {
         this.health = health;
         this.status = status;
         this.satiety = satiety;
-        this.inventory = new Inventory<>();
+        this.inventory = new Inventory();
         inventory.addItem(new Toilet());
         inventory.addItem(new GasStove());
         inventory.addItem(new SingleBed());
         inventory.addItem(new MejaKursi());
         inventory.addItem(new Clock());
+        inventory.addItem(new Dish("Chicken Rice", 16));
+        inventory.addItem(new Ingredients("Rice", 5, 5));
         this.home = home;
         currentRoom = home.getListRuangan().get(0);
         currentRoom.adjustSimMap(this.name, new Point(0, 0));
@@ -70,6 +83,10 @@ public class Sim {
         this.traveledTime = traveledTime;
     }
 
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+    
     public Integer getSatiety() {
         return satiety;
     }
@@ -110,7 +127,7 @@ public class Sim {
         return currentHome;
     }
 
-    public Inventory<Objek> getInventory() {
+    public Inventory getInventory() {
         return inventory;
     }
 
@@ -859,6 +876,103 @@ public class Sim {
             }
         };
         t.start();
+    }
+
+    public void updateInventoryAfterLoad() {
+        Inventory updatedInventory = new Inventory();
+        for (Map.Entry<Objek, Integer> entry : inventory.getItems().entrySet()) {
+            Objek o = entry.getKey();
+            String name = o.getName();
+            switch (name) {
+                case "Single Bed":
+                    updatedInventory.addItem(new SingleBed());
+                    break;
+                case "King Bed":
+                    updatedInventory.addItem(new KingBed());
+                    break;
+                case "Queen Bed":
+                    updatedInventory.addItem(new QueenBed());
+                    break;
+                case "Toilet":
+                    updatedInventory.addItem(new Toilet());
+                    break;
+                case "Electric Stove":
+                    updatedInventory.addItem(new ElectricStove());
+                    break;
+                case "Gas Stove":
+                    updatedInventory.addItem(new GasStove());
+                    break;
+                case "Bookshelf":
+                    updatedInventory.addItem(new Bookshelf());
+                    break;
+                case "Clock":
+                    updatedInventory.addItem(new Clock());
+                    break;
+                case "Komputer":
+                    updatedInventory.addItem(new Komputer());
+                    break;
+                case "Table and Chair":
+                    updatedInventory.addItem(new MejaKursi());
+                    break;
+                case "Piano":
+                    updatedInventory.addItem(new Piano());
+                    break;
+                case "Sajadah":
+                    updatedInventory.addItem(new Sajadah());
+                    break;
+                case "Shower":
+                    updatedInventory.addItem(new Shower());
+                    break;
+                case "Telescope":
+                    updatedInventory.addItem(new Telescope());
+                    break;
+                case "TV":
+                    updatedInventory.addItem(new TV());
+                    break;
+                case "Chicken Rice":
+                    updatedInventory.addItem(new Dish("Chicken Rice", 16));
+                    break;
+                case "Curry Rice":
+                    updatedInventory.addItem(new Dish("Curry Rice", 30));
+                    break;
+                case "Soy Milk":
+                    updatedInventory.addItem(new Dish("Soy Milk", 5));
+                    break;
+                case "Stir-fried Vegetables":
+                    updatedInventory.addItem(new Dish("Stir-fried Vegetables", 5));
+                    break;
+                case "Beef Steak":
+                    updatedInventory.addItem(new Dish("Beef Steak", 22));
+                    break;
+                case "Rice":
+                    updatedInventory.addItem(new Ingredients("Rice", 5, 5));
+                    break;
+                case "Potato":
+                    updatedInventory.addItem(new Ingredients("Potato", 4, 5));
+                    break;
+                case "Chicken":
+                    updatedInventory.addItem(new Ingredients("Chicken", 8, 10));
+                    break;
+                case "Beef":
+                    updatedInventory.addItem(new Ingredients("Beef", 15, 12));
+                    break;
+                case "Carrot":
+                    updatedInventory.addItem(new Ingredients("Caroot", 2, 3));
+                    break;
+                case "Spinach":
+                    updatedInventory.addItem(new Ingredients("Spinach", 2, 3));
+                    break;
+                case "Peanut":
+                    updatedInventory.addItem(new Ingredients("Peanut", 2, 3));
+                    break;
+                case "Milk":
+                    updatedInventory.addItem(new Ingredients("Milk", 2, 2));
+                    break;
+                default:
+                    break;
+            }
+        }
+        inventory = updatedInventory;
     }
 
     public static void main(String[] args) {

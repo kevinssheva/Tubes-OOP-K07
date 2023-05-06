@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import com.google.gson.Gson;
 
 import simplicity.Manager.Manager;
+import simplicity.Sim.Sim;
 
 public class Load {
     public static void load(String path) {
@@ -14,15 +15,17 @@ public class Load {
             Gson gson = new Gson();
             Reader reader = Files.newBufferedReader(Paths.get(path));
             SavedData saveData = gson.fromJson(reader, SavedData.class);
-            System.out.println("File load successful " + path);
-            Manager.setCurrentSim(saveData.getCurrentSim());
+            System.out.println("Yeay! Berhasil melakukan load file " + path);
             Manager.setSimList(saveData.getSimList());
             Manager.setWorld(saveData.getWorld());
+            // Manager.updateRoomFurniture();
             Manager.setGameStarted(true);
             Manager.setGameLoaded(true);
+            Manager.updateSimInventory();
+            Manager.setCurrentSim(Manager.getSimList().get(0));
         }
         catch (Exception e) {
-            System.out.println("Failed to load file " + path + ".\nError message: " + e.getMessage());
+            System.out.println("Yah! Gagal melakukan load file " + path + ". Error: " + e.getMessage());
         }
     }
 }

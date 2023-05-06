@@ -7,16 +7,20 @@ import simplicity.Objek.Furniture.Furniture;
 import simplicity.Objek.Dish.*;
 import simplicity.Objek.Ingredients.*;
 
-public class Inventory<T extends Objek> {
-    private Map<T, Integer> item;
+public class Inventory {
+    private Map<Objek, Integer> item;
 
     public Inventory() {
-        item = new HashMap<T, Integer>();
+        item = new HashMap<Objek, Integer>();
     }
 
-    public void addItem(T t) {
+    public Map<Objek, Integer> getItems() {
+        return item;
+    }
+
+    public void addItem(Objek t) {
         // add item to the inventory, if item already exist then increase the quantity
-        for (T objek : item.keySet()) {
+        for (Objek objek : item.keySet()) {
             if (objek.getName().equals(t.getName())) {
                 item.put(objek, item.get(objek) + 1);
                 return;
@@ -25,18 +29,26 @@ public class Inventory<T extends Objek> {
         item.put(t, 1);
     }
 
-    public boolean checkItem(T t) {
+    public void addItem(Objek t, int quantity) {
+        item.put(t, quantity);        
+    }
+
+    public boolean checkItem(Objek t) {
         return item.containsKey(t);
     }
 
     public void showInventory() {
-        for (T key : item.keySet()) {
+        for (Objek key : item.keySet()) {
             System.out.println(key.getName() + " : " + item.get(key));
         }
+        // show class of item
+        // for (Objek key : item.keySet()) {
+        //     System.out.println(key.getClass().getName());
+        // }
     }
 
     public void showFurnitureOnly() {
-        for (T key : item.keySet()) {
+        for (Objek key : item.keySet()) {
             if (key instanceof Furniture) {
                 System.out.println(key.getName() + " : " + item.get(key));
             }
@@ -44,7 +56,7 @@ public class Inventory<T extends Objek> {
     }
 
     public void showEdibleOnly() {
-        for (T key : item.keySet()) {
+        for (Objek key : item.keySet()) {
             if (key instanceof Ingredients || key instanceof Dish) {
                 System.out.println(key.getName() + " : " + item.get(key));
             }
@@ -52,7 +64,7 @@ public class Inventory<T extends Objek> {
     }
 
     public boolean checkItemByName(String name) {
-        for (T key : item.keySet()) {
+        for (Objek key : item.keySet()) {
             if (key.getName().equals(name)) {
                 return true;
             }
@@ -60,8 +72,8 @@ public class Inventory<T extends Objek> {
         return false;
     }
 
-    public T getItemByName(String name) {
-        for (T key : item.keySet()) {
+    public Objek getItemByName(String name) {
+        for (Objek key : item.keySet()) {
             if (key.getName().equals(name)) {
                 return key;
             }
@@ -69,7 +81,7 @@ public class Inventory<T extends Objek> {
         return null;
     }
 
-    public void removeItem(T t) {
+    public void removeItem(Objek t) {
         int i;
 
         try {
