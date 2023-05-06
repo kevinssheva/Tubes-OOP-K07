@@ -819,7 +819,7 @@ public class Manager {
         Scanner in = new Scanner(System.in);
         String room = in.nextLine();
         Room referenceRoom = currentSim.getHome().getRoomByName(room);
-        while (referenceRoom == null || referenceRoom.getUnderConstruction()) {
+        while (referenceRoom == null || referenceRoom.getUnderConstruction() || !referenceRoom.canBeUpgraded()) {
             System.out.println("Room not available, please try again");
             room = in.nextLine();
             referenceRoom = currentSim.getHome().getRoomByName(room);
@@ -834,7 +834,7 @@ public class Manager {
 
         System.out.println("What direction do you want to add the room? (north / south / east / west)");
         String direction = in.nextLine();
-        while(!direction.equals("north") && !direction.equals("south") && !direction.equals("east") && !direction.equals("west")){
+        while(!referenceRoom.canThisDirection(direction)){
             System.out.println("Please type the direction. It could be north / south/ east / west ");
             direction = in.nextLine();
         }
