@@ -251,20 +251,6 @@ public class Manager {
             System.out.println("- Take a Shower         - Return Home");
             System.out.println("- Use the Toilet        - Exit");
             System.out.println("- Use the Telescope");
-            // System.out.println("- Buy Things");
-            // System.out.println("- View Sim Info");
-            // System.out.println("- View Current Location");
-            // System.out.println("- View Inventory");
-            // System.out.println("- Upgrade House");
-            // System.out.println("- Move Room");
-            // System.out.println("- Edit Room");
-            // System.out.println("- Add Sim");
-            // System.out.println("- Change Sim");
-            // System.out.println("- List Object");
-            // System.out.println("- Go To Object");
-            // System.out.println("- Visit Other's Houses");
-            // System.out.println("- Return Home");
-            // System.out.println("- Exit");
             System.out.println("\nType in the command for details or type 'Back' to go back");
 
             Scanner in = new Scanner(System.in);
@@ -568,9 +554,6 @@ public class Manager {
     }
 
     public static void clickEnter() {
-        // System.out.println("Press Enter to return to the main menu...");
-        // Scanner scanner = new Scanner(System.in);
-        // scanner.nextLine();
         System.out.println("Click enter to proceed");
         try {
             System.in.read();

@@ -28,9 +28,7 @@ public class Save {
                 .create();
             JsonElement tree = gson.toJsonTree(data);
             gson.toJson(tree, writer);
-            System.out.println("Yeay! Berhasil melakukan saving");// Gson gson = new Gson();
-            // gson.toJson(sim, writer);
-            // System.out.println("Berhasil melakukan save.");
+            System.out.println("Yeay! Berhasil melakukan saving");
         } catch (Exception e) {
             System.out.println("Yah! Gagal melakukan save. Error: " + e.getMessage());
         }
