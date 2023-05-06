@@ -30,6 +30,7 @@ public class App {
                         System.out.println("Time : " + timeNow);
                         if (timeNow % 720 == 0) {
                             Manager.resetWork();
+                            Manager.setIsAddSimAvailable(true);
                         }
                     }
                     try {
@@ -59,6 +60,7 @@ public class App {
         // generate the first sim. Otherwise, the game won't start
         if (Manager.getGameLoaded() == false) {
             Manager.generateSim();
+            Manager.setIsAddSimAvailable(true);
         }
         // world will automatically generated in the manager
         while (Manager.canGameContinue()) {

@@ -31,6 +31,15 @@ public class Manager {
             "Spinach", "Peanut", "Milk" };
     private static ArrayList<String> buyableList = new ArrayList<>(Arrays.asList(arrayBuyable));
     private static boolean gameLoaded = false;
+    private static boolean isAddSimAvailable = true;
+
+    public static void setIsAddSimAvailable(boolean isAddSimAvailable) {
+        Manager.isAddSimAvailable = isAddSimAvailable;
+    }
+
+    public static boolean getIsAddSimAvailable() {
+        return isAddSimAvailable;
+    }
 
     public static void buyThings(String thing) {
         List<Objek> putArray = new ArrayList<Objek>();
@@ -980,6 +989,11 @@ public class Manager {
 
     public static void generateSim() {
         clearScreen();
+        if (!isAddSimAvailable) {
+            System.out.println("You have reached the maximum number of sim today");
+            clickEnter();
+            return;
+        }
         Scanner in = new Scanner(System.in);
         String name;
         Job job = null;
@@ -1020,6 +1034,7 @@ public class Manager {
         if (currentSim == null) {
             currentSim = sim;
         }
+        isAddSimAvailable = false;
     }
 
     public static void changeSim() {
