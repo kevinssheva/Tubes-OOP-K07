@@ -23,7 +23,7 @@ public class Manager {
     private static Sim currentSim = null;
     private static List<Sim> simList = new ArrayList<Sim>();
     private static boolean gameStarted = false;
-    private static World world = new World();
+    private static World world = World.getInstance();
     private static String[] arrayBuyable = { "Single Bed", "Queen Size Bed", "King Size Bed", "Toilet",
             "Electric Stove", "Gas Stove", "Table and Chair", "Clock", "TV", "Komputer", "Bookshelf", "Sajadah",
             "Shower",
@@ -643,7 +643,7 @@ public class Manager {
             System.out.println("- Upgrade House");
         }
         System.out.println("- Move Room");
-        if (currentSim.getCurrentHome() == currentSim.getHome()) {
+        if (currentSim.getCurrentHome().getName().equals(currentSim.getHome().getName())) {
             System.out.println("- Edit Room");
         }
         System.out.println("- Add Sim");
@@ -978,6 +978,15 @@ public class Manager {
         clickEnter();
     }
 
+    public static boolean checkName(String name) {
+        for (Sim sim : simList) {
+            if (sim.getName().equals(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void generateSim() {
         clearScreen();
         Scanner in = new Scanner(System.in);
@@ -985,6 +994,10 @@ public class Manager {
         Job job = null;
         System.out.println("What name would you like to give for your sim?");
         name = in.nextLine();
+        while (!checkName(name)) {
+            System.out.println("The name is already taken. Please choose another name");
+            name = in.nextLine();
+        }
         System.out.println("Here's the list of job that we have. But, your sim's job will be choosen randomly");
         System.out.println("1.Clown \n2.Chef\n3.Police\n4.Programmer\n5.Doctor");
         Random rand = new Random();
@@ -1269,7 +1282,7 @@ public class Manager {
                 clickEnter();
                 break;
             case "Edit Room":
-                if (currentSim.getCurrentHome() != currentSim.getHome()) {
+                if (!currentSim.getCurrentHome().getName().equals(currentSim.getHome().getName())) {
                     System.out.println("You can only edit your own house!");
                     break;
                 }

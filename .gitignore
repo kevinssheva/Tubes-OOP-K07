@@ -6,3 +6,6 @@ build
 
 # Ignore json files
 app/data/*.json
+
+# Ignore bin folders
+app/bin

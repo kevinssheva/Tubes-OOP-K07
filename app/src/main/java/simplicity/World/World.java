@@ -6,12 +6,17 @@ import java.util.*;
 import simplicity.Home.*;
 
 public class World {
+    private static World instance = new World();
     private Home[][] petaWorld;
     private ArrayList<Home> listRumah;
 
-    public World() {
+    private World() {
         this.petaWorld = new Home[64][64];
         this.listRumah = new ArrayList<Home>();
+    }
+
+    public static World getInstance() {
+        return instance;
     }
 
     public ArrayList<Home> getListRumah() {
