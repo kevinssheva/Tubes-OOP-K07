@@ -68,10 +68,10 @@ public class App {
                 Manager.changeSim();
 
             }
-
         }
 
-        System.exit(0);
+        System.out.println("All of your sim is dead.");
+        Manager.exitTheGame();
         // Manager.generateSim();
         // Save.save();
         // Sim sim = Load.load("data.json");
