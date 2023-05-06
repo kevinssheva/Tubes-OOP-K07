@@ -1329,7 +1329,7 @@ public class Manager {
                 break;
             case "Return Home":
                 clearScreen();
-                if(currentSim.getCurrentHome() == currentSim.getHome()){
+                if(currentSim.getCurrentHome().getName().equals(currentSim.getHome().getName())){
                     System.out.println("You are already in your house!");
                     break;
                 }
