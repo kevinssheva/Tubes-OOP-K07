@@ -845,7 +845,7 @@ public class Manager {
 
         Thread upgradeThread = new Thread() {
             public void run() {
-                long finalTime = App.timeNow + 5; // please change this
+                long finalTime = App.timeNow + 1080; // please change this
                 Manager.currentSim.addAction("Upgrade House", finalTime);
                 while (App.timeNow < finalTime) {
                     try {
