@@ -133,6 +133,7 @@ public class Manager {
             return;
         }
         putArray.add(putIntoInventory);
+        currentSim.setMoney(currentSim.getMoney() - ((Buyable) putIntoInventory).getPrice());
         Thread putInventoryThread = new Thread() {
             public void run() {
                 Random rand = new Random();
@@ -181,7 +182,7 @@ public class Manager {
         System.out.println("- Peanut\nPrice : 2\nSatiety : 2\n");
         System.out.println("- Milk\nPrice : 2\nSatiety : 1\n");
         Scanner in = new Scanner(System.in);
-        System.out.println("Please type things that you want or type Quit if you want to cancel this");
+        System.out.println("Please type the item you want to buy or type Quit if you want to cancel this");
         String thingsName = in.nextLine();
         while (buyableList.contains(thingsName) == false && thingsName.equals("Quit") == false) {
             System.out.println(
@@ -235,36 +236,36 @@ public class Manager {
             System.out.println("And don't forget to make sure your sims are happy and healthy!\n");
 
             System.out.println("Here is the list of all ingame commands:");
-            System.out.println("- Help");
-            System.out.println("- Work");
-            System.out.println("- Exercise");
-            System.out.println("- Sleep");
-            System.out.println("- Eat");
-            System.out.println("- Cook");
-            System.out.println("- View Clock");
-            System.out.println("- Watch TV");
-            System.out.println("- Play Game");
-            System.out.println("- Read Book");
-            System.out.println("- Sholat");
-            System.out.println("- Play Piano");
-            System.out.println("- Take a Shower");
-            System.out.println("- Use the Toilet");
+            System.out.println("- Help                  - Buy Things");
+            System.out.println("- Work                  - View Sim Info");
+            System.out.println("- Exercise              - View Current Location");
+            System.out.println("- Sleep                 - View Inventory");
+            System.out.println("- Eat                   - Upgrade House");
+            System.out.println("- Cook                  - Move Room");
+            System.out.println("- View Clock            - Edit Room");
+            System.out.println("- Watch TV              - Add Sim");
+            System.out.println("- Play Game             - Change Sim");
+            System.out.println("- Read Book             - List Object");
+            System.out.println("- Sholat                - Go To Object");
+            System.out.println("- Play Piano            - Visit Other's Houses");
+            System.out.println("- Take a Shower         - Return Home");
+            System.out.println("- Use the Toilet        - Exit");
             System.out.println("- Use the Telescope");
-            System.out.println("- Buy Things");
-            System.out.println("- View Sim Info");
-            System.out.println("- View Current Location");
-            System.out.println("- View Inventory");
-            System.out.println("- Upgrade House");
-            System.out.println("- Move Room");
-            System.out.println("- Edit Room");
-            System.out.println("- Add Sim");
-            System.out.println("- Change Sim");
-            System.out.println("- List Object");
-            System.out.println("- Go To Object");
-            System.out.println("- Visit Other's Houses");
-            System.out.println("- Return Home");
-            System.out.println("- Exit");
-            System.out.println("\nType in the command for details or type 'Back' to go back\n");
+            // System.out.println("- Buy Things");
+            // System.out.println("- View Sim Info");
+            // System.out.println("- View Current Location");
+            // System.out.println("- View Inventory");
+            // System.out.println("- Upgrade House");
+            // System.out.println("- Move Room");
+            // System.out.println("- Edit Room");
+            // System.out.println("- Add Sim");
+            // System.out.println("- Change Sim");
+            // System.out.println("- List Object");
+            // System.out.println("- Go To Object");
+            // System.out.println("- Visit Other's Houses");
+            // System.out.println("- Return Home");
+            // System.out.println("- Exit");
+            System.out.println("\nType in the command for details or type 'Back' to go back");
 
             Scanner in = new Scanner(System.in);
             String query = in.nextLine();
@@ -333,7 +334,7 @@ public class Manager {
                     break;
                 case "View Clock":
                     clearScreen();
-                    System.out.println("Shows the current ingame time.");
+                    System.out.println("Shows the current ingame time as well as currently ongoing actions.");
                     clickEnter();
                     break;
                 case "Watch TV":
@@ -526,11 +527,13 @@ public class Manager {
         System.out.print("\033[H\033[2J"); // this is for clearscreen
         System.out.flush();
         Scanner in = new Scanner(System.in);
-        System.out.println("Here is the menu");
+        System.out.println("-------- SIM-PLICITY --------");
+        System.out.println("\nMenu:");
         System.out.println("1. Start Game");
         System.out.println("2. Load Game");
         System.out.println("3. Help");
         System.out.println("4. Exit");
+        System.out.print("input (num): ");
         int cmd = in.nextInt();
         System.out.print("\033[H\033[2J"); // this is for clearscreen
         System.out.flush();
@@ -801,13 +804,13 @@ public class Manager {
         clearScreen();
         // Upgrade House
         if (currentSim.checkAction("Upgrade House")) {
-            System.out.println("You have already upgraded your house");
+            System.out.println("You are still upgrading your house, please wait until it's done");
             clickEnter();
             return;
         }
         System.out.println("Here is your list of room in your house");
         currentSim.getHome().showRoom();
-        System.out.println("What room do you want to use as a reference?");
+        System.out.println("What room do you want to use as a reference? (input the room name)");
         Scanner in = new Scanner(System.in);
         String room = in.nextLine();
         Room referenceRoom = currentSim.getHome().getRoomByName(room);
@@ -817,7 +820,7 @@ public class Manager {
             referenceRoom = currentSim.getHome().getRoomByName(room);
         }
 
-        System.out.println("What room do you want to add?");
+        System.out.println("What room do you want to add? (input new room name)");
         String newRoom = in.nextLine();
         while (currentSim.getHome().checkRoom(newRoom)) {
             System.out.println("Room already exist, please try again");
@@ -1004,19 +1007,19 @@ public class Manager {
         int chooseJob = rand.nextInt(5) + 1;
         switch (chooseJob) {
             case 1:
-                job = new Job("Badut Sulap");
+                job = new Job("Clown");
                 break;
             case 2:
-                job = new Job("Koki");
+                job = new Job("Chef");
                 break;
             case 3:
-                job = new Job("Polisi");
+                job = new Job("Police");
                 break;
             case 4:
                 job = new Job("Programmer");
                 break;
             case 5:
-                job = new Job("Dokter");
+                job = new Job("Doctor");
                 break;
         }
         Home home = new Home(name + "'s Home");
@@ -1060,7 +1063,11 @@ public class Manager {
     public static void goToObject() {
         clearScreen();
         Scanner in = new Scanner(System.in);
-        System.out.println("Here is the list of object that you have");
+        if(currentSim.getRoom().getFurnitureList().size() == 0){
+            System.out.println("There is no object in the room, please add them first");
+            return;
+        }
+        System.out.println("Here is the list of objects in the room");
         currentSim.getRoom().showFurniture();
         System.out.println("Which object do you want to go?");
         String objectName = in.nextLine();
@@ -1425,7 +1432,7 @@ public class Manager {
 
     public static void doQueryVisitHome() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Please type your sim name's that whose  you will visit or Quit if you want to cancel");
+        System.out.println("Please type the sim's name that you will visit or Quit if you want to cancel");
         String name = in.nextLine();
         while ((!isThereSimNamed(name) && !name.equals("Quit")) || currentSim.getName().equals(name)) {
             if (currentSim.getName().equals(name)) {
