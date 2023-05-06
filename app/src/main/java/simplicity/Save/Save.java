@@ -27,11 +27,11 @@ public class Save {
                 .create();
             JsonElement tree = gson.toJsonTree(data);
             gson.toJson(tree, writer);
-            System.out.println("Berhasil melakukan save.");// Gson gson = new Gson();
+            System.out.println("Yeay! Berhasil melakukan saving");// Gson gson = new Gson();
             // gson.toJson(sim, writer);
             // System.out.println("Berhasil melakukan save.");
         } catch (Exception e) {
-            System.out.println("Gagal melakukan save. Pesan error: " + e.getMessage());
+            System.out.println("Yah! Gagal melakukan save. Error: " + e.getMessage());
         }
     }
 }

@@ -3,7 +3,23 @@ package simplicity.Room;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.*;
+
+import simplicity.Objek.Furniture.Bookshelf;
+import simplicity.Objek.Furniture.Clock;
 import simplicity.Objek.Furniture.Furniture;
+import simplicity.Objek.Furniture.Komputer;
+import simplicity.Objek.Furniture.MejaKursi;
+import simplicity.Objek.Furniture.Piano;
+import simplicity.Objek.Furniture.Sajadah;
+import simplicity.Objek.Furniture.Shower;
+import simplicity.Objek.Furniture.TV;
+import simplicity.Objek.Furniture.Telescope;
+import simplicity.Objek.Furniture.Toilet;
+import simplicity.Objek.Furniture.Bed.KingBed;
+import simplicity.Objek.Furniture.Bed.QueenBed;
+import simplicity.Objek.Furniture.Bed.SingleBed;
+import simplicity.Objek.Furniture.Stove.ElectricStove;
+import simplicity.Objek.Furniture.Stove.GasStove;
 import simplicity.Manager.Manager;
 import simplicity.Sim.Sim;
 
@@ -298,6 +314,7 @@ public class Room {
     }
 
     public boolean isSimOnFurniture(String sim, Class<? extends Furniture> furnitureClass) {
+        updateRoomMapAfterLoad();
         for (Map.Entry<String, Point> simEntry : simMap.entrySet()) {
             if (simEntry.getKey().equals(sim)) {
                 for (Map.Entry<Furniture, List<Point>> furnitureEntry : furnitureList.entrySet()) {
@@ -312,6 +329,120 @@ public class Room {
             }
         }
         return false;
+    }
+
+    public void updateRoomMapAfterLoad() {
+        for (int i = 0; i < dimensi.height; i++) {
+            for (int j = 0; j < dimensi.width; j++) {
+                if (roomMap[i][j] != null) {
+                    String name = roomMap[i][j].getName();
+                    Furniture furniture = null;
+                    switch (name) {
+                        case "Single Bed":
+                            furniture = new SingleBed();
+                            break;
+                        case "King Bed":
+                            furniture = new KingBed();
+                            break;
+                        case "Queen Bed":
+                            furniture = new QueenBed();
+                            break;
+                        case "Toilet":
+                            furniture = new Toilet();
+                            break;
+                        case "Electric Stove":
+                            furniture = new ElectricStove();
+                            break;
+                        case "Gas Stove":
+                            furniture = new GasStove();
+                            break;
+                        case "Bookshelf":
+                            furniture = new Bookshelf();
+                            break;
+                        case "Clock":
+                            furniture = new Clock();
+                            break;
+                        case "Komputer":
+                            furniture = new Komputer();
+                            break;
+                        case "Table and Chair":
+                            furniture = new MejaKursi();
+                            break;
+                        case "Piano":
+                            furniture = new Piano();
+                            break;
+                        case "Sajadah":
+                            furniture = new Sajadah();
+                            break;
+                        case "Shower":
+                            furniture = new Shower();
+                            break;
+                        case "Telescope":
+                            furniture = new Telescope();
+                            break;
+                        case "TV":
+                            furniture = new TV();
+                            break;
+                    }
+                    roomMap[i][j] = null;
+                    roomMap[i][j] = furniture;
+                }
+            }
+        }
+        // Map<Furniture, List<Point>> newFurnitureList = new HashMap<>();
+        for (Map.Entry<Furniture, List<Point>> entry : furnitureList.entrySet()) {
+            Furniture furniture = null;
+            String name = entry.getKey().getName();
+            switch (name) {
+                case "Single Bed":
+                    furniture = new SingleBed();
+                    break;
+                case "King Bed":
+                    furniture = new KingBed();
+                    break;
+                case "Queen Bed":
+                    furniture = new QueenBed();
+                    break;
+                case "Toilet":
+                    furniture = new Toilet();
+                    break;
+                case "Electric Stove":
+                    furniture = new ElectricStove();
+                    break;
+                case "Gas Stove":
+                    furniture = new GasStove();
+                    break;
+                case "Bookshelf":
+                    furniture = new Bookshelf();
+                    break;
+                case "Clock":
+                    furniture = new Clock();
+                    break;
+                case "Komputer":
+                    furniture = new Komputer();
+                    break;
+                case "Table and Chair":
+                    furniture = new MejaKursi();
+                    break;
+                case "Piano":
+                    furniture = new Piano();
+                    break;
+                case "Sajadah":
+                    furniture = new Sajadah();
+                    break;
+                case "Shower":
+                    furniture = new Shower();
+                    break;
+                case "Telescope":
+                    furniture = new Telescope();
+                    break;
+                case "TV":
+                    furniture = new TV();
+                    break;
+            }
+            furnitureList.put(furniture, entry.getValue());
+            furnitureList.remove(entry.getKey());
+        }
     }
 
     public static void main(String[] args) {

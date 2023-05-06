@@ -1585,6 +1585,15 @@ public class Manager {
     public static void updateSimInventory() {
         for (Sim sim : simList) {
             sim.updateInventoryAfterLoad();
+            sim.setCurrentRoom(sim.getHome().getListRuangan().get(0));
+        }
+    }
+
+    public static void updateRoomFurniture() {
+        for (Home home : world.getListRumah()) {
+            for (Room room : home.getListRuangan()) {
+                room.updateRoomMapAfterLoad();
+            }
         }
     }
 }

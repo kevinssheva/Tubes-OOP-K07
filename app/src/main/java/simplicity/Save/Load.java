@@ -15,16 +15,17 @@ public class Load {
             Gson gson = new Gson();
             Reader reader = Files.newBufferedReader(Paths.get(path));
             SavedData saveData = gson.fromJson(reader, SavedData.class);
-            System.out.println("Berhasil melakukan load file " + path);
+            System.out.println("Yeay! Berhasil melakukan load file " + path);
             Manager.setSimList(saveData.getSimList());
             Manager.setWorld(saveData.getWorld());
+            // Manager.updateRoomFurniture();
             Manager.setGameStarted(true);
             Manager.setGameLoaded(true);
             Manager.updateSimInventory();
             Manager.setCurrentSim(Manager.getSimList().get(0));
         }
         catch (Exception e) {
-            System.out.println("Gagal melakukan load file " + path + ". Pesan error: " + e.getMessage());
+            System.out.println("Yah! Gagal melakukan load file " + path + ". Error: " + e.getMessage());
         }
     }
 }

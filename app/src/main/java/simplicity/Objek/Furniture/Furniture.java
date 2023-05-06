@@ -3,7 +3,7 @@ package simplicity.Objek.Furniture;
 import java.awt.Dimension;
 import simplicity.Objek.*;
 
-public abstract class Furniture extends Objek implements Buyable {
+public class Furniture extends Objek implements Buyable {
 
     private Integer price;
     private String action;

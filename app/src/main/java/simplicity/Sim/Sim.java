@@ -83,6 +83,10 @@ public class Sim {
         this.traveledTime = traveledTime;
     }
 
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+    
     public Integer getSatiety() {
         return satiety;
     }
