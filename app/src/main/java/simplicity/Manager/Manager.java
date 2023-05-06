@@ -261,6 +261,7 @@ public class Manager {
             System.out.println("- List Object");
             System.out.println("- Go To Object");
             System.out.println("- Visit Other's Houses");
+            System.out.println("- Return Home");
             System.out.println("- Exit");
             System.out.println("\nType in the command for details or type 'Back' to go back\n");
 
@@ -277,9 +278,10 @@ public class Manager {
                     clearScreen();
                     System.out.println("Puts your sim to work for the amount of time given");
                     System.out.println(
-                            "Effects:\n-10 satiety / 30 seconds\n-10 mood / 30 seconds\n+X money / 4 minutes (depending on the job that the sim has)\n");
+                            "Effects:\n-10 satiety\n-10 mood\nfor every 30 seconds\n+X money (depending on sim's job) for every daily work done\n");
                     System.out
                             .println("Sims can choose to work for 2 minutes(120s) or 4 minutes(240s) in one session.");
+                    System.out.println("A sim's daily work is completed after 4 minutes of working in total for each day.");
                     System.out.println("A sim can only work for up to 4 minutes(240s) a day.");
                     System.out.println(
                             "\nThis action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
@@ -289,7 +291,7 @@ public class Manager {
                     clearScreen();
                     System.out.println("Make your sim do exercise for the amount of time given");
                     System.out.println(
-                            "Effects:\n+5 health / 20 seconds\n-5 satiety / 20 seconds\n+10 mood / 20 seconds\n");
+                            "Effects:\n+5 health\n-5 satiety\n+10 mood\nfor every 20 seconds\n");
                     System.out.println("Sims can choose to work for any time length with a multiple of 20 seconds.");
                     System.out.println(
                             "\nThis action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
@@ -298,7 +300,7 @@ public class Manager {
                 case "Sleep":
                     clearScreen();
                     System.out.println("Puts your sim to sleep for the amount of time given");
-                    System.out.println("Effects:\n+30 mood / 4 minutes\n+20 health / 4 minutes\n");
+                    System.out.println("Effects:\n+30 mood\n+20 health\nfor every 4 minutes\n");
                     System.out.println("Sims can choose to sleep for any time length with a multiple of 20 seconds.");
                     System.out.println(
                             "Not sleeping for too long will decrease mood and health by -5 for every 10 minutes without sleep.");
@@ -311,7 +313,7 @@ public class Manager {
                     clearScreen();
                     System.out.println("Lets your sim eat a food item from the inventory.");
                     System.out.println(
-                            "Effects:\n+X satiety / food item (depending on the satiety level of the food item)\n");
+                            "Effects:\n+X satiety (depending on the food item)\n");
                     System.out.println(
                             "\nEating will require your sim to be near a Table and Chair\nand takes 30 seconds to finish");
                     System.out.println(
@@ -321,7 +323,7 @@ public class Manager {
                 case "Cook":
                     clearScreen();
                     System.out.println("Lets your sim cook a dish using ingredients from the inventory.");
-                    System.out.println("Effects:\n+10 mood / dish\n");
+                    System.out.println("Effects:\n+10 mood\n");
                     System.out.println(
                             "\nCooking will require your sim to be near a Stove\nand takes (1.5 x dish satiety level) seconds to finish");
                     System.out.println(
@@ -336,7 +338,7 @@ public class Manager {
                 case "Watch TV":
                     clearScreen();
                     System.out.println("Lets your sim watch TV for the amount of time given");
-                    System.out.println("Effects:\n+20 mood / 30 seconds\n");
+                    System.out.println("Effects:\n+20 mood\nfor every 30 seconds\n");
                     System.out.println("Watching TV will require your sim to be near a TV");
                     System.out.println(
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
@@ -353,8 +355,8 @@ public class Manager {
                     break;
                 case "Read Book":
                     clearScreen();
-                    System.out.println("Lets your sim read books ");
-                    System.out.println("Effects:\n+10 mood & -5 satiety/30 seconds\n");
+                    System.out.println("Lets your sim read books for the amount of time given");
+                    System.out.println("Effects:\n+10 mood\n-5 satiety\nfor every 30 seconds\n");
                     System.out.println(
                             "Your sim must be near a Bookshelf to read books");
                     System.out.println(
@@ -374,7 +376,7 @@ public class Manager {
                 case "Play Piano":
                     clearScreen();
                     System.out.println("Lets your sim play the piano. ");
-                    System.out.println("Effects:\n+10 mood & -5 satiety/30 seconds\n");
+                    System.out.println("Effects:\n+10 mood\n-5 satiety\nfor every 30 seconds\n");
                     System.out.println(
                             "Your sim must be near a Piano to play it");
                     System.out.println(
@@ -408,9 +410,9 @@ public class Manager {
                 case "Use the Telescope":
                     clearScreen();
                     System.out.println("Lets your sim use the telescope and stargaze at the stars");
-                    System.out.println("Effects:\n-30 health \n+70 mood if it is done in the night");
+                    System.out.println("Effects:\n-30 health \n+70 mood (only if done at night)");
                     System.out.println(
-                            "Using the telescope will require your sim to be near s Telescope\nand takes 30 seconds to finish");
+                            "Using the telescope will require your sim to be near a Telescope\nand takes 30 seconds to finish");
                     System.out.println(
                             "This action is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     clickEnter();
@@ -485,15 +487,29 @@ public class Manager {
                     clearScreen();
                     System.out.println("Lets your sim visit another sim's house.");
                     System.out.println(
-                            "Effects:\n+10 mood / 30 seconds spent in other house\n-10 satiety / 30 seconds spent in other house\n");
+                            "Effects:\n+10 mood\n-10 satiety\nfor every 30 seconds spent outside a house\n");
                     System.out.println(
                             "Visiting requires the sim to walk to the other house for (house distance) amount of seconds.");
+                    System.out.println(
+                            "Time spent outside refers to the time it takes for the sim to walk to another house.");
                     System.out.println(
                             "Walking is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
                     System.out.println(
                             "After arriving, the sim becomes idle and can act normally except for upgrade house and edit room.");
                     clickEnter();
                     break;
+                case "Return Home":
+                    clearScreen();
+                    System.out.println("Lets your sim visit go back to their own house.");
+                    System.out.println(
+                            "Effects:\n+10 mood\n-10 satiety\nfor every 30 seconds spent outside a house\n");
+                    System.out.println(
+                            "Returning requires the sim to walk to the their house for (house distance) amount of seconds.");
+                    System.out.println(
+                            "Walking is an active action and requires full participation from the sim.\nThe sim will not be able to do other active actions.");
+                    System.out.println(
+                            "After arriving, the sim becomes idle and can act normally.");
+                    clickEnter();
                 case "Exit":
                     clearScreen();
                     System.out.println("Exits the game.");
@@ -622,7 +638,7 @@ public class Manager {
         System.out.println("- View Current Location");
         System.out.println("- View Inventory");
 
-        if (!currentSim.checkAction("Upgrade House")) {
+        if (!currentSim.checkAction("Upgrade House") && currentSim.getCurrentHome() == currentSim.getHome()) {
             System.out.println("- Upgrade House");
         }
         System.out.println("- Move Room");
@@ -634,6 +650,9 @@ public class Manager {
         System.out.println("- List Object");
         System.out.println("- Go To Object");
         System.out.println("- Visit Other's Houses");
+        if (currentSim.getCurrentHome() != currentSim.getHome()) {
+            System.out.println("- Return Home");
+        }
         System.out.println("- Save Game");
         System.out.println("- Exit");
         // don't forget to add action that sim can only do with interaction with object
@@ -1275,6 +1294,19 @@ public class Manager {
                 doQueryVisitHome();
                 clickEnter();
                 break;
+            case "Return Home":
+                clearScreen();
+                if(currentSim.getCurrentHome() == currentSim.getHome()){
+                    System.out.println("You are already in your house!");
+                    break;
+                }
+                currentSim.visit(calculateTime(currentSim.getCurrentHome(), currentSim.getHome()));
+                currentSim.getRoom().removeSimMap(currentSim.getName());
+                currentSim.setCurrentHome(currentSim.getHome());
+                currentSim.setRoom(currentSim.getHome().getListRuangan().get(0));
+                currentSim.getRoom().addSim(currentSim.getName());
+                System.out.println(currentSim.getName() + " has returned back home!");
+                clickEnter();
             case "Save Game" :
                 Save.save();
                 clickEnter();
@@ -1389,20 +1421,12 @@ public class Manager {
             return;
         }
 
-        for (Sim sim : simList) {
-            if (sim.getName().equals(name)) {
-                // currentSim.visit(Math.round(Math.sqrt(((Integer)currentSim.getCurrentHome().getLocation().x
-                // -
-                // (Integer)sim.getCurrentHome().getLocation().x)*((Integer)currentSim.getCurrentHome().getLocation().x
-                // -
-                // (Integer)sim.getCurrentHome().getLocation().x)+((Integer)currentSim.getCurrentHome().getLocation().y
-                // -
-                // (Integer)sim.getCurrentHome().getLocation().y)*((Integer)currentSim.getCurrentHome().getLocation().y
-                // - (Integer)sim.getCurrentHome().getLocation().y))));
-                currentSim.visit(calculateTime(currentSim, sim));
+        for (Home home : world.getListRumah()) {
+            if (home.getName().equals(name + "'s Home")) {
+                currentSim.visit(calculateTime(currentSim.getCurrentHome(), home));
                 currentSim.getRoom().removeSimMap(currentSim.getName());
-                currentSim.setCurrentHome(sim.getHome());
-                currentSim.setRoom(sim.getHome().getListRuangan().get(0));
+                currentSim.setCurrentHome(home);
+                currentSim.setRoom(home.getListRuangan().get(0));
                 currentSim.getRoom().addSim(currentSim.getName());
                 System.out.println(currentSim.getName() + " has moved to " + name + "'s home!");
                 break;
@@ -1410,9 +1434,9 @@ public class Manager {
         }
     }
 
-    public static Long calculateTime(Sim a, Sim b) {
-        Point loca = a.getCurrentHome().getLocation();
-        Point locb = b.getCurrentHome().getLocation();
+    public static Long calculateTime(Home a, Home b) {
+        Point loca = a.getLocation();
+        Point locb = b.getLocation();
         Integer x = loca.x - locb.x;
         Integer y = loca.y - locb.y;
         return Math.round(Math.sqrt((Integer) (x * x + y * y)));
@@ -1529,7 +1553,13 @@ public class Manager {
         return currentSim.getStatus().equals("Idle") == false;
     }
 
-    public static void dailyReset() { // kalo perlu buat yang update per hari
-        currentSim.setWorkToday(0);
+    public static void resetWork() {
+        for(Sim sim : simList){
+            sim.setWorkToday(0);
+        }
+    }
+
+    public static void killSim(Sim sim) {
+        simList.remove(sim);
     }
 }

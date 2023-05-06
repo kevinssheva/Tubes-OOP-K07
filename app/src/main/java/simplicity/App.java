@@ -28,6 +28,9 @@ public class App {
                             System.out.println("...");
                         }
                         System.out.println("Time : " + timeNow);
+                        if (timeNow % 720 == 0) {
+                            Manager.resetWork();
+                        }
                     }
                     try {
                         Thread.sleep(1000);
@@ -60,6 +63,9 @@ public class App {
             } else {
                 Manager.listCanDo();
                 Manager.doQuery();
+                if(!Manager.getCurrentSim().stillAlive() && Manager.canGameContinue()){
+                    Manager.changeSim();
+                }
             }
 
         }
