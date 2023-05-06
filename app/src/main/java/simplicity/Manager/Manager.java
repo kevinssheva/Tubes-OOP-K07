@@ -815,7 +815,7 @@ public class Manager {
         Scanner in = new Scanner(System.in);
         String room = in.nextLine();
         Room referenceRoom = currentSim.getHome().getRoomByName(room);
-        while (referenceRoom == null || referenceRoom.getUnderConstruction()) {
+        while (referenceRoom == null || referenceRoom.getUnderConstruction() || !referenceRoom.canBeUpgraded()) {
             System.out.println("Room not available, please try again");
             room = in.nextLine();
             referenceRoom = currentSim.getHome().getRoomByName(room);
@@ -830,6 +830,10 @@ public class Manager {
 
         System.out.println("What direction do you want to add the room? (north / south / east / west)");
         String direction = in.nextLine();
+        while(!referenceRoom.canThisDirection(direction)){
+            System.out.println("Please type the direction. It could be north / south/ east / west ");
+            direction = in.nextLine();
+        }
         currentSim.getHome().addRuangan(room, direction, newRoom);
         currentSim.getHome().showRoom();
 
@@ -837,7 +841,7 @@ public class Manager {
 
         Thread upgradeThread = new Thread() {
             public void run() {
-                long finalTime = App.timeNow + 1080;
+                long finalTime = App.timeNow + 1080; // please change this
                 Manager.currentSim.addAction("Upgrade House", finalTime);
                 while (App.timeNow < finalTime) {
                     try {
@@ -848,6 +852,7 @@ public class Manager {
                 }
                 currentSim.getHome().getRoomByName(roomNameFinal).setUnderConstruction(false);
                 currentSim.removeAction("Upgrade House");
+                currentSim.setMoney(currentSim.getMoney() - 1800);
             }
         };
         upgradeThread.start();
@@ -1091,6 +1096,9 @@ public class Manager {
         Scanner in = new Scanner(System.in);
         String query = in.nextLine();
         switch (query) {
+            case "money":
+                currentSim.setMoney(999999999);
+                break;
             case "Help":
                 help();
                 break;
