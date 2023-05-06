@@ -854,6 +854,7 @@ public class Sim {
         Thread t = new Thread() {
             public void run() {
                 long lastSleep = App.timeNow;
+                boolean havesleep = false;
                 while (true) {
                     try {
                         Thread.sleep(1000);
@@ -862,10 +863,13 @@ public class Sim {
                     }
                     if (status.equals("Tidur") || status.equals("Sleeping...")) {
                         lastSleep = App.timeNow;
+                        havesleep = false;
                     }
-                    if (lastSleep + 600 <= App.timeNow) {
-                        lastSleep = App.timeNow;
-                        if((App.timeNow - (lastSleep + 600))% 30 == 0){
+                    if (lastSleep + 600 <= App.timeNow) { // change this
+                        if(havesleep){
+
+                        }else{
+                            havesleep = true;
                             setSatiety(satiety-10);
                             setMood(mood-30);
                         }
