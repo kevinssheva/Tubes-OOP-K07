@@ -26,10 +26,10 @@ import simplicity.Sim.Sim;
 public class Room {
     private String roomName;
     private Dimension dimensi;
-    private String north;
-    private String south;
-    private String east;
-    private String west;
+    private String north = "";
+    private String south = "";
+    private String east = "";
+    private String west = "";
     private Furniture[][] roomMap;
     private Map<Furniture, List<Point>> furnitureList;
     private Map<String, Point> simMap;
@@ -59,6 +59,24 @@ public class Room {
         furnitureList = new HashMap<Furniture, List<Point>>();
         simMap = new HashMap<String, Point>();
         this.underConstruction = underConstruction;
+    } 
+
+    public boolean canBeUpgraded(){
+        return north == null || south == null || east == null || west == null;
+    }
+
+    public boolean canThisDirection(String direct){
+        switch(direct){
+            case "north":
+                return north == null;
+            case "south":
+                return south == null;
+            case "east":
+                return east == null;
+            case "west":
+                return west == null;
+        }
+        return false;
     }
 
     public String getName() {
