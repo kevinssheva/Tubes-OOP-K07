@@ -587,6 +587,10 @@ public class Manager {
     public static void listCanDo() {
         System.out.print("\033[H\033[2J"); // this is for clearscreen
         System.out.flush();
+        System.out.println(" ___  ____  __  __     ____  __    ____  ___  ____  ____  _  _ ");
+        System.out.println("/ __)(_  _)(  \\/  )___(  _ \\(  )  (_  _)/ __)(_  _)(_  _)( \\/ )");
+        System.out.println("\\__ \\ _)(_  )    ((___))___/ )(__  _)(_( (__  _)(_   )(   \\  / ");
+        System.out.println("(___/(____)(_/\\/\\_)   (__)  (____)(____)\\___)(____) (__)  (__) ");
         System.out.println("Here is the list of thing that you can do");
         System.out.println("- Help");
         System.out.println("- Work");
