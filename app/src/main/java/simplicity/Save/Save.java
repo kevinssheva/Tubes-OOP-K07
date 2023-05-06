@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 
+import simplicity.Inventory.Inventory;
 import simplicity.Manager.Manager;
 
 public class Save {
@@ -20,7 +21,10 @@ public class Save {
 
         try (Writer writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
             
-            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
+            Gson gson = new GsonBuilder()
+                .enableComplexMapKeySerialization()
+                .setPrettyPrinting()
+                .create();
             JsonElement tree = gson.toJsonTree(data);
             gson.toJson(tree, writer);
             System.out.println("Berhasil melakukan save.");// Gson gson = new Gson();

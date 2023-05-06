@@ -1581,4 +1581,10 @@ public class Manager {
     public static void killSim(Sim sim) {
         simList.remove(sim);
     }
+
+    public static void updateSimInventory() {
+        for (Sim sim : simList) {
+            sim.updateInventoryAfterLoad();
+        }
+    }
 }
