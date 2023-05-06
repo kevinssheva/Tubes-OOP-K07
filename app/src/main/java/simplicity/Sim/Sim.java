@@ -43,10 +43,10 @@ public class Sim {
     private Integer satiety;
     private Inventory inventory;
     private Room currentRoom;
-    private Home currentHome; // misal kalo berkunjung currentHome nya yang ganti bukan home nya
-    private Home home; // punya rumah sendiri
-    private Integer workToday = 0; // catet waktu kerja yg udah dilakuin hari itu
-    private Integer currentWorkTotal = 0; // catet waktu kerja total buat ganti job
+    private Home currentHome;
+    private Home home;
+    private Integer workToday = 0;
+    private Integer currentWorkTotal = 0;
     private Map<String, Long> actionList = new HashMap<String, Long>();
     private Integer traveledTime = 0;
 
@@ -302,9 +302,7 @@ public class Sim {
             stargazeThread.join();
             if (isNight) {
                 setMood(mood + 70);
-            } else {
-                // since it's noon, your sim are only wasting his or her health.
-            }
+            } // since it's noon, your sim are only wasting his or her health.
             Manager.clearScreen();
             setHealth(health - 30);
             setStatus("Idle");
@@ -677,8 +675,6 @@ public class Sim {
                         e.printStackTrace();
                     }
                 }
-                // System.out.println(getMoney());
-                // System.out.println(job.getDailyPay() * (time / 20));
             }
         };
         workThread.start();

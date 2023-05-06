@@ -18,7 +18,6 @@ public class Load {
             System.out.println("Yeay! Berhasil melakukan load file " + path);
             Manager.setSimList(saveData.getSimList());
             Manager.setWorld(saveData.getWorld());
-            // Manager.updateRoomFurniture();
             Manager.setGameStarted(true);
             Manager.setGameLoaded(true);
             Manager.updateSimInventory();

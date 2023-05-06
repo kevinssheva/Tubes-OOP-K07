@@ -41,10 +41,6 @@ public class Inventory {
         for (Objek key : item.keySet()) {
             System.out.println(key.getName() + " : " + item.get(key));
         }
-        // show class of item
-        // for (Objek key : item.keySet()) {
-        //     System.out.println(key.getClass().getName());
-        // }
     }
 
     public void showFurnitureOnly() {
