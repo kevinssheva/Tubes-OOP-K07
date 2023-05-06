@@ -854,19 +854,25 @@ public class Sim {
         Thread t = new Thread() {
             public void run() {
                 long lastSleep = App.timeNow;
+                boolean havesleep = false;
                 while (true) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (status == "Tidur" || status == "Sleeping...") {
+                    if (status.equals("Tidur") || status.equals("Sleeping...")) {
                         lastSleep = App.timeNow;
+                        havesleep = false;
                     }
-                    if (lastSleep + 600 <= App.timeNow) {
-                        lastSleep = App.timeNow;
-                        mood -= 5;
-                        health -= 5;
+                    if (lastSleep + 600 <= App.timeNow) { // change this
+                        if(havesleep){
+
+                        }else{
+                            havesleep = true;
+                            setSatiety(satiety-10);
+                            setMood(mood-30);
+                        }
                     }
                 }
             }
